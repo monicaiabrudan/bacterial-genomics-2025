@@ -1,0 +1,35 @@
+---
+title: "Module 6"
+---
+
+### ChatGPT for bioinformatics
+
+This will work with a Pro subscription.
+
+The purpose of this demo is to show how to merge CSV files produced by ARIBA Resfinder and Pathogenwatch, using ChatGPT.
+
+The input files can be found here: <https://github.com/monicaiabrudan/bacterial-genomics/tree/main/module6/input>
+
+And the output files can be found here: <https://github.com/monicaiabrudan/bacterial-genomics/tree/main/module6/output>
+
+Upload the CSV files
+
+![](images/1.png){width="621"}
+
+Prompt ChatGPT to merge the three files.
+
+![](images/2.png){width="618"}
+
+The three files have different number of rows!
+
+![](images/3.png){width="619"}
+
+Select only isolates that are present in all files, and are resistance to Ciprofloxacin.
+
+![](images/4.png){width="606"}
+
+The selection of Ciprofloxacin resistant isolates is based on the column "Ciprofloxacin" in the AMR profiles files.
+
+**ChatGPT attempts to explain the genes that are responsible to Ciprofloxacin resistance, however, these are all wrong**
+
+![](images/5.png){width="731"}

@@ -1,0 +1,19 @@
+How to run Prokka on all samples from one folder
+
+Example script: create the following bash file: `mkdir /home/ubuntu/Data/PROKKA_run/run_prokka.sh`
+
+Add the following lines of code:
+
+`` for sample in `ls /home/ubuntu/Data/all_fastas/*.fasta | sed 's/\.fasta//'` ``
+
+`do`
+
+`echo $sample`
+
+`output=$(echo $sample | sed -E 's#.*/([^/]+)$#\1#')`
+
+`echo $output`
+
+`docker run -v $(pwd):$(pwd) -w $(pwd) staphb/prokka:latest prokka --outdir /home/ubuntu/Data/annotations/${output} --prefix ${output} /home/ubuntu/Data/all_fastas/${output}.fasta`
+
+`done`

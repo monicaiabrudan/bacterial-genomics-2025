@@ -1,0 +1,79 @@
+---
+title: "Module 5"
+---
+
+How to setup your Amazon EC machine
+
+-   Only attempt this if you have a bank card available.
+
+In your browser navigate to: https://aws.amazon.com/
+
+Create an AWS account
+
+![](images/create%20aws%20account.png)
+
+![](images/1.png){width="387"}
+
+![](images/2.png){width="403"}
+
+![](images/3.png){width="384"}
+
+![](images/5.png){width="286"}
+
+![](images/6.png){width="567"}
+
+![](images/7.png){width="567"}
+
+![](images/8.png){width="583"}
+
+![](images/9.png){width="421"}
+
+![](images/10.png){width="533"} ![](images/11.png){width="507"} ![](images/12.png){width="558"}
+
+![](images/13.png){width="290"}
+
+![](images/14.png){width="441"}
+
+![](images/15.png){width="505"}
+
+Once your virtual machine is up and running, login via ssh, using your key.pem file.
+
+`chmod 400 key.pem`
+
+`ssh -i key.pem ubuntu@xxx.xxx.xxx.xxx`
+
+Where xxx.xxx.xxx.xxx is the IP of the virtual machine.
+
+Once logged in, change the password for the username ubuntu:
+
+`sudo passwd ubuntu` 
+
+Then, try to log in via the visual interface, by navigating to the IP address (xxx.xxx.xxx.xxx) in your browser.
+
+![](images/16.png){width="280"}
+
+## Create an image
+
+![](images/19.png){width="668"}
+
+![](images/20.png){width="701"}
+
+![](images/21.png){width="148"}
+
+![](images/22.png){width="538" height="45"}
+
+## Launch instances from an image
+
+![](images/23.png){width="475"}
+
+![](images/24.png){width="138"}
+
+## Delete the AWS account
+
+How to close your AWS account
+
+<https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-closing.html>
+
+![](images/25.png){width="206"}
+
+![](images/26.png){width="123" height="33"}

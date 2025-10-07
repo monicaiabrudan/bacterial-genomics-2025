@@ -1,0 +1,23 @@
+**Run ARIBA on all samples**
+
+Example script: create the following bash file: `mkdir /home/ubuntu/Data/ARIBA_run/run_ariba.sh`
+
+Add the following lines of code:
+
+`` for sample in `ls /home/ubuntu/Data/all_fastqs/*_1.fastq.gz | sed 's/\_1.fastq.gz//'` ``
+
+`do`
+
+`echo $sample`
+
+`output=$(echo $sample | sed -E 's#.*/([^/]+)$#\1#')`
+
+`if [ -d /home/ubuntu/Data/ARIBA_output/${output}.ariba ]; then`
+
+`rm -r /home/ubuntu/Data/ARIBA_output/${output}.ariba`
+
+`fi`
+
+`ariba run /home/ubuntu/Data/ARIBA_dbs/out.resfinder.prepareref ${sample}_1.fastq.gz ${sample}_2.fastq.gz /home/ubuntu/Data/ARIBA_output/${output}.ariba`
+
+`done`

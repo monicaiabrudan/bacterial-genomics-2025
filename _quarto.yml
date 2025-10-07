@@ -3,11 +3,25 @@ project:
   output-dir: docs
   
 website:
-  title: "NGS QC test"
+  title: "Bioinformatic methods for microbial genomics and transcriptomics, Cluj-Napoca, November 2024"
   navbar:
     left:
       - href: index.qmd
         text: Home
+      - href: agenda.qmd
+        text: Agenda
+      - text: Training materials
+        menu:
+          - module1/module1.qmd
+          - module2/module2.qmd
+          - module3/module3.qmd
+          - module4/module4.qmd
+          - module5/module5.qmd
+          - module6/module6.qmd
+          - module7/module7.qmd
+          - module8/module8.qmd
+          - Assessment/assessment.qmd
+          - resources.qmd
 
 
   page-footer: 
@@ -17,7 +31,13 @@ website:
     style: "docked"
     search: true
     collapse-level: 1
-
+    #contents: 
+      #- section: "Data-flo step-by-step tutorial"
+      #  contents:
+      #    - data-flo/data-flo.qmd
+      #- section: "Microreact step-by-step tutorial"
+      #  contents:
+      #    - microreact/microreact.qmd
 format:
   html:
     theme:

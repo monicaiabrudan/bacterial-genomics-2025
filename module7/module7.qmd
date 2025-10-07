@@ -1,0 +1,66 @@
+---
+title: "Module 7"
+---
+### What is MLST?
+
+-   Proposed by Maiden et al. in 1998.
+
+-   Popular genotypic method in taxonomy classification.
+
+-   Identifies allelic variants to characterize, subtype, and classify the members of a haploid bacterial population.
+
+### How does MLST work?
+
+-   Consist of sequencing several different housekeeping genes (generally 7) from an organism and comparing their sequences with the sequences of the same genes from different strains of the same organism.
+
+-   For each gene, an approximately 45–500 bp sequence is amplified using PCR and then sequenced by Sanger’s method.
+
+-   Each nucleotide along the sequence is compared, and differences are noted.
+
+-   Each difference or sequence variant is called an allele and is assigned a number. The strain being studied is then assigned a series of numbers as its allelic profile or multilocus sequence types.
+
+-   Strains with identical sequences for a given gene have the same allele for that gene, and two strains with identical sequences for all the genes have the same allelic profile.
+
+-   The relationship between each allelic profile is expressed in a dendrogram of linkage distance that varies.
+
+-   Combination of variants = Sequence Type (ST)
+
+-   Number of differences is ignored; a new identifier is given for every possible variant
+
+-   With 30 alleles per locus: \~20 billion possibilities
+
+-   Database with observed combinations
+
+![](images/mlst.png){width="632"}
+
+![](images/mlst2.png){width="671"}
+
+![Using MLST to Study Bacterial Variation: Prospects in the Genomic Era, 2014, Future Microbiology](images/mlst3.png){width="395"}
+
+More general information on MLST can be found [here](https://www.slideshare.net/manashdebbarma5/multilocus-sequence-typin1#2)
+
+### MLST with ARIBA
+
+The manual can be found here: <https://github.com/sanger-pathogens/ariba/wiki/MLST-calling-with-ARIBA>
+
+ARIBA can be used for MLST using the typing schemes from PubMLST. A list of available species can be obtained by running
+
+```         
+ariba pubmlstspecies
+```
+
+Download the data (in this example, `Staphylococcus aureus`) using `pubmlstget`:
+
+```         
+ariba pubmlstget "Staphylococcus aureus" get_mlst
+```
+
+**How to run ARIBA for one sample**
+
+```         
+ariba run get_mlst/ref_db /home/ubuntu/Data/all_fastqs/ERR017200_1.fastq.gz /home/ubuntu/Data/all_fastqs/ERR017200_2.fastq.gz MLST
+```
+
+![](images/mlst%20result.png){width="545"}
+
+Write a script to run ARIBA MLST on all samples.

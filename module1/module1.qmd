@@ -1,0 +1,196 @@
+---
+title: "Module 1"
+---
+
+### Module 1: Set up your bioinformatics working environment
+
+### Part 1: Connect to your Amazon EC2 instance via ssh
+
+Before you start, make sure you received the IPv4 address of the virtual machine and your private key to connect to the machine from your course coordinator.
+
+***The virtual machines provided during this course are intended exclusively for use with the course material.***
+
+##### **Using a Mac**
+
+Open your Terminal application on your local machine.
+
+Then type
+
+`chmod 400 /local/path/to/student.pem`
+
+`ssh -i /local/path/to/key.pem  ubuntu@xxx.xxx.xxx.xxx`
+
+Replace the “xxx.xxx.xxx.xxx” with the Public IPv4 of your Amazon instance and the `/local/path/to/student.pem` with the local path to your *student.pem* file that was communicated to you previously.
+
+For more information on how to connect to your virtual machine, access <https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-linux-inst-ssh.html> .
+
+##### Using a Windows machine
+
+See <https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/connect-linux-inst-from-windows.html>
+
+##### How to connect to your Amazon EC2 instance via your browser (during the course)
+
+Type the Public IPv4 in your browser address bar, *eg: https://xxx.xxx.xxx.xxx/*
+
+Type in the username *ubuntu*, and the password provided to you by the course instructor.
+
+Once you log in, you should see the welcome screen.
+
+Please reject any invitation to update the system.
+
+##### How to modify your \$PATH variable
+
+Once you are connected to your Amazon EC2 Ubuntu instance, try to view and edit your configuration files. 
+
+Check the configuration files:
+
+`ls -a ~/.`
+
+Edit the ***.profile*** file and add the paths in the **PATH** variable
+
+Eg:
+
+`vi ~/.profile`
+
+`PATH="/home/ubuntu/Software/mash-Linux64-v2.3:$PATH"`
+
+### Part 2: Configure your Amazon EC2 Ubuntu instance
+
+Your Amazon EC2 Ubuntu instance should be ready to go right away. However, in order to go through the next modules of this course, you will need to install the list of tools below.
+
+First, familiarise yourselves with the tools. Understand what is their role in an NGS pipeline, what is the required input and the expected output. Who developed them and when? Do they have dependencies?
+
+**For each tool that you attempt to install, write down the steps you took to achieve that in the *Shared student observations file*, which you have received from your course coordinator.**
+
+#### FastQC
+
+<https://www.bioinformatics.babraham.ac.uk/projects/fastqc/>
+
+#### Bactinspector
+
+<https://gitlab.com/antunderwood/bactinspector>
+
+#### Velvet assembler
+
+<https://github.com/dzerbino/velvet>
+
+```{=html}
+<!--  Velvet is installed here: 
+
+`/usr/share/miniconda/pkgs/velvet-1.2.10-h5bf99c6_4/bin/velveth`
+
+Add */usr/share/miniconda/pkgs/velvet-1.2.10-h5bf99c6_4/bin/* to **PATH** -->
+```
+
+#### ACT and Artemis
+
+<https://www.sanger.ac.uk/tool/artemis-comparison-tool-act/>
+
+<!-- `conda install bioconda::velvet` -->
+
+#### Unicycler 
+
+<https://github.com/rrwick/Unicycler?tab=readme-ov-file#build-and-run-without-installation>
+
+```{=html}
+<!-- `git clone https://github.com/rrwick/Unicycler.git`
+
+`cd Unicycler`
+
+`python3 setup.py install` -->
+```
+
+#### SPADES
+
+<https://github.com/ablab/spades>
+
+```{=html}
+<!-- `wget https://github.com/ablab/spades/releases/download/v4.0.0/SPAdes-4.0.0-Linux.tar.gz`
+
+[//]: `tar -xzf SPAdes-4.0.0-Linux.tar.gz`
+
+[//]:`cd SPAdes-4.0.0-Linux/bin/` 
+
+Add spades.py to \~/.profile -->
+```
+
+#### Quast
+
+<https://github.com/ablab/quast>
+
+```{=html}
+<!-- [//]:`conda install -c bioconda quast`
+
+[//]: Eg on how to run Quast
+
+[//]:`quast.py test_data/contigs_1.fasta \`
+
+[//]:`test_data/contigs_2.fasta \`
+
+[//]:`-r test_data/reference.fasta.gz \`
+
+[//]:`-g test_data/genes.txt \`
+
+[//]:`-1 test_data/reads1.fastq.gz -2 test_data/reads2.fastq.gz \`
+
+[//]:`-o quast_test_output`
+
+[//]: Quast path: */home/ubuntu/Software/quast/build/scripts-3.8/quast.py* -->
+```
+
+#### brew
+
+<https://docs.brew.sh/Homebrew-on-Linux>
+
+```{=html}
+<!-- [//]:`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
+
+[//]:
+[//]:`echo >> /home/ubuntu/.zshrc`
+
+[//]:`echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/ubuntu/.zshrc`
+
+`eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"` -->
+```
+
+#### makeblastdb and tblastn
+
+<https://www.ncbi.nlm.nih.gov/books/NBK569861/>
+
+**prokka**
+
+<https://github.com/tseemann/prokka>
+
+```{=html}
+<!-- #### Install prokka
+
+\
+`brew install brewsci/bio/prokka` -->
+```
+
+#### resfinder
+
+<https://github.com/cadms/resfinder>
+
+```{=html}
+<!-- `pip install resfinder`
+
+\
+`python /home/ubuntu/.local/lib/python3.9/site-packages/resfinder/run_resfinder.py`
+
+`/usr/share/doc/ncbi-blast+` -->
+```
+
+**ARIBA**
+
+<https://sanger-pathogens.github.io/ariba/> <!-- In the ARIBA install, follow these instructions: https://github.com/sanger-pathogens/ariba/issues/327 
+Modify accordingly in sudo vi /usr/local/lib/python3.8/dist-packages/ariba/samtools_variants.py    -->
+
+**Prokka**
+
+<https://github.com/tseemann/prokka>
+
+```         
+docker pull staphb/prokka:latest
+docker run staphb/prokka:latest prokka -h
+```
