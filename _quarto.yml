@@ -1,0 +1,36 @@
+project:
+  type: website
+  output-dir: docs
+  
+website:
+  title: "NGS QC test"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+
+
+  page-footer: 
+    left: "This work is licensed under a Creative Commons Attribution 4.0 International License. Reuse is encouraged with acknowledgement" 
+
+  sidebar:
+    style: "docked"
+    search: true
+    collapse-level: 1
+
+format:
+  html:
+    theme:
+      light: [materia, theme-light.scss]
+      dark: [materia, theme-dark.scss]
+    anchor-sections: true
+
+editor: visual
+
+execute:
+  freeze: auto
+  
+sidebar:
+  contents: auto
+
+link-external-newwindow: true
