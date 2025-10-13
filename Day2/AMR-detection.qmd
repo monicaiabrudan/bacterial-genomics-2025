@@ -1,0 +1,115 @@
+---
+title: "AMR-detection"
+format: html
+---
+
+# Antimicrobial Resistance Detection
+
+### 1. Prepare ARIBA Databases
+
+### Download ResFinder database
+
+ariba getref resfinder /home/ubuntu/Reference/ARIBA/resfinder
+
+### Prepare database for ARIBA
+
+ariba prepareref\
+-f /home/ubuntu/Reference/ARIBA/resfinder.fa\
+-m /home/ubuntu/Reference/ARIBA/resfinder.tsv\
+/home/ubuntu/Reference/ARIBA/resfinder.prepareref
+
+### Download CARD database
+
+ariba getref card /home/ubuntu/Reference/ARIBA/card
+
+### Prepare CARD database
+
+ariba prepareref\
+-f /home/ubuntu/Reference/ARIBA/card.fa\
+-m /home/ubuntu/Reference/ARIBA/card.tsv\
+/home/ubuntu/Reference/ARIBA/card.prepareref
+
+# 2. Run ARIBA on Single Sample
+
+### Run ARIBA with ResFinder
+
+ariba run\
+/home/ubuntu/Reference/ARIBA/resfinder.prepareref\
+sample1_1.clean.fastq.gz\
+sample1_2.clean.fastq.gz\
+/home/ubuntu/analysis/amr/sample1_resfinder\
+--threads 4
+
+### View results
+
+cat /home/ubuntu/analysis/amr/sample1_resfinder/report.tsv \| column -t \| less -S
+
+Understanding ARIBA report columns: ref_name: Gene name flag: Quality flags (see below) pc_ident: Percent identity to reference ref_len: Reference gene length ref_base_assembled: Bases of reference assembled known_var: Known variant detected ARIBA flags: 19: Match without issues (good!) 27: Partial match 147: Assembly problems 403: Low coverage
+
+# 3. Run ARIBA on Multiple Samples
+
+### Create list of samples
+
+ls /home/ubuntu/Data/samples/\*\_1.clean.fastq.gz \| sed 's/\_1.clean.fastq.gz//' \> sample_list.txt
+
+### Loop through samples
+
+while read sample; do sample_name=\$(basename \$sample) ariba run\
+/home/ubuntu/Reference/ARIBA/resfinder.prepareref\
+\${sample}\_1.clean.fastq.gz\
+${sample}_2.clean.fastq.gz \
+    /home/ubuntu/analysis/amr/${sample_name}\_resfinder\
+--threads 4 done \< sample_list.txt
+
+# 4. Summarize ARIBA Results
+
+### Create summary across all samples
+
+ariba summary\
+/home/ubuntu/analysis/amr/summary_resfinder\
+/home/ubuntu/analysis/amr/\*/report.tsv
+
+### View summary
+
+cat /home/ubuntu/analysis/amr/summary_resfinder.csv \| column -t -s',' \| less -S
+
+Output files: summary_resfinder.csv: Presence/absence matrix summary_resfinder.phandango.csv: Formatted for Phandango summary_resfinder.phandango.tre: Simple tree for Phandango \# 5. Visualize in Phandango \### Open Phandango in browser firefox https://phandango.net/
+
+### Drag and drop these files:
+
+1.  summary_resfinder.phandango.tre
+2.  summary_resfinder.phandango.csv
+
+Phandango interpretation: Tree shows relationships between samples Colored cells show AMR gene presence Darker colors = higher confidence matches White = gene absent
+
+# 6. Alternative: AMRFinderPlus
+
+### Run AMRFinderPlus on protein sequences
+
+amrfinder\
+--protein /home/ubuntu/analysis/annotation/sample1_prokka/sample1.faa\
+--organism Staphylococcus_aureus\
+--plus\
+--output /home/ubuntu/analysis/amr/sample1_amrfinder.txt\
+--threads 4
+
+### View results
+
+cat /home/ubuntu/analysis/amr/sample1_amrfinder.txt \| column -t \| less -S
+
+### Clinical Interpretation Exercise
+
+### Create simple AMR profile summary
+
+echo "Sample,Beta-lactam,Aminoglycoside,Fluoroquinolone,MRSA" \> amr_profile.csv
+
+for dir in /home/ubuntu/analysis/amr/\*\_resfinder; do sample=\$(basename \$dir \| sed 's/\_resfinder//')
+
+\# Check for specific resistance genes beta=\$(grep -c "bla" $dir/report.tsv || echo 0)
+  amino=$(grep -c "aac\|aph\|ant" $dir/report.tsv || echo 0)
+  fluoro=$(grep -c "gyr\|par" $dir/report.tsv || echo 0)
+  mrsa=$(grep -c "mecA" \$dir/report.tsv \|\| echo 0)
+
+echo "$sample,$beta,$amino,$fluoro,\$mrsa" \>\> amr_profile.csv done
+
+column -t -s',' amr_profile.csv

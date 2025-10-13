@@ -1,0 +1,258 @@
+---
+title: "QC"
+format: html
+---
+
+# Setup & Navigation
+
+### Check your working directory
+
+`pwd`
+
+### Navigate to data directory
+
+`cd /home/ubuntu/Data`
+
+### List files
+
+`ls -lh`
+
+### Create directories
+
+`mkdir -p analysis/qc analysis/assembly`
+
+### Check available disk space
+
+`df -h`
+
+# Quality Control
+
+#### Data retrieval from the European Nucleotide Archive (ENA)
+
+The European Nucleotide Archive (ENA) provides a comprehensive record of the world’s nucleotide sequencing information, covering raw sequencing Data, sequence assembly information and functional annotation.
+
+Access to ENA Data is provided through the browser, through search tools, through large scale file download and through the API.
+
+### Download the Data programatically
+
+1.  Connect to your Amazon EC2 Ubuntu instance via ssh.
+
+    How to retrieve Data for the samples G18255819 and G18252308 from ENA
+
+2.  Create a directory called Data in /home/ubuntu/
+
+`mkdir /home/ubuntu/Data`
+
+3.  Create subdirectories for each of your samples
+
+    `mkdir /home/ubuntu/Data/G18255819/illumina`
+
+    `mkdir /home/ubuntu/Data/G18255819/nanopore`
+
+    `mkdir /home/ubuntu/Data/G18252308/illumina`
+
+    `mkdir /home/ubuntu/Data/G18252308/nanopore`
+
+4.   Download the reads for each sample
+
+`cd /home/ubuntu/Data/G18255819/nanopore`
+
+`wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR818/004/ERR8187234/ERR8187234.fastq.gz`
+
+`cd /home/ubuntu/Data/G18255819/illumina`
+
+`wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR478/004/ERR4784794/ERR4784794_1.fastq.gz`
+
+`wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR478/004/ERR4784794/ERR4784794_2.fastq.gz`
+
+`cd /home/ubuntu/Data/G18252308/nanopore`
+
+`wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR818/005/ERR8187245/ERR8187245.fastq.gz`
+
+`cd /home/ubuntu/Data/G18252308/illumina`
+
+`wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR463/006/ERR4635696/ERR4635696_1.fastq.gz`
+
+`wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR463/006/ERR4635696/ERR4635696_2.fastq.gz`
+
+### 
+
+# Initial data exploration
+
+### Count number of reads in FASTQ file
+
+`echo $(cat SAMPLE.fastq.gz | gunzip | wc -l)/4 | bc`
+
+Replace SAMPLE with the name of your fastq.gz files, eg:
+
+`echo $(cat ERR8187245.fastq.gz | gunzip | wc -l)/4 | bc`
+
+***How many reads are there in the FASTQ files coming from Illumina short read sequencing and Nanopore long read sequencing?***
+
+### View first few lines of FASTQ
+
+`zcat sample1_1.fastq.gz | head -n 20`
+
+### Calculate total bases
+
+`zcat sample1_1.fastq.gz | paste - - - - | cut -f 2 | tr -d '\n' | wc -c`
+
+## Reads QC
+
+In this part of the exercise, we will use a programme called [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/).
+
+FastQC aims to provide a simple way to do some quality control checks on raw sequence Data coming from high throughput sequencing pipelines. It provides a modular set of analyses which you can use to give a quick impression of whether your Data has any problems of which you should be aware before doing any further analysis.
+
+The main functions of FastQC are
+
+-   Import of Data from BAM, SAM or FastQ files (any variant)
+
+-   Providing a quick overview to tell you in which areas there may be problems
+
+-   Summary graphs and tables to quickly assess your Data
+
+-   Export of results to an HTML based permanent report
+
+### Run FastQC programatically
+
+To run non-interactively you simply have to specify a list of files to process on the command line. 
+
+`Eg:`
+
+`fastqc somefile.txt someotherfile.txt`
+
+`fastqc /home/ubuntu/Data/*/*/*`
+
+### QC your fastq reads through the visual interface
+
+Navigate to */home/ubuntu/Software/FastQC* and double click on the FastQC icon.
+
+In the visual interface, open all files produced by FastQC and assess the results, eg ERR4635696_1_fastqc.html
+
+Visualize and interpret the FastQC results. Compare the QC results for Nanopore and Illumina sequence reads
+
+**Optional**: Unzip the files */home/ubuntu/Data/\*/\*/\*\_\*\_fastqc.zip* and produce a script that extracts the information on reads lengths, GC contents etc; plot the results from all samples.
+
+![FastQC Illumina reads](images/fastqc_illumina.png){width="607"}
+
+![FastQC Nanopore reads](images/fastqc_nanopore.png){width="560"}
+
+### Generate MultiQC report (aggregates all FastQC results)
+
+***MultiQC looks for the `.zip` files produced by FastQC (not the `.html` files)***
+
+`cd /home/ubuntu/Data/QC`
+
+`multiqc ERR4784794`
+
+Open in browser:
+
+Navigate to `/home/ubuntu/Data/QC` and double-click `multiqc_report.html`
+
+**Key metrics to check:**
+
+Per base sequence quality (should be \>28 for most bases)
+
+Per sequence quality scores (peak should be \>30)
+
+Adapter content (should be minimal)
+
+GC content (should match expected \~33% for *S. aureus*)
+
+### Read Trimming/Filtering
+
+### Using fastp (fast and comprehensive)
+
+Eg:
+
+`fastp -i ERR4635696_1.fastq.gz -I ERR4635696_2.fastq.gz -o ERR4635696_1.clean.fastq.gz -O ERR4635696_2.clean.fastq.gz --qualified_quality_phred 20 --length_required 50 --detect_adapter_for_pe --html sample1_fastp.html --json sample1_fastp.json --thread 4`
+
+### Re-run MultiQC to confirm improvement
+
+`cd /home/ubuntu/Data/QC`
+
+`multiqc ERR4635696`
+
+`multiqc ERR4635696_clean`
+
+Decision point: If \>80% reads pass filtering and mean quality \>Q30, proceed to assembly.
+
+# Species Identification with Mash
+
+**Species Identification with Mash** uses rapid genome comparison based on *MinHash* sketches to estimate the genetic distance between sequences. By reducing large genomic datasets to compact representations, Mash quickly identifies the closest known species to an unknown sample. This method is widely used for preliminary taxonomic classification, contamination detection, and quality control in genomic and metagenomic studies, offering a fast and accurate alternative to full alignment-based approaches.
+
+### Sketch your reads
+
+`mash sketch -r -m 2 -o sample1.msh sample1_1.fastq.gz sample1_2.fastq.gz`
+
+`mash info sample1.msh`
+
+Compare against other reference genomes.
+
+Eg:
+
+`mash dist reference.msh sample.msh`
+
+Output:
+
+`reference.msh sample.msh 0.0032 0.0 1000/1000`
+
+Where
+
+| Column | Meaning | Interpretation |
+|----|----|----|
+|  |  |  |
+| **1. Reference** | The reference genome or sketch file used for comparison | e.g. `reference.msh` (your known genome) |
+| **2. Query** | The genome or sketch being tested | e.g. `sample.msh` (your isolate or unknown genome) |
+| **3. Distance** | Estimated **Mash distance** between sketches, roughly correlating with sequence divergence | Lower = more similar. **≈0.0–0.05** → likely same species. **\>0.05** → different species. |
+| **4. p-value** | Statistical significance of the match (probability the observed overlap is random) | The smaller, the stronger the match. Usually **≤1e-5** indicates high confidence. |
+| **5. Shared-hashes** | Number of shared vs total hashes (MinHash sketches) | e.g. `1000/1000` means all hashes matched; `800/1000` = partial overlap. Higher values = more reliable distance. |
+
+You will find \*.msh reference genomes in `/home/ubuntu/Data/Reference.`
+
+Try the following:
+
+`cd /home/ubuntu/Data/Reference`
+
+`mash dist klebsiella.msh ../G18252308/illumina/sample.msh`
+
+`mash dist salmonella.msh ../G18252308/illumina/sample.msh`
+
+`mash dist staphylococcus.msh ../G18252308/illumina/sample.msh`
+
+`mash dist mssa.msh ../G18252308/illumina/sample.msh`
+
+***Which is the closest reference genome to your samples?***
+
+# Species Identification with Bactinspector
+
+Advantages of using Bactinspector:
+
+-   **Runs Mash sketching and distance computation** under the hood.
+
+-   Compares your genome’s sketch to curated reference sketches.
+
+-   Applies empirically defined thresholds for species (and sometimes subspecies).
+
+`bactinspector closest_match -fq "*_2.fastq.gz"`
+
+![](images/bactinspector.png)
+
+Tidy up the output \*.tsv file
+
+`tail -n +2 *.tsv| column -t | less -S`\
+`cat *.tsv | tr "\t" "~" | cut -d"~" -f2`
+
+*Eg of a result:*
+
+*ASM289538v1*
+
+*GCF_002895385*
+
+***How do you interpret the results? Look up your results in ENA.***
+
+*In your browser, type*
+
+[*https://www.ebi.ac.uk/ena/browser/text-search?query=ASM289538v1*](https://www.ebi.ac.uk/ena/browser/text-search?query=ASM289538v1)
+
+3.  ![](images/ENA%20search%20result.png)

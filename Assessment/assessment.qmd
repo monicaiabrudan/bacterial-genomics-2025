@@ -3,5 +3,3 @@ title: "Assessment"
 ---
 
 More details will be communicated to you via email.
-
-![](images/assessment.jpg){width="429"}

@@ -1,0 +1,85 @@
+---
+title: "Comparative-Genomics"
+format: html
+---
+
+Pan-genome Analysis 1. Prepare Input Files \# Make sure all samples are annotated with Prokka \# GFF files should be in: /home/ubuntu/analysis/annotation/*/sample*.gff
+
+# Create directory for Roary
+
+mkdir -p /home/ubuntu/analysis/pangenome
+
+# Copy all GFF files to one location
+
+cp /home/ubuntu/analysis/annotation/*/*.gff /home/ubuntu/analysis/pangenome/
+
+2.  Run Roary \# Basic Roary run roary\
+    -f /home/ubuntu/analysis/pangenome/roary_output\
+    -e -n -v\
+    -p 4\
+    /home/ubuntu/analysis/pangenome/\*.gff
+
+# Options explained:
+
+# -e: create multifasta alignment of core genes
+
+# -n: fast core gene alignment (for speed)
+
+# -v: verbose output
+
+# -p: number of threads
+
+Roary outputs: gene_presence_absence.csv: Main results (open in Excel/LibreOffice) summary_statistics.txt: Pan-genome statistics core_gene_alignment.aln: Alignment of core genes accessory_binary_genes.fa.newick: Tree based on accessory genes 3. Examine Pan-genome Statistics \# View summary cat /home/ubuntu/analysis/pangenome/roary_output/summary_statistics.txt
+
+# Core genes (present in ≥99% of samples)
+
+# Soft core (95-99%)
+
+# Shell (15-95%)
+
+# Cloud (0-15%)
+
+Interpreting pan-genome: Large core (\~2000 genes): conserved essential functions Large cloud: diverse/recently acquired genes Open pan-genome: new genes with each genome added Closed pan-genome: plateau reached 4. Explore Gene Presence/Absence \# Open in spreadsheet libreoffice /home/ubuntu/analysis/pangenome/roary_output/gene_presence_absence.csv &
+
+# Or examine with command line
+
+# Count genes per sample
+
+head -1 gene_presence_absence.csv \| tr ',' '\n' \| tail -n +15 \| nl
+
+# Find strain-specific genes
+
+awk -F',' 'NR\>1 && \$4==1' gene_presence_absence.csv \| cut -d',' -f1,3
+
+5.  Visualize with Roary Plots \# Generate visualization plots python /home/ubuntu/Software/roary_plots.py\
+    /home/ubuntu/analysis/trees/core_genome.newick\
+    /home/ubuntu/analysis/pangenome/roary_output/gene_presence_absence.csv
+
+# Outputs:
+
+# - pangenome_matrix.png: presence/absence heatmap
+
+# - pangenome_pie.png: core/accessory/unique genes
+
+# - pangenome_frequency.png: gene frequency distribution
+
+6.  Phandango Visualization \# Open Phandango firefox https://phandango.net/
+
+# Drag and drop:
+
+# 1. accessory_binary_genes.fa.newick
+
+# 2. gene_presence_absence.csv
+
+7.  Identify Interesting Genes \# Find AMR genes in accessory genome grep -i "resist\|beta-lactam\|penicillin\|methicillin"\
+    gene_presence_absence.csv \| cut -d',' -f1,3,4
+
+# Find virulence factors
+
+grep -i "toxin\|hemolysin\|leukocidin\|protease"\
+gene_presence_absence.csv \| cut -d',' -f1,3,4
+
+# Find mobile elements
+
+grep -i "transpos\|integrase\|plasmid"\
+gene_presence_absence.csv \| cut -d',' -f1,3,4

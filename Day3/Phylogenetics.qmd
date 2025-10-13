@@ -1,0 +1,74 @@
+---
+title: "Phylogenetics"
+format: html
+---
+
+SNP Calling with Snippy \# Run Snippy on each sample against reference for sample in sample1 sample2 sample3; do snippy\
+--outdir /home/ubuntu/analysis/snippy/${sample} \
+    --ref /home/ubuntu/Reference/Saureus_reference.gbk \
+    --R1 /home/ubuntu/Data/samples/${sample}\_1.clean.fastq.gz\
+--R2 /home/ubuntu/Data/samples/\${sample}\_2.clean.fastq.gz\
+--cpus 4 done
+
+2.  Core SNP Alignment \# Combine all Snippy results into core SNP alignment snippy-core\
+    --ref /home/ubuntu/Reference/Saureus_reference.gbk\
+    --prefix core\
+    /home/ubuntu/analysis/snippy/\*
+
+# Output: core.aln (alignment of variant sites)
+
+3.  SNP Distance Matrix \# Calculate pairwise SNP distances snp-dists /home/ubuntu/analysis/snippy/core.aln \> snp_distances.txt
+
+# View matrix
+
+column -t snp_distances.txt \| less -S
+
+# Find closely related pairs (\<10 SNPs)
+
+awk 'NR\>1{for(i=2;i\<=NF;i++) if(\$i\<10 && \$i\>0) print \$1, \$(i), \$i}' snp_distances.txt
+
+Outbreak threshold: ≤10 SNPs: Likely direct transmission or recent common ancestor 10-20 SNPs: Possibly related 20 SNPs: Likely unrelated (for S. aureus)
+
+4.  Build Phylogenetic Tree \# Using IQ-TREE (fast maximum likelihood) iqtree\
+    -s /home/ubuntu/analysis/snippy/core.aln\
+    -m GTR+G\
+    -bb 1000\
+    -nt 4\
+    -pre core_tree
+
+# Options:
+
+# -s: input alignment
+
+# -m: substitution model
+
+# -bb: ultrafast bootstrap (1000 replicates)
+
+# -nt: number of threads
+
+# -pre: output prefix
+
+# Output: core_tree.treefile
+
+Alternative: RAxML raxmlHPC-PTHREADS\
+-T 4\
+-m GTRGAMMA\
+-p 12345\
+-x 12345\
+-# 100\
+-s core.aln\
+-n core_tree
+
+5.  Visualize Tree with Metadata Option A: iTOL (Interactive Tree of Life) \# Upload to iTOL: https://itol.embl.de/ \# 1. Upload core_tree.treefile \# 2. Upload metadata files (see Metadata Preparation below)
+
+Option B: Microreact \# Open Microreact: https://microreact.org/ \# Upload: \# 1. Tree file (core_tree.treefile) \# 2. Metadata CSV \# 3. ARIBA summary (optional)
+
+6.  Metadata Preparation \# Create metadata file for visualization cat \> metadata.csv \<\< 'EOF' sample,collection_date,ward,patient_id,amr_profile,outbreak sample1,2024-01-15,ICU,P001,MRSA,Yes sample2,2024-01-18,ICU,P002,MRSA,Yes sample3,2024-01-20,ICU,P003,MRSA,Yes sample4,2024-01-22,Surgery,P004,MSSA,No sample5,2024-02-01,ICU,P005,MRSA,Yes sample6,2024-02-03,ICU,P006,MRSA,Yes sample7,2024-02-10,Medicine,P007,MSSA,No sample8,2024-02-15,ICU,P008,MRSA,Yes sample9,2024-03-01,Outpatient,P009,MSSA,No sample10,2024-03-05,Community,P010,MSSA,No EOF
+
+Outbreak Investigation Analysis Questions to Answer: Which isolates cluster together? \# Check SNP distances awk '\$3\<10' snp_distances.txt \| column -t
+
+Do genomic clusters match epidemiological links? \# Compare SNP distances with ward/date information paste snp_distances.txt metadata.csv \| column -t \| less -S
+
+Can you identify the index case? \# Look for earliest collection date in outbreak cluster grep "Yes" metadata.csv \| sort -t',' -k2
+
+Are there unexpected connections? \# Find samples from different wards with low SNP distance \# This might indicate unknown transmission routes

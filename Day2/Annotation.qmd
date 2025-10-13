@@ -1,0 +1,66 @@
+---
+title: "Annotation"
+format: html
+---
+
+# Genome Annotation
+
+# 1. Prokka Annotation
+
+### Basic Prokka run
+
+prokka\
+--outdir /home/ubuntu/analysis/annotation/sample1_prokka\
+--prefix sample1\
+--genus Staphylococcus\
+--species aureus\
+--strain sample1\
+--cpus 4\
+/home/ubuntu/analysis/assembly/sample1_unicycler/assembly.fasta
+
+### View summary
+
+cat /home/ubuntu/analysis/annotation/sample1_prokka/sample1.txt
+
+Prokka outputs: .gff: Annotation in GFF3 format .faa: Protein sequences (amino acids) .ffn: Gene sequences (nucleotides) .gbk: GenBank format .txt: Summary statistics
+
+#2. Explore Annotation Files \### Count features grep -v "\#" sample1.gff \| cut -f3 \| sort \| uniq -c
+
+### Count CDS
+
+grep -c "CDS" sample1.gff
+
+### Find specific genes (e.g., beta-lactamase)
+
+grep -i "beta-lactam" sample1.gff
+
+### Extract all gene product descriptions
+
+grep "product=" sample1.gff \| sed 's/.*product=(\[\^;\]*).\*/\\1/' \| sort \| uniq -c \| sort -rn \| head -20
+
+# 3. Visualize in Artemis
+
+# Launch Artemis from terminal
+
+art /home/ubuntu/analysis/annotation/sample1_prokka/sample1.gbk &
+
+# Or double-click the sample1.gbk file in file browser
+
+Artemis tips: View → Overview for whole genome view Right-click genes for details Graph → GC Content to see compositional bias Use "Goto" to jump to specific positions \# 4. BLAST Specific Genes \# Extract a gene of interest grep "mecA" sample1.gff \| cut -f1,4,5
+
+# Extract sequence and BLAST
+
+# (coordinates from above, e.g., 100000-102000)
+
+samtools faidx assembly.fasta contig1:100000-102000 \> mecA_gene.fasta
+
+# BLAST against nr database (if available)
+
+blastn -query mecA_gene.fasta -db nt -remote -outfmt 6 \| head -5
+
+# Or BLAST locally against CARD database
+
+blastn -query mecA_gene.fasta\
+-db /home/ubuntu/Reference/CARD/nucleotide\
+-outfmt "6 qseqid sseqid pident length qcovs evalue bitscore stitle"\
+-num_threads 4 \| head -10

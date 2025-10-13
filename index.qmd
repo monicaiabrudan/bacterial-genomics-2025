@@ -2,7 +2,7 @@
 title: "Introduction"
 ---
 
-This page is a repository for training resources designed and developed for the short course on Bacterial Genomics Bioinformatics, Babes-Bolyai University, Cluj-Napoca, Romania, November 2024, by Monica Abrudan.
+This page is a repository for training resources designed and developed for the short course on Bacterial Genomics Bioinformatics, Babes-Bolyai University, Cluj-Napoca, Romania, November 2025, by Monica Abrudan.
 
 ***The materials provided in this repository are FREE to use.*** ***This work is licensed under a Creative Commons Attribution 4.0 International License. Reuse is encouraged with acknowledgement.***
 

@@ -3,7 +3,7 @@ project:
   output-dir: docs
   
 website:
-  title: "Bioinformatic methods for microbial genomics and transcriptomics, Cluj-Napoca, November 2024"
+  title: "Bioinformatic methods for bacterial genomics, Cluj-Napoca, October 2025"
   navbar:
     left:
       - href: index.qmd
@@ -12,17 +12,14 @@ website:
         text: Agenda
       - text: Training materials
         menu:
-          - module1/module1.qmd
-          - module2/module2.qmd
-          - module3/module3.qmd
-          - module4/module4.qmd
-          - module5/module5.qmd
-          - module6/module6.qmd
-          - module7/module7.qmd
-          - module8/module8.qmd
+          - Day1/QC.qmd
+          - Day1/Assembly.qmd
+          - Day2/Annotation.qmd
+          - Day2/AMR-detection.qmd
+          - Day3/Phylogenetics.qmd
+          - Day3/Comparative-Genomics.qmd
           - Assessment/assessment.qmd
           - resources.qmd
-
 
   page-footer: 
     left: "This work is licensed under a Creative Commons Attribution 4.0 International License. Reuse is encouraged with acknowledgement" 

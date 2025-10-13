@@ -340,7 +340,7 @@ Run SPADES (with Unicycler)
 
 View the SPADES assembly metrics in Quast
 
-![](images/quast _ spades.png){width="734"}
+![](images/quast%20_%20spades.png){width="734"}
 
 How do these metrics compare with the results you got from the Velvet assembler?
 
