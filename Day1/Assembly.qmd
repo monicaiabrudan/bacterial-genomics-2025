@@ -15,9 +15,26 @@ format: html
 
 # SPAdes Assembly (Specific K-mer)
 
+| Common Flags | Meaning | Example | Description |
+|----|----|----|----|
+| `-t` | **Number of CPU threads** | `-t 4` | Tells SPAdes to use 4 CPU cores for parallel processing. Use more threads if your machine has more cores (e.g., `-t 8` or `-t 16`). |
+| `-m` | **Maximum memory (in GB)** | `-m 8` | Limits SPAdes to use at most 8 GB of RAM. This prevents it from using too much system memory. |
+
 ### Assembly with specific k-mer value
 
-`spades.py-1 sample1_1.clean.fastq.gz-2 sample1_2.clean.fastq.gz-k 21,33,55,77-o /home/ubuntu/analysis/assembly/sample1_spades_k77--careful-t 4-m 8`
+\~ Divide in groups and run SPAdes on one sample, with different k-mer sizes (`21,33,55 or 77)`
+
+Replace K-MER in the command below with one of the values **21,33,55 or 77**
+
+General command:
+
+`spades.py-1 sample1_1.clean.fastq.gz-2 sample1_2.clean.fastq.gz-k K-MER-o /home/ubuntu/output--careful-t 4-m 8`
+
+Eg (this will take around 20 minutes to run!)
+
+`cd /home/ubuntu/Data/G18252308/illumina`
+
+`spades -1 ERR4635696_1.fastq.gz -2 ERR4635696_2.fastq.gz -k 21 -o ../../Assembly --careful -t 4 -m 8`
 
 **K-mer selection guidelines:**
 
@@ -28,6 +45,8 @@ format: html
 -   Multiple k-mers: SPAdes uses all and picks best
 
 # Unicycler Hybrid Assembly
+
+(We will not run this in the classroom)
 
 ### Hybrid assembly (short + long reads)
 
@@ -45,8 +64,6 @@ format: html
 
 ### View report
 
-`firefox /home/ubuntu/analysis/assembly/quast_comparison/report.html`
-
 Key QUAST metrics:
 
 **Number of contigs**: Lower is better (fewer breaks)
@@ -59,48 +76,21 @@ Key QUAST metrics:
 
 **L50**: Lower is better (fewer contigs contain 50% of assembly)
 
-### BUSCO - check genome completeness
-
-`busco-i /home/ubuntu/analysis/assembly/sample1_unicycler/assembly.fasta-o sample1_busco-m genome-l bacteria_odb10--cpu 4`
-
-BUSCO interpretation:
-
-Complete: \>95% is excellent
-
-Fragmented: \<5% is good
-
-Missing: \<5% is acceptable
-
 ### Quick Assembly Statistics
 
 ### Simple assembly stats script
 
-`assembly_stats() { echo "Assembly: $1" echo "Number of contigs:" grep -c ">" $1 echo "Total length:" grep -v ">" $1 | tr -d '\n' | wc -c echo "Largest contig:" grep -v ">" $1 | awk '{print length}' | sort -rn | head -1 }`
+`cd /home/ubuntu/Data/Assembly/`
 
-### Use the function
+`cat assemblystats.sh`
 
-`assembly_stats /home/ubuntu/analysis/assembly/sample1_spades_auto/scaffolds.fasta`
+Try running this:
 
-# Visualize Assembly Graph (Optional)
+`bash assemblystats.sh kmer21/contigs.fasta`
 
-### View assembly graph in Bandage
+`bash assemblystats.sh ENA_assembly/SAMEA5818231.fa`
 
-`Bandage load /home/ubuntu/analysis/assembly/sample1_spades_auto/assembly_graph.fastg`
-
-Comparing Multiple Assemblies
-
-Create a comparison table
-
-`echo -e "Assembly\tContigs\tTotal_Length\tN50\tLargest_Contig" > assembly_comparison.txt`
-
-`for assembly in /home/ubuntu/analysis/assembly/*/scaffolds.fasta;`
-
-`do name=$(basename $(dirname $assembly))
-    contigs=$(grep -c ">" $assembly)
-    total=$(grep -v ">" $assembly | tr -d '\n' | wc -c)
-    echo -e "$name\t$contigs\t$total\t-\t-" >> assembly_comparison.txt done`
-
-`column -t assembly_comparison.txt`
+***Compare your data with your colleagues that chose a different K-mer size***
 
 ### Troubleshooting
 
