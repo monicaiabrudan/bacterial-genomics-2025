@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Comparative-Genomics – Bioinformatic methods for bacterial genomics, Cluj-Napoca, October 2025</title>
+<title>Genomic Epidemiology for Outbreak Investigation – Bioinformatic methods for bacterial genomics, Cluj-Napoca, October 2025</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -123,8 +123,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Phylogenetics</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../Day3/Comparative-Genomics.html">
- <span class="dropdown-text">Comparative-Genomics</span></a>
+    <a class="dropdown-item" href="../Day3/Genomic_epidemiology.html">
+ <span class="dropdown-text">Genomic Epidemiology for Outbreak Investigation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../Day3/GenEpi_Surveillance.html">
+ <span class="dropdown-text">Genomic Epidemiology for Pathogen Surveillance</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../Assessment/assessment.html">
@@ -148,7 +152,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Comparative-Genomics</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Genomic Epidemiology for Outbreak Investigation</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -175,7 +179,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Comparative-Genomics</h1>
+<h1 class="title">Genomic Epidemiology for Outbreak Investigation</h1>
 </div>
 
 
@@ -192,106 +196,162 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Pan-genome Analysis 1. Prepare Input Files # Make sure all samples are annotated with Prokka # GFF files should be in: /home/ubuntu/analysis/annotation/<em>/sample</em>.gff</p>
-<section id="create-directory-for-roary" class="level1">
-<h1>Create directory for Roary</h1>
-<p>mkdir -p /home/ubuntu/analysis/pangenome</p>
+<section id="web-tools-for-genomic-epidemiology" class="level1">
+<h1>Web tools for genomic epidemiology</h1>
+<p><em>Based on a exercise developed by Julio Diaz Caballero &amp; Caterina Guzmán Verri for the Genomic Epidemiology course, Costa Rica, 2025</em></p>
 </section>
-<section id="copy-all-gff-files-to-one-location" class="level1">
-<h1>Copy all GFF files to one location</h1>
-<p>cp /home/ubuntu/analysis/annotation/<em>/</em>.gff /home/ubuntu/analysis/pangenome/</p>
-<ol start="2" type="1">
-<li>Run Roary # Basic Roary run roary<br>
--f /home/ubuntu/analysis/pangenome/roary_output<br>
--e -n -v<br>
--p 4<br>
-/home/ubuntu/analysis/pangenome/*.gff</li>
+<section id="background" class="level1">
+<h1>Background</h1>
+<p>Genomic epidemiology aims to understand the emergence and dissemination of high-risk clones within pathogen populations with the ultimate goal of implementing evidence-based interventions to protect public health. High-risk clones are subpopulations/strains/variants of a pathogen that carry risk elements, such as antibiotic resistance or virulence determinants, and thus pose a potential risk to public health.</p>
+<p>The increased genetic resolution afforded by genomic data is useful from global to local geographic scales, and has proven to be particularly useful for the investigation of pathogens that exhibit little genetic variation (e.g.&nbsp;<a href="https://pubmed.ncbi.nlm.nih.gov/27703135/">Wong <em>et al.</em> 2016</a>), and for outbreak investigations (e.g.&nbsp;<a href="https://pubmed.ncbi.nlm.nih.gov/21862630/">Hendriksen <em>et al.</em> 2011</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/25370488/">Eppinger <em>et al.</em> 2014</a>). During outbreak investigations (and other genomic epidemiology studies), epidemiological data from patients is collected by healthcare professionals. Antimicrobial susceptibility data, species identification, and any further phenotypic or molecular characterization of the isolates is often generated by the laboratories linked to healthcare facilities and/or by the reference laboratory. Ideally, these different sources of data are stored in a centralised surveillance system and database, such as WHONET. However, these systems rarely incorporate genomic data produced by bioinformaticians. Genomic data may include sequence/assembly quality, genotyping/genoserotyping information, presence/absence of known risk elements, and clustering of the isolates based on genetic similarity –usually in the form of a phylogenetic tree or a minimum spanning-tree.</p>
+<p>The job of a genomic epidemiologist often starts by combining data from diverse sources that might not be complete or standardised to facilitate the identification of relevant patterns for meaningful interpretation. Once integrated, the epi, lab, and genomic data can be interrogated over the structure of the tree to identify clusters of interest that will place the isolates in or out of the outbreak.</p>
+<p>The <a href="https://www.pathogensurveillance.net/our-software/"><strong>Centre for Genomic Pathogen Surveillance</strong></a> develops free web applications for data collection, integration, visualisation, and analysis of genomic epidemiology data. <a href="https://five.epicollect.net/"><strong>Epicollect5</strong></a> is a mobile &amp; web application for free and easy data collection. It provides both the web and mobile applications for the generation of forms (questionnaires) and freely hosted project websites for data collection. Projects are created by using the web application at <a href="five.epicollect.net">five.epicollect.net</a>, and then downloaded to the device to perform the data collection. Data are collected in the field using multiple devices and all data can be viewed on a central server (via map, tables, and charts). <a href="https://data-flo.io/"><strong>Data-flo</strong></a> is a system for customised integration and manipulation of diverse data via a simple drag and drop interface. Data-flo provides a visual method to design a reusable pipeline to integrate, clean, and manipulate data in a multitude of ways, eliminating the need for continuous manual intervention (e.g., coding, formatting, spreadsheet formulas, manual copy-pasting). <a href="https://microreact.org/"><strong>Microreact</strong></a> allows you to upload, visualise and explore any combination of clustering (trees), geographic (map) and temporal (timeline) data. Other metadata variables are displayed in a table. You can specify colours and/or shapes to display on the map, tree and/or timeline. A permanent URL is produced for you to share your Microreact.</p>
+</section>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Aim: To use web and mobile tools for the collection of epi data in the field, integrate epi data with lab and bioinformatics data, and visualise all data together to investigate a putative outbreak.</p>
+<p><em>Note: This exercise is a work of fiction. Any resemblance to a real life situation is purely coincidental.</em></p>
+<p>During August and September 2025, <em>Klebsiella pneumoniae</em> was isolated from clinical samples of 34 patients at several hospitals and clinics in and around Cluj-Napoca. Approximately half of the patients had presented with urinary tract infections (UTIs) although a variety of other infection types were seen including three sepsis cases. One colony from each confirmed case was sequenced on an Illumina MiSeq. An epidemiological investigation revealed that some of the culture-confirmed cases <strong><em>were students at Cluj-Napoca Institute of Coffee (CIC)</em></strong>. This suggested that the campus may be the central point of transmission in this outbreak. The epidemiological and demographic data is summarised in the file <a href="#0">epi_data.csv</a>.</p>
+<p><strong>Following the confirmation of the 34 positive cases of <em>K. pneumoniae</em> ST258 infections, the management of CIC denied that the <em>Klebsiella pneumoniae</em> could have spread within the campus and declared that deep cleaning of the was taking place regularly.</strong></p>
+<p><strong>A team of disease detectives will be deployed around CIC today to investigate the possibility of environmental contamination of <em>K. pneumoniae</em> within the campus</strong>, using tools such as data-flo, Pathogenwatch, and Microreact, free web applications developed by the <em>Centre for Genomic Pathogen Surveillance</em> for easy data analyses, integration and visualisation.</p>
+</section>
+<section id="objectives" class="level1">
+<h1>Objectives</h1>
+<p>At the end of this session the participants will be able to:</p>
+<ol type="1">
+<li>Analyse genomes using PathogenWatch</li>
+<li>Merge epidemiological, laboratory and genomic data with data-flo</li>
+<li>Create a Microreact project to visualise epidemiological, laboratory and genomic data</li>
+</ol>
+<p>In the first phase of the outbreak investigation, disease detectives collected water samples from around the CIC campus. These were sent to a reference lab for further analysis.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/cluj-napoca.png" class="img-fluid figure-img" width="427"></p>
+<figcaption><em>Map of Cluj-Napoca, from where water samples were taken</em></figcaption>
+</figure>
+</div>
+<section id="analyse-genomes-with-pathogenwatch" class="level2">
+<h2 class="anchored" data-anchor-id="analyse-genomes-with-pathogenwatch">Analyse genomes with PathogenWatch</h2>
+<p>The reference lab has sent you the culture results in an Excel file called (<a href="https://github.com/monicaiabrudan/bacterial-genomics-2025/blob/main/Day3/web_tools_data/lab_results.xlsx"><code>lab_results.xlsx</code></a>). The lab reported that <strong>2 out of 13</strong> water samples from the CIC campus were positive for <em>K. pneumoniae</em>. <strong>This immediately prompted the closure of the 2 water sources and internal investigation.</strong></p>
+<blockquote class="blockquote">
+<p><em>Does this confirm that the source of the outbreak can be found in the campus of CIC?</em></p>
+</blockquote>
+<p>One colony from each source was sequenced on Illumina MiSeq by the reference lab and the bioinformatics team has assembled each of them.</p>
+<p>We will use <a href="https://pathogen.watch"><strong>https://pathogen.watch</strong></a> to identify the sequence type (ST) of these genomes using the Pasteur scheme.</p>
+<p>Click on the upload link at the top right</p>
+<p><img src="images/pathogenwatch_upload.png" class="img-fluid" width="421"></p>
+<p>Click on <code>Single Genome FASTAs</code></p>
+<p><img src="images/pathogenwatch_singlefasta.png" class="img-fluid" width="441"></p>
+<p>Drag and Drop provided fasta files (<a href="https://github.com/monicaiabrudan/bacterial-genomics-2025/blob/main/Day3/web_tools_data/genomes/123456789-11.fasta">file1</a> and <a href="https://github.com/monicaiabrudan/bacterial-genomics-2025/blob/main/Day3/web_tools_data/genomes/123456789-9.fasta">file2</a>) into the browser and wait for analysis to finish</p>
+<p><img src="images/pathogenwatch_dragdrop.png" class="img-fluid" width="499"></p>
+<p>Click on <code>VIEW GENOMES</code></p>
+<p><img src="images/pathogenwatch_viewgenomes.png" class="img-fluid" width="424"></p>
+<p>Select the two analysed genomes</p>
+<p><img src="images/pathogenwatch_select.png" class="img-fluid" width="400"></p>
+<p>Click on <code>Selected Genomes</code></p>
+<p><img src="images/pathogenwatch_selected.png" class="img-fluid" width="400"></p>
+<p>Click on Download data</p>
+<p><img src="images/pathogenwatch_download.png" class="img-fluid" width="400"></p>
+<p>Click on MLST (Pasteur). This will download a csv file with the results.</p>
+<p><img src="images/pathogenwatch_mlst.png" class="img-fluid" width="400"></p>
+<p>You should now be able to find the <a href="https://github.com/monicaiabrudan/bacterial-genomics-2025/blob/main/Day3/web_tools_data/mlst-Pasteur.csv"><code>mlst-Pasteur.csv</code></a> in your <code>Downloads</code> folder.</p>
+</section>
+<section id="merge-data-with-data-flo" class="level2">
+<h2 class="anchored" data-anchor-id="merge-data-with-data-flo">Merge data with Data-flo</h2>
+<p><code>https://data-flo.io/</code></p>
+<p><em>Note: you need to sign-up for data-flo and Microreact. Creating your own account will allow you to manage and edit your projects.</em></p>
+<p>A maximum likelihood phylogenetic tree (<a href="https://github.com/monicaiabrudan/bacterial-genomics-2025/blob/main/Day3/web_tools_data/tree.nwk"><code>tree.nwk</code></a>) was inferred from the genomes of the 34 clinical samples and 2 environmental (water) samples. Six genomes from a previous outbreak (Mar-Apr 2022) were also included in the tree inference and their associated data added to the <a href="https://github.com/monicaiabrudan/bacterial-genomics-2025/blob/main/Day3/web_tools_data/epi_data.csv"><code>epi_data.csv</code></a> file.</p>
+<p>The disease detectives now have the information needed for the investigation in the following formats:</p>
+<ul>
+<li><a href="https://drive.google.com/drive/folders/1LH2beqwn5IeB7veScPLrlI6qmbgAaM2J?usp=sharing"><code>epi_data.csv</code></a> Epi data from 34 clinical cases and 6 cases from previous outbreak</li>
+<li><a href="https://github.com/monicaiabrudan/bacterial-genomics-2025/blob/main/Day3/web_tools_data/epi_data_new.csv"><code>epi_data_new.csv</code></a> Metadata of 2 positive water sources from the CIC campus</li>
+<li><a href="https://drive.google.com/drive/folders/1LH2beqwn5IeB7veScPLrlI6qmbgAaM2J?usp=sharing"><code>lab_results.xlsx</code></a> Culture and serotyping results for all the samples from the CIC campus</li>
+<li><a href="https://drive.google.com/drive/folders/1LH2beqwn5IeB7veScPLrlI6qmbgAaM2J?usp=sharing"><code>mlst-Pasteur.csv</code></a> MLST results from PathogenWatch</li>
+<li><a href="https://drive.google.com/drive/folders/1LH2beqwn5IeB7veScPLrlI6qmbgAaM2J?usp=sharing"><code>tree.nwk</code></a> Phylogenetic tree of 34 clinical cases, 2 culture-positive water samples, and 6 cases from previous outbreak</li>
+</ul>
+<p>The files are located in <a href="https://github.com/monicaiabrudan/bacterial-genomics-2025/tree/main/Day3/web_tools_data"><strong>this link</strong></a>.</p>
+<p>We will combine data from these different sources with a data-flo workflow that takes the files above as input, and creates as an output a Microreact project where the data can be visualised.</p>
+<p>Open the data-flo workflow (<a href="https://www.data-flo.io/editor/ai9jZdWD5KBoVDzuAaYCub" class="uri">https://www.data-flo.io/editor/ai9jZdWD5KBoVDzuAaYCub</a>)</p>
+<p>Copy the workflow to your own dataflo account.</p>
+<p><img src="images/dataflo_copy.png" class="img-fluid"></p>
+<p>This will open a copy of this workflow in your dataflo account.</p>
+<p><img src="images/dataflo_workflow.png" class="img-fluid"></p>
+<p><strong>On a different browser tab</strong>, get your microreact <code>API access token</code> at <a href="https://microreact.org/my-account/settings"><strong>https://microreact.org/my-account/settings</strong></a> (you must already have created your microreact account).</p>
+<p><img src="images/microreact_token.png" class="img-fluid"></p>
+<p>Edit the workflow to include your own microreact <code>API access token</code>.</p>
+<ol type="1">
+<li>Click on <code>*access token</code> in the <code>Create microreact project</code> box</li>
+<li>From the options on the right, select <code>Bind to value</code></li>
+<li>Paste your <code>API access token</code> in the <code>VALUE</code> box</li>
+</ol>
+<p><img src="images/dataflo_key.png" class="img-fluid"></p>
+<p>Now lets go to the implementation page by clicking on the <code>RUN</code> option.</p>
+<p><img src="images/dataflo_implementation.png" class="img-fluid"></p>
+<p>Click on <strong><code>Run</code></strong>. The Outputs box now shows the url of a Microreact project created by data-flo.</p>
+<p><img src="images/dataflo_run1.png" class="img-fluid" width="480"></p>
+<p><img src="images/dataflo_run2.png" class="img-fluid" width="418"></p>
+<p>Before you open the Microreact project answer the following questions:</p>
+<blockquote class="blockquote">
+<ol type="1">
+<li>If later on we wanted to add additional entries (i.e.&nbsp;water samples from CIC) , could we use the same data-flo? If so, how would this be beneficial?</li>
+<li>Do you use/know of any other methods to join data? If so, how do they compare with data-flo?</li>
+</ol>
+</blockquote>
+</section>
+<section id="explore-phylogenetic-and-epidemiological-data-with-microreact" class="level2">
+<h2 class="anchored" data-anchor-id="explore-phylogenetic-and-epidemiological-data-with-microreact">Explore phylogenetic and epidemiological data with Microreact</h2>
+<p><code>https://microreact.org/</code></p>
+<p>Open the Microreact link in the output from data-flo. It should look something like this:</p>
+<p><img src="images/microreact_link.png" class="img-fluid"></p>
+<p>Now change the colour column to “Hospital”. Click on the eye icon at the top right of the page. Select “Hospital from the <code>Colour Column</code> dropdown list.</p>
+<p><img src="images/microreact_colour.png" class="img-fluid"></p>
+<p>Scale the markers on the map by clicking on the sliders icon, then in the opening options click on <code>Markers</code>. Finally, toggle the <code>Scale markers</code> option on.</p>
+<p><img src="images/microreact_markers.png" class="img-fluid" width="386"></p>
+<p><img src="images/microreact _timeline.png" class="img-fluid"></p>
+<p>Answer the following questions:</p>
+<blockquote class="blockquote">
+<ol type="1">
+<li>What do the markers on the map represent?</li>
+<li>Which hospital reported the index (first) case? Tip: Click on the earliest sample on the timeline.</li>
+</ol>
+</blockquote>
+<p>Change the colour column to “Source”. Click on the eye icon at the top left of the page. Then select “Source” from the <code>Colour Column</code> dropdown list.</p>
+<p><img src="images/microreact_source.png" class="img-fluid" width="442"></p>
+<p>Microreact assigns colours automatically to every column in your metadata table, but you can customise them. Let’s change the colour column to “Infection Type”. Click on the eye icon at the top left of the page. Then select “Infection Type” from the <code>Colour Column</code> dropdown list.</p>
+<p><img src="images/microreact_household.png" class="img-fluid" width="446"></p>
+<p>Now Select “Categorical” from the <code>Colour Palette</code> option. Next Select “qualitative” from the <code>Palette type</code> dropdown list and “5” from the <code>Number of colours</code> dropdown list. Finally, select the second option from the list of palettes.</p>
+<p><img src="images/microreact_qualitative.png" class="img-fluid" width="183"></p>
+<p><img src="images/microreact_palete.png" class="img-fluid" width="209"></p>
+<p><img src="images/microreact_workplace.png" class="img-fluid" width="174"></p>
+<p>Add the columns “Workplace” and “Workplace details” as metadata blocks. For this, select the slider icon from top right of the tree panel, then, click on the <code>Metadata blocks</code> button. Finally, select “Workplace” and “Workplace details” from the list of options.</p>
+<p>Now explore the microreact you just created and try to answer the following questions:</p>
+</section>
+<section id="insights" class="level2">
+<h2 class="anchored" data-anchor-id="insights">Insights</h2>
+<ol type="1">
+<li>Can you confirm that the K. pneumoniae isolated from the CIC campus are closely related to the patient isolates?</li>
+<li>Was it useful to include genomes from a previous outbreak in the analysis? Is the current outbreak related to the past outbreak from Mar-Apr 2022?</li>
+<li>Is the CIC Campus the origin of the outbreak?</li>
+<li>Should we investigate another location in the city?</li>
 </ol>
 </section>
-<section id="options-explained" class="level1">
-<h1>Options explained:</h1>
 </section>
-<section id="e-create-multifasta-alignment-of-core-genes" class="level1">
-<h1>-e: create multifasta alignment of core genes</h1>
+<section id="resources" class="level1">
+<h1>Resources</h1>
+<section id="sign-in-to-data-flo" class="level2">
+<h2 class="anchored" data-anchor-id="sign-in-to-data-flo">Sign-in to data-flo</h2>
+<p><a href="https://docs.data-flo.io/introduction/getting-started-sign-in"><strong>https://docs.data-flo.io/introduction/getting-started-sign-in</strong></a></p>
 </section>
-<section id="n-fast-core-gene-alignment-for-speed" class="level1">
-<h1>-n: fast core gene alignment (for speed)</h1>
+<section id="sign-in-to-microreact" class="level2">
+<h2 class="anchored" data-anchor-id="sign-in-to-microreact">Sign-in to Microreact</h2>
+<p>Head over to <a href="https://microreact.org/my-account"><strong>https://microreact.org/my-account</strong></a>, and sign up using your email address or any other authenticating option</p>
+<p><img src="images/microreact_signup.png" class="img-fluid" width="323"></p>
 </section>
-<section id="v-verbose-output" class="level1">
-<h1>-v: verbose output</h1>
-</section>
-<section id="p-number-of-threads" class="level1">
-<h1>-p: number of threads</h1>
-<p>Roary outputs: gene_presence_absence.csv: Main results (open in Excel/LibreOffice) summary_statistics.txt: Pan-genome statistics core_gene_alignment.aln: Alignment of core genes accessory_binary_genes.fa.newick: Tree based on accessory genes 3. Examine Pan-genome Statistics # View summary cat /home/ubuntu/analysis/pangenome/roary_output/summary_statistics.txt</p>
-</section>
-<section id="core-genes-present-in-99-of-samples" class="level1">
-<h1>Core genes (present in ≥99% of samples)</h1>
-</section>
-<section id="soft-core-95-99" class="level1">
-<h1>Soft core (95-99%)</h1>
-</section>
-<section id="shell-15-95" class="level1">
-<h1>Shell (15-95%)</h1>
-</section>
-<section id="cloud-0-15" class="level1">
-<h1>Cloud (0-15%)</h1>
-<p>Interpreting pan-genome: Large core (~2000 genes): conserved essential functions Large cloud: diverse/recently acquired genes Open pan-genome: new genes with each genome added Closed pan-genome: plateau reached 4. Explore Gene Presence/Absence # Open in spreadsheet libreoffice /home/ubuntu/analysis/pangenome/roary_output/gene_presence_absence.csv &amp;</p>
-</section>
-<section id="or-examine-with-command-line" class="level1">
-<h1>Or examine with command line</h1>
-</section>
-<section id="count-genes-per-sample" class="level1">
-<h1>Count genes per sample</h1>
-<p>head -1 gene_presence_absence.csv | tr ‘,’ ‘’ | tail -n +15 | nl</p>
-</section>
-<section id="find-strain-specific-genes" class="level1">
-<h1>Find strain-specific genes</h1>
-<p>awk -F’,’ ‘NR&gt;1 &amp;&amp; $4==1’ gene_presence_absence.csv | cut -d’,’ -f1,3</p>
-<ol start="5" type="1">
-<li>Visualize with Roary Plots # Generate visualization plots python /home/ubuntu/Software/roary_plots.py<br>
-/home/ubuntu/analysis/trees/core_genome.newick<br>
-/home/ubuntu/analysis/pangenome/roary_output/gene_presence_absence.csv</li>
-</ol>
-</section>
-<section id="outputs" class="level1">
-<h1>Outputs:</h1>
-</section>
-<section id="pangenome_matrix.png-presenceabsence-heatmap" class="level1">
-<h1>- pangenome_matrix.png: presence/absence heatmap</h1>
-</section>
-<section id="pangenome_pie.png-coreaccessoryunique-genes" class="level1">
-<h1>- pangenome_pie.png: core/accessory/unique genes</h1>
-</section>
-<section id="pangenome_frequency.png-gene-frequency-distribution" class="level1">
-<h1>- pangenome_frequency.png: gene frequency distribution</h1>
-<ol start="6" type="1">
-<li>Phandango Visualization # Open Phandango firefox https://phandango.net/</li>
-</ol>
-</section>
-<section id="drag-and-drop" class="level1">
-<h1>Drag and drop:</h1>
-</section>
-<section id="accessory_binary_genes.fa.newick" class="level1">
-<h1>1. accessory_binary_genes.fa.newick</h1>
-</section>
-<section id="gene_presence_absence.csv" class="level1">
-<h1>2. gene_presence_absence.csv</h1>
-<ol start="7" type="1">
-<li>Identify Interesting Genes # Find AMR genes in accessory genome grep -i “resist|beta-lactam|penicillin|methicillin”<br>
-gene_presence_absence.csv | cut -d’,’ -f1,3,4</li>
-</ol>
-</section>
-<section id="find-virulence-factors" class="level1">
-<h1>Find virulence factors</h1>
-<p>grep -i “toxin|hemolysin|leukocidin|protease”<br>
-gene_presence_absence.csv | cut -d’,’ -f1,3,4</p>
-</section>
-<section id="find-mobile-elements" class="level1">
-<h1>Find mobile elements</h1>
-<p>grep -i “transpos|integrase|plasmid”<br>
-gene_presence_absence.csv | cut -d’,’ -f1,3,4</p>
+<section id="web-colours" class="level2">
+<h2 class="anchored" data-anchor-id="web-colours"></h2>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

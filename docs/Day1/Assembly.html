@@ -123,8 +123,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Phylogenetics</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../Day3/Comparative-Genomics.html">
- <span class="dropdown-text">Comparative-Genomics</span></a>
+    <a class="dropdown-item" href="../Day3/Genomic_epidemiology.html">
+ <span class="dropdown-text">Genomic Epidemiology for Outbreak Investigation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../Day3/GenEpi_Surveillance.html">
+ <span class="dropdown-text">Genomic Epidemiology for Pathogen Surveillance</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../Assessment/assessment.html">
@@ -205,9 +209,45 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="spades-assembly-specific-k-mer" class="level1">
 <h1>SPAdes Assembly (Specific K-mer)</h1>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Common Flags</th>
+<th>Meaning</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>-t</code></td>
+<td><strong>Number of CPU threads</strong></td>
+<td><code>-t 4</code></td>
+<td>Tells SPAdes to use 4 CPU cores for parallel processing. Use more threads if your machine has more cores (e.g., <code>-t 8</code> or <code>-t 16</code>).</td>
+</tr>
+<tr class="even">
+<td><code>-m</code></td>
+<td><strong>Maximum memory (in GB)</strong></td>
+<td><code>-m 8</code></td>
+<td>Limits SPAdes to use at most 8 GB of RAM. This prevents it from using too much system memory.</td>
+</tr>
+</tbody>
+</table>
 <section id="assembly-with-specific-k-mer-value" class="level3">
 <h3 class="anchored" data-anchor-id="assembly-with-specific-k-mer-value">Assembly with specific k-mer value</h3>
-<p><code>spades.py-1 sample1_1.clean.fastq.gz-2 sample1_2.clean.fastq.gz-k 21,33,55,77-o /home/ubuntu/analysis/assembly/sample1_spades_k77--careful-t 4-m 8</code></p>
+<p>~ Divide in groups and run SPAdes on one sample, with different k-mer sizes (<code>21,33,55 or 77)</code></p>
+<p>Replace K-MER in the command below with one of the values <strong>21,33,55 or 77</strong></p>
+<p>General command:</p>
+<p><code>spades.py-1 sample1_1.clean.fastq.gz-2 sample1_2.clean.fastq.gz-k K-MER-o /home/ubuntu/output--careful-t 4-m 8</code></p>
+<p>Eg (this will take around 20 minutes to run!)</p>
+<p><code>cd /home/ubuntu/Data/G18252308/illumina</code></p>
+<p><code>spades -1 ERR4635696_1.fastq.gz -2 ERR4635696_2.fastq.gz -k 21 -o ../../Assembly --careful -t 4 -m 8</code></p>
 <p><strong>K-mer selection guidelines:</strong></p>
 <ul>
 <li><p>Smaller k-mers (21-33): better for low coverage, shorter contigs</p></li>
@@ -218,6 +258,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="unicycler-hybrid-assembly" class="level1">
 <h1>Unicycler Hybrid Assembly</h1>
+<p>(We will not run this in the classroom)</p>
 <section id="hybrid-assembly-short-long-reads" class="level3">
 <h3 class="anchored" data-anchor-id="hybrid-assembly-short-long-reads">Hybrid assembly (short + long reads)</h3>
 <p><code>unicycler-1 sample1_1.clean.fastq.gz-2 sample1_2.clean.fastq.gz-l sample1_nanopore.fastq.gz-o /home/ubuntu/analysis/assembly/sample1_unicycler-t 4</code></p>
@@ -235,7 +276,6 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="view-report" class="level3">
 <h3 class="anchored" data-anchor-id="view-report">View report</h3>
-<p><code>firefox /home/ubuntu/analysis/assembly/quast_comparison/report.html</code></p>
 <p>Key QUAST metrics:</p>
 <p><strong>Number of contigs</strong>: Lower is better (fewer breaks)</p>
 <p><strong>Largest contig</strong>: Should be ~2-3 Mb for chromosome</p>
@@ -243,37 +283,17 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>N50</strong>: Higher is better (longer contigs)</p>
 <p><strong>L50</strong>: Lower is better (fewer contigs contain 50% of assembly)</p>
 </section>
-<section id="busco---check-genome-completeness" class="level3">
-<h3 class="anchored" data-anchor-id="busco---check-genome-completeness">BUSCO - check genome completeness</h3>
-<p><code>busco-i /home/ubuntu/analysis/assembly/sample1_unicycler/assembly.fasta-o sample1_busco-m genome-l bacteria_odb10--cpu 4</code></p>
-<p>BUSCO interpretation:</p>
-<p>Complete: &gt;95% is excellent</p>
-<p>Fragmented: &lt;5% is good</p>
-<p>Missing: &lt;5% is acceptable</p>
-</section>
 <section id="quick-assembly-statistics" class="level3">
 <h3 class="anchored" data-anchor-id="quick-assembly-statistics">Quick Assembly Statistics</h3>
 </section>
 <section id="simple-assembly-stats-script" class="level3">
 <h3 class="anchored" data-anchor-id="simple-assembly-stats-script">Simple assembly stats script</h3>
-<p><code>assembly_stats() { echo "Assembly: $1" echo "Number of contigs:" grep -c "&gt;" $1 echo "Total length:" grep -v "&gt;" $1 | tr -d '\n' | wc -c echo "Largest contig:" grep -v "&gt;" $1 | awk '{print length}' | sort -rn | head -1 }</code></p>
-</section>
-<section id="use-the-function" class="level3">
-<h3 class="anchored" data-anchor-id="use-the-function">Use the function</h3>
-<p><code>assembly_stats /home/ubuntu/analysis/assembly/sample1_spades_auto/scaffolds.fasta</code></p>
-</section>
-</section>
-<section id="visualize-assembly-graph-optional" class="level1">
-<h1>Visualize Assembly Graph (Optional)</h1>
-<section id="view-assembly-graph-in-bandage" class="level3">
-<h3 class="anchored" data-anchor-id="view-assembly-graph-in-bandage">View assembly graph in Bandage</h3>
-<p><code>Bandage load /home/ubuntu/analysis/assembly/sample1_spades_auto/assembly_graph.fastg</code></p>
-<p>Comparing Multiple Assemblies</p>
-<p>Create a comparison table</p>
-<p><code>echo -e "Assembly\tContigs\tTotal_Length\tN50\tLargest_Contig" &gt; assembly_comparison.txt</code></p>
-<p><code>for assembly in /home/ubuntu/analysis/assembly/*/scaffolds.fasta;</code></p>
-<p><code>do name=$(basename $(dirname $assembly))     contigs=$(grep -c "&gt;" $assembly)     total=$(grep -v "&gt;" $assembly | tr -d '\n' | wc -c)     echo -e "$name\t$contigs\t$total\t-\t-" &gt;&gt; assembly_comparison.txt done</code></p>
-<p><code>column -t assembly_comparison.txt</code></p>
+<p><code>cd /home/ubuntu/Data/Assembly/</code></p>
+<p><code>cat assemblystats.sh</code></p>
+<p>Try running this:</p>
+<p><code>bash assemblystats.sh kmer21/contigs.fasta</code></p>
+<p><code>bash assemblystats.sh ENA_assembly/SAMEA5818231.fa</code></p>
+<p><strong><em>Compare your data with your colleagues that chose a different K-mer size</em></strong></p>
 </section>
 <section id="troubleshooting" class="level3">
 <h3 class="anchored" data-anchor-id="troubleshooting">Troubleshooting</h3>

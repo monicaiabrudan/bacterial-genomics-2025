@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -123,8 +157,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Phylogenetics</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../Day3/Comparative-Genomics.html">
- <span class="dropdown-text">Comparative-Genomics</span></a>
+    <a class="dropdown-item" href="../Day3/Genomic_epidemiology.html">
+ <span class="dropdown-text">Genomic Epidemiology for Outbreak Investigation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../Day3/GenEpi_Surveillance.html">
+ <span class="dropdown-text">Genomic Epidemiology for Pathogen Surveillance</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../Assessment/assessment.html">
@@ -194,67 +232,203 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="genome-annotation" class="level1">
 <h1>Genome Annotation</h1>
+<p>There are a number of ways you can generate annotation for a novel sequence. You can manually annotate a sequence by curating the results of bioinformatic analyses of the sequence, but this is time consuming and prone to human bias. If there is a closely related reference sequence and annotation, you can transfer annotation by similarity matching, but this relies on there being a suitable reference. The fastest and most consistant way to generate annotation for novel sequence is to use an automatic annotation software such as <code>prokka</code> (Seemann T. (2014) Prokka: rapid prokaryotic genome annotation. Bioinformatics. 30:2068-9. doi: 10.1093/bioinformatics/btu153) or <code>bakta</code> (Schwengers O et al., (2021). Bakta: rapid and standardized annotation of bacterial genomes via alignment-free sequence identification. Microbial Genomics, 7(11). <a href="https://doi.org/10.1099/mgen.0.000685" class="uri">https://doi.org/10.1099/mgen.0.000685</a>)</p>
+<p>In this example, we are going to use <code>bakta</code> as this is a new tool that generates standardized, taxonomy-independent, high-throughput annotation.</p>
+<section id="genomic-annotation-using-bakta" class="level2">
+<h2 class="anchored" data-anchor-id="genomic-annotation-using-bakta">Genomic annotation using <code>bakta</code></h2>
+<p><code>bakta</code> has been installed using <code>conda</code>. We must activate the relavent conda environment before running any commands using <code>bakta</code>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate bakta-env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>bakta</code> uses a number of databases to annotate a genome. These databases are located in <code>bakta_database/db-light</code>. These have been updated for you.</p>
+<p>Run <code>bakta</code> with the following commands to anotate the ordered assembly for 16B:</p>
+<ul>
+<li>Specify the database directory
+<ul>
+<li><code>--db bakta_database/db-light</code></li>
+</ul></li>
+<li>Specify the multifasta file to be annotated
+<ul>
+<li><code>16B.ordered.fasta</code></li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bakta</span> <span class="at">--db</span> bakta_database/db-light 16B.ordered.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The first step of <code>bakta</code> is to annotate non-protein encoding regions including tRNAs, tmRNA, rRNA, ncRNA. It then predicts protein coding sequences and annotates these from match to proteins with predicted function, and includes annotation of hypothetical proteins with matches to protein domains. Matches to plasmids origins of replication are included where found and provides a summary of the genomic annotation.</p>
+<div class="quarto-figure quarto-figure-center" style="width:70%">
+<figure class="figure">
+<p><img src="images/bakta_output.png" class="img-fluid figure-img"></p>
+<figcaption>bakta_output</figcaption>
+</figure>
+</div>
+<p>You should now see <code>16B.ordered.embl</code> in your directory</p>
+<p>For more information on the annotation generated by <code>bakta</code>, the run options and the output it generates see here: <a href="https://github.com/oschwengers/bakta" class="uri">https://github.com/oschwengers/bakta</a></p>
+<p>We must now deactivate the <code>bakta</code> <code>conda</code> environment.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> deactivate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="visualizing-the-bakta-annotation-in-act" class="level2">
+<h2 class="anchored" data-anchor-id="visualizing-the-bakta-annotation-in-act">Visualizing the <code>bakta</code> annotation in <code>act</code></h2>
+<p><code>bakta</code> has generated a number of output files in different formats that contain the annotation for the 16B ordered assembly. We are going to use the EMBL format file and view it in <code>act</code>.</p>
+<p>In <code>act</code>, open the <code>16B.ordered.embl</code> file into the <code>16B.ordered.fasta</code> entry by going to the <em>File</em> menu, and selecting the <em>16B.ordered.fasta</em> option, and right clicking onto the <em>Read An Entry</em> option.</p>
+<div class="quarto-figure quarto-figure-center" style="width:80%">
+<figure class="figure">
+<p><img src="images/ACT_3_regions_annotated.png" class="img-fluid figure-img"></p>
+<figcaption>ACT_3_regions</figcaption>
+</figure>
+</div>
+<section id="region-1" class="level3">
+<h3 class="anchored" data-anchor-id="region-1">Region 1</h3>
+<div class="quarto-figure quarto-figure-center" style="width:80%">
+<figure class="figure">
+<p><img src="images/ACT_region_1_overview.png" class="img-fluid figure-img"></p>
+<figcaption>ACT_region_1</figcaption>
+</figure>
+</div>
+<p>In this region on the left hand side of the reference chromosome and near the origin of replication, you can see that the first contig spans the origin of replication and therefore matches two separate regions of the reference (left and right ends of the MSSA476 chromosome).</p>
+<div class="quarto-figure quarto-figure-center" style="width:80%">
+<figure class="figure">
+<p><img src="images/ACT_region_1_ori_rep.png" class="img-fluid figure-img"></p>
+<figcaption>ACT_region_1_ori_rep</figcaption>
+</figure>
+</div>
+</section>
+<section id="region-2" class="level3">
+<h3 class="anchored" data-anchor-id="region-2">Region 2</h3>
+<p>In region 2, you can see a prophage in pink which has inserted into the MSSA476 genome which is not present in the genome of 16B. Next the this, there is a gap annotated by <code>bakta</code> on the 16B genome. This is a scaffolding error by <code>abacas</code>.</p>
+<div class="quarto-figure quarto-figure-center" style="width:80%">
+<figure class="figure">
+<p><img src="images/ACT_region_2.png" class="img-fluid figure-img"></p>
+<figcaption>ACT_region_2</figcaption>
+</figure>
+</div>
+</section>
+<section id="region-3" class="level3">
+<h3 class="anchored" data-anchor-id="region-3">Region 3</h3>
+<div class="quarto-figure quarto-figure-center" style="width:80%">
+<figure class="figure">
+<p><img src="images/ACT_region_3.png" class="img-fluid figure-img"></p>
+<figcaption>ACT_region_3</figcaption>
+</figure>
+</div>
+<p>In this region near at the right hand side of the assembly, we have the non-mapping contigs (yellow). Previously we have seen that the two largest contigs are likely to be separate plasmids.</p>
+<p>Have a look at the annotation generated by <code>bakta</code> of the CDSs of the contigs in this region.</p>
+<p><strong>What sort of functions do the proteins in this encode?</strong></p>
+<p><strong>Does the annotation confirm them as plasmids?</strong></p>
+<p><strong>Can you find any genes of interest for antibiotic resistance that <code>ariba</code> identified?</strong></p>
+</section>
+</section>
+</section>
+<section id="examining-the-evolution-of-drug-resistance-in-st1-s.-aureus" class="level1">
+<h1>Examining the evolution of drug resistance in ST1 <em>S. aureus</em></h1>
+<p>Up until now we have compared the 16B assembly to only one other ST1 <em>S. aureus</em> strain, MSSA476. We are now going introduce another strain to the comparison, MW2, and start looking at the genetic differences between the isolates that may impact on their biology. Although MW2 was isolated in a different country (USA), many thousands of miles away from 16B and MSSA476 (both UK), it still belongs to the same clone, and probably share a common ancestor tens rather than hundreds of years ago. A clinically important phenotypic difference between these isolates are their antibiotic resistances:</p>
+<ul>
+<li>16B – penicillin R, fusidic acid R , methicillin R , erythromycin R</li>
+<li>MSSA476 – penicillin R , fusidic acid R</li>
+<li>MW2 – penicillin R , methicillin R</li>
+</ul>
+<p>As you will hopefully have just discovered, it is possible to use genome sequence data to find the genes responsible for antibiotic resistance. Examining the genetic context of these genes helps us to understand the mechanism that are driving the evolution of resistance in these <em>S. aureus</em> isolates. In this next part of the Module you are going use the comparisons with MW2 and MSSA476 to identify regions of difference regions that distinguish the isolates, and explain the differences in the antibiotic resistance phenotypes.</p>
+<p>Before we begin this exercise close down any <code>act</code> session you have open.</p>
+<section id="identify-highly-similar-regions-using-blastn-mw2-vs-16b" class="level2">
+<h2 class="anchored" data-anchor-id="identify-highly-similar-regions-using-blastn-mw2-vs-16b">Identify highly similar regions using <code>blastn</code> (MW2 vs 16B)</h2>
+<p>In order to examine the regions of difference in the 16B assembly with MW2 we are going generate a comparison file that we can load in ACT, as we did previously for MSSA476.</p>
+<p>As before, run <code>makeblastdb</code> to format one of the sequences as a <code>blast</code> database, this time specifying our ordered asssembly as the input:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">makeblastdb</span> <span class="at">-in</span> 16B.ordered.fasta <span class="at">-dbtype</span> nucl <span class="at">-out</span> 16B.ordered</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Next we run <code>blastn</code> with <code>MW2.dna</code> as the query, against the <code>16B.ordered</code> database:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">blastn</span> <span class="at">-query</span> MW2.dna <span class="at">-db</span> 16B.ordered <span class="at">-out</span> 16B.ordered.fasta_vs_MW2.dna.tsv <span class="at">-outfmt</span> 6</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="comparing-annotations-of-16b-vs-mssa476-vs-mw2-in-act" class="level2">
+<h2 class="anchored" data-anchor-id="comparing-annotations-of-16b-vs-mssa476-vs-mw2-in-act">Comparing annotations of 16B vs MSSA476 vs MW2 in <code>act</code></h2>
+<p>We are now going to load up the three sequences and relevant comparison files into <code>act</code>. You can do this either from the command line or by clicking on the ACT icon. If you prefer to do it from the command line you can type:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">act</span> MSSA476.embl MSSA476.dna_vs_16B.ordered.fasta.tsv 16B.ordered.embl 16B.ordered.fasta_vs_MW2.dna.tsv MW2.embl <span class="kw">&amp;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now that you have included the MW2 sequence to the comparison you should see an <code>act</code> view with three DNA panels and two comparison panels separating them. In this zoomed out view, MSSA476 is on the top, 16B is in the middle and MW2 on the bottom. You will also notice that in the <code>act</code> menu at the top there are now three entry options.</p>
+<div class="quarto-figure quarto-figure-center" style="width:80%">
+<figure class="figure">
+<p><img src="images/ACT_3_way_overview.png" class="img-fluid figure-img"></p>
+<figcaption>ACT_3way_1</figcaption>
+</figure>
+</div>
+<p>To help you with your investigations, we have also provided two additional annotation files that contain misc_features which mark the extent of MGEs identified in the MSSA476 and MW2 chromosomes. These can be loaded into the appropriate entry (from the menu click <em>File</em>, the entry you want, then <em>Read An Entry</em>). The misc_features are colour coded in the <code>act</code> view according to the type of MGE (see legend on on the circular diagram of MSSA476).</p>
+<div class="quarto-figure quarto-figure-center" style="width:80%">
+<figure class="figure">
+<p><img src="images/ACT_SCCmec_fusC_mecA.png" class="img-fluid figure-img"></p>
+<figcaption>ACT_3way_2</figcaption>
+</figure>
+</div>
+<p>Go back to region 1, this time looking at the regions of difference between the three genomes. You shouod be able to find some MGEs highlighted in yellow on the MW2 and MSSA476 genomes.</p>
+<p><strong>What sort of functions do the proteins in this region encode?</strong></p>
+<p><strong>Can you find any genes of interest for antibiotic resistance that <code>ariba</code> identified?</strong></p>
+<p><strong>Does this region of MW2 share identity with regions of 16B located elsewhere in the assembly?</strong> Hint: Look at the transversion in the region which shares similarity to an unmapped contig</p>
+<p><strong>What has occurred in this region of the 16B chromosome that could explain the structure of this region in comparison to the other strains?</strong></p>
+<div class="quarto-figure quarto-figure-center" style="width:80%">
+<figure class="figure">
+<p><img src="images/ACT_mecA_16B_vs_MW2.png" class="img-fluid figure-img"></p>
+<figcaption>ACT_mecA_16B_vs_MW2</figcaption>
+</figure>
+</div>
+<p>Compare the other regions containing MGEs.</p>
+<p><strong>How do these regions vary in the three strains, and what do they encode?</strong></p>
+<p><strong>Does this explain the differences in the antibiotics phenotypes of the isolates?</strong></p>
+<p><strong>Can you find any other important genes associated with MGEs that are vary in the isolates that are clinical relevant?</strong> (clue, think toxins)</p>
+</section>
 </section>
 <section id="prokka-annotation" class="level1">
-<h1>1. Prokka Annotation</h1>
+<h1>Prokka Annotation</h1>
 <section id="basic-prokka-run" class="level3">
 <h3 class="anchored" data-anchor-id="basic-prokka-run">Basic Prokka run</h3>
-<p>prokka<br>
-–outdir /home/ubuntu/analysis/annotation/sample1_prokka<br>
-–prefix sample1<br>
-–genus Staphylococcus<br>
-–species aureus<br>
-–strain sample1<br>
-–cpus 4<br>
-/home/ubuntu/analysis/assembly/sample1_unicycler/assembly.fasta</p>
+<p><code>prokka--outdir /home/ubuntu/analysis/annotation/sample1_prokka--prefix sample1--genus Staphylococcus--species aureus--strain sample1--cpus 4/home/ubuntu/analysis/assembly/sample1_unicycler/assembly.fasta</code></p>
 </section>
 <section id="view-summary" class="level3">
 <h3 class="anchored" data-anchor-id="view-summary">View summary</h3>
-<p>cat /home/ubuntu/analysis/annotation/sample1_prokka/sample1.txt</p>
-<p>Prokka outputs: .gff: Annotation in GFF3 format .faa: Protein sequences (amino acids) .ffn: Gene sequences (nucleotides) .gbk: GenBank format .txt: Summary statistics</p>
-<p>#2. Explore Annotation Files ### Count features grep -v “#” sample1.gff | cut -f3 | sort | uniq -c</p>
+<p><code>cat /home/ubuntu/analysis/annotation/sample1_prokka/sample1.txt</code></p>
+<p>Prokka outputs:</p>
+<p><strong>.gff: Annotation in GFF3 format</strong></p>
+<p><strong>.faa Protein sequences (amino acids)</strong></p>
+<p><strong>.ffn Gene sequences (nucleotides)</strong></p>
+<p><strong>.gbk: GenBank format</strong></p>
+<p><strong>.txt: Summary statistics</strong></p>
+</section>
+<section id="explore-annotation-files" class="level3">
+<h3 class="anchored" data-anchor-id="explore-annotation-files">Explore Annotation Files</h3>
+<p>Count features</p>
+<p><code>grep -v "#" sample1.gff | cut -f3 | sort | uniq -c</code></p>
 </section>
 <section id="count-cds" class="level3">
 <h3 class="anchored" data-anchor-id="count-cds">Count CDS</h3>
-<p>grep -c “CDS” sample1.gff</p>
+<p><code>grep -c "CDS" sample1.gff</code></p>
 </section>
 <section id="find-specific-genes-e.g.-beta-lactamase" class="level3">
 <h3 class="anchored" data-anchor-id="find-specific-genes-e.g.-beta-lactamase">Find specific genes (e.g., beta-lactamase)</h3>
-<p>grep -i “beta-lactam” sample1.gff</p>
+<p><code>grep -i "beta-lactam" sample1.gff</code></p>
 </section>
 <section id="extract-all-gene-product-descriptions" class="level3">
 <h3 class="anchored" data-anchor-id="extract-all-gene-product-descriptions">Extract all gene product descriptions</h3>
-<p>grep “product=” sample1.gff | sed ‘s/.<em>product=([^;]</em>).*/\1/’ | sort | uniq -c | sort -rn | head -20</p>
+<p><code>grep "product=" sample1.gff | sed 's/.product=([^;]).*/\1/' | sort | uniq -c | sort -rn | head -20</code></p>
+<section id="run-prokka-for-one-sample" class="level4">
+<h4 class="anchored" data-anchor-id="run-prokka-for-one-sample">Run Prokka for one sample</h4>
+<p><code>cd /home/ubuntu/Data/</code></p>
+<p><code>docker run -v $(pwd):$(pwd) -w $(pwd) staphb/prokka:latest prokka --outdir /home/ubuntu/Data/annotations/G18252308 --prefix G18252308 /home/ubuntu/Data/G18252308/illumina/G18252308_kmer51/contigs.fa</code></p>
+<p>Check if the <em>mecA</em> gene was found in the annotated genome.</p>
+<p><img src="images/grep mecA.png" class="img-fluid"></p>
+</section>
+<section id="how-to-run-prokka-on-all-samples-from-one-folder" class="level4">
+<h4 class="anchored" data-anchor-id="how-to-run-prokka-on-all-samples-from-one-folder">How to run Prokka on all samples from one folder</h4>
+<p>Example script: create the following bash file: <code>/home/ubuntu/Data/PROKKA_run/run_prokka.sh</code></p>
+<p>Add the following lines of code:</p>
+<pre><code>for sample in`ls /home/ubuntu/Data/all_fastas/\*.fasta \| sed 's/.fasta//'\`
+
+do
+
+  echo \$sample
+
+  output=\$(echo $sample | sed -E 's#.*/([^/]+)$#\\1#')
+
+  echo \$output
+
+  docker run -v $(pwd):$(pwd) -w $(pwd) staphb/prokka:latest prokka --outdir /home/ubuntu/Data/annotations/${output} --prefix ${output} /home/ubuntu/Data/all_fastas/${output}.fasta
+
+done </code></pre>
 </section>
 </section>
-<section id="visualize-in-artemis" class="level1">
-<h1>3. Visualize in Artemis</h1>
 </section>
-<section id="launch-artemis-from-terminal" class="level1">
-<h1>Launch Artemis from terminal</h1>
-<p>art /home/ubuntu/analysis/annotation/sample1_prokka/sample1.gbk &amp;</p>
-</section>
-<section id="or-double-click-the-sample1.gbk-file-in-file-browser" class="level1">
-<h1>Or double-click the sample1.gbk file in file browser</h1>
-<p>Artemis tips: View → Overview for whole genome view Right-click genes for details Graph → GC Content to see compositional bias Use “Goto” to jump to specific positions # 4. BLAST Specific Genes # Extract a gene of interest grep “mecA” sample1.gff | cut -f1,4,5</p>
-</section>
-<section id="extract-sequence-and-blast" class="level1">
-<h1>Extract sequence and BLAST</h1>
-</section>
-<section id="coordinates-from-above-e.g.-100000-102000" class="level1">
-<h1>(coordinates from above, e.g., 100000-102000)</h1>
-<p>samtools faidx assembly.fasta contig1:100000-102000 &gt; mecA_gene.fasta</p>
-</section>
-<section id="blast-against-nr-database-if-available" class="level1">
-<h1>BLAST against nr database (if available)</h1>
-<p>blastn -query mecA_gene.fasta -db nt -remote -outfmt 6 | head -5</p>
-</section>
-<section id="or-blast-locally-against-card-database" class="level1">
-<h1>Or BLAST locally against CARD database</h1>
-<p>blastn -query mecA_gene.fasta<br>
--db /home/ubuntu/Reference/CARD/nucleotide<br>
--outfmt “6 qseqid sseqid pident length qcovs evalue bitscore stitle”<br>
--num_threads 4 | head -10</p>
+<section id="section" class="level1">
+<h1></h1>
 
 
 </section>

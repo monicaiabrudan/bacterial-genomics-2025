@@ -17,7 +17,8 @@ website:
           - Day2/Annotation.qmd
           - Day2/AMR-detection.qmd
           - Day3/Phylogenetics.qmd
-          - Day3/Comparative-Genomics.qmd
+          - Day3/Genomic_epidemiology.qmd
+          - Day3/GenEpi_Surveillance.qmd
           - Assessment/assessment.qmd
           - resources.qmd
 

@@ -32,7 +32,7 @@ bakta --db bakta_database/db-light 16B.ordered.fasta
 
 The first step of `bakta` is to annotate non-protein encoding regions including tRNAs, tmRNA, rRNA, ncRNA. It then predicts protein coding sequences and annotates these from match to proteins with predicted function, and includes annotation of hypothetical proteins with matches to protein domains. Matches to plasmids origins of replication are included where found and provides a summary of the genomic annotation.
 
-![bakta_output](images/bakta_output.png){alt="bakta_output" style="width:70%"}
+![bakta_output](images/bakta_output.png){style="width:70%"}
 
 You should now see `16B.ordered.embl` in your directory
 
@@ -50,25 +50,25 @@ conda deactivate
 
 In `act`, open the `16B.ordered.embl` file into the `16B.ordered.fasta` entry by going to the *File* menu, and selecting the *16B.ordered.fasta* option, and right clicking onto the *Read An Entry* option.
 
-![**ACT_3_regions**](images/ACT_3_regions_annotated.png){alt="ACT_3_regions" style="width:80%"}
+![ACT_3_regions](images/ACT_3_regions_annotated.png){style="width:80%"}
 
 ### Region 1
 
-![ACT_region_1](images/ACT_region_1_overview.png){alt="ACT_region_1" style="width:80%"}
+![ACT_region_1](images/ACT_region_1_overview.png){style="width:80%"}
 
 In this region on the left hand side of the reference chromosome and near the origin of replication, you can see that the first contig spans the origin of replication and therefore matches two separate regions of the reference (left and right ends of the MSSA476 chromosome).
 
-![ACT_region_1_ori_rep](images/ACT_region_1_ori_rep.png){alt="ACT_region_1_ori_rep" style="width:80%"}
+![ACT_region_1_ori_rep](images/ACT_region_1_ori_rep.png){style="width:80%"}
 
-### Region 2 
+### Region 2
 
 In region 2, you can see a prophage in pink which has inserted into the MSSA476 genome which is not present in the genome of 16B. Next the this, there is a gap annotated by `bakta` on the 16B genome. This is a scaffolding error by `abacas`.
 
-![ACT_region_2](images/ACT_region_2.png){alt="ACT_region_2" style="width:80%"}
+![ACT_region_2](images/ACT_region_2.png){style="width:80%"}
 
-### Region 3 
+### Region 3
 
-![ACT_region_3](images/ACT_region_3.png){alt="ACT_region_3" style="width:80%"}
+![ACT_region_3](images/ACT_region_3.png){style="width:80%"}
 
 In this region near at the right hand side of the assembly, we have the non-mapping contigs (yellow). Previously we have seen that the two largest contigs are likely to be separate plasmids.
 
@@ -118,11 +118,11 @@ act MSSA476.embl MSSA476.dna_vs_16B.ordered.fasta.tsv 16B.ordered.embl 16B.order
 
 Now that you have included the MW2 sequence to the comparison you should see an `act` view with three DNA panels and two comparison panels separating them. In this zoomed out view, MSSA476 is on the top, 16B is in the middle and MW2 on the bottom. You will also notice that in the `act` menu at the top there are now three entry options.
 
-![ACT_3way_1](images/ACT_3_way_overview.png){alt="ACT_3way_1" style="width:80%"}
+![ACT_3way_1](images/ACT_3_way_overview.png){style="width:80%"}
 
 To help you with your investigations, we have also provided two additional annotation files that contain misc_features which mark the extent of MGEs identified in the MSSA476 and MW2 chromosomes. These can be loaded into the appropriate entry (from the menu click *File*, the entry you want, then *Read An Entry*). The misc_features are colour coded in the `act` view according to the type of MGE (see legend on on the circular diagram of MSSA476).
 
-![ACT_3way_2](images/ACT_SCCmec_fusC_mecA.png){alt="ACT_3way_2" style="width:80%"}
+![ACT_3way_2](images/ACT_SCCmec_fusC_mecA.png){style="width:80%"}
 
 Go back to region 1, this time looking at the regions of difference between the three genomes. You shouod be able to find some MGEs highlighted in yellow on the MW2 and MSSA476 genomes.
 
@@ -134,7 +134,7 @@ Go back to region 1, this time looking at the regions of difference between the 
 
 **What has occurred in this region of the 16B chromosome that could explain the structure of this region in comparison to the other strains?**
 
-![ACT_mecA_16B_vs_MW2](images/ACT_mecA_16B_vs_MW2.png){alt="ACT_mecA_16B_vs_MW2" style="width:80%"}
+![ACT_mecA_16B_vs_MW2](images/ACT_mecA_16B_vs_MW2.png){style="width:80%"}
 
 Compare the other regions containing MGEs.
 

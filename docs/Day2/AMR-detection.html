@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -69,35 +103,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -152,8 +157,12 @@ window.Quarto = {
  <span class="dropdown-text">Phylogenetics</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../Day3/Comparative-Genomics.html">
- <span class="dropdown-text">Comparative-Genomics</span></a>
+    <a class="dropdown-item" href="../Day3/Genomic_epidemiology.html">
+ <span class="dropdown-text">Genomic Epidemiology for Outbreak Investigation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../Day3/GenEpi_Surveillance.html">
+ <span class="dropdown-text">Genomic Epidemiology for Pathogen Surveillance</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../Assessment/assessment.html">
@@ -221,117 +230,210 @@ window.Quarto = {
 </header>
 
 
-<section id="antimicrobial-resistance-detection" class="level1">
-<h1>Antimicrobial Resistance Detection</h1>
-<section id="prepare-ariba-databases" class="level3">
-<h3 class="anchored" data-anchor-id="prepare-ariba-databases">1. Prepare ARIBA Databases</h3>
+<section id="module-overview-and-aims" class="level1">
+<h1>Module Overview and Aims</h1>
+<p><em>Adapted from training materials by Mat Beale, Genome Assembly and Analysis - Costa Rica 2025 course</em></p>
+<p>One of the greatest challenges of sequencing a genome is determining how to arrange sequencing reads into chromosomes and plasmids. This process of determining how the reads fit together by looking for overlaps between them is called genome assembly. In this module, we are going to explore genome assembly using short- and long-read sequencing technologies and see how they can be used to characterize isolates of interest. Additionally, we will annotate these genomes and use comparative genomics to analyze regions of difference and identify genetic determinants of antibiotic resistance.</p>
+<p>Aims of this exercise:</p>
+<ul>
+<li>Use a resistome prediction tool to identify the genetic determinants for antibiotic resistance from sequencing reads.</li>
+<li>Show how short-read data can be assembled into a draft genome.</li>
+<li>Order the draft genome against a reference sequence.</li>
+<li>Annotate the reordered draft genome.</li>
+<li>Demonstrate how comparative genomics can identify and analyse regions of difference that distinguish genomes.</li>
+<li>Identify the genetic basis of resistance and explain the evolution of resistance in the isolates investigated.</li>
+</ul>
+<section id="background" class="level2">
+<h2 class="anchored" data-anchor-id="background">Background</h2>
+<p><em>Staphylococcus aureus</em> is a bacterial pathogen that has gained attention in recent years due to its capacity to evolve into highly virulent and antibiotic-resistant strains. Its prevalence in hospital settings poses a significant burden on healthcare systems worldwide, being the leading cause of hospital-acquired infections. The rise of antibiotic resistance among <em>S. aureus</em> strains, particularly to β-lactam antibiotics like methicillin, has reached alarming levels in regions such as Europe, the US, and Japan, where 40-60% of hospital-acquired <em>S. aureus</em> infections are now methicillin-resistant. The emergence of methicillin-resistant <em>S. aureus</em> (MRSA) dates back to the 1960s, and since then, various successful clones have disseminated globally.</p>
 </section>
-<section id="download-resfinder-database" class="level3">
-<h3 class="anchored" data-anchor-id="download-resfinder-database">Download ResFinder database</h3>
-<p>ariba getref resfinder /home/ubuntu/Reference/ARIBA/resfinder</p>
+<section id="an-outbreak-sample" class="level2">
+<h2 class="anchored" data-anchor-id="an-outbreak-sample">An outbreak sample</h2>
+<p>In this module, we will assemble the genome of a strain of <em>Staphylococcus aureus</em>, , which was sequenced as part of an MRSA outbreak investigation (Köser <em>et al</em>., 2012, N Engl J Med. 366:2267-75). Through multilocus sequence typing (MLST), the isolate was identified as belonging to sequence type 1 (ST1), a lineage of <em>S. aureus</em> more frequently associated with community infections rather than hospital-acquired infections. ST1 strains typically exhibit lower antibiotic resistance compared to those commonly found in hospitals.</p>
 </section>
-<section id="prepare-database-for-ariba" class="level3">
-<h3 class="anchored" data-anchor-id="prepare-database-for-ariba">Prepare database for ARIBA</h3>
-<p>ariba prepareref<br>
--f /home/ubuntu/Reference/ARIBA/resfinder.fa<br>
--m /home/ubuntu/Reference/ARIBA/resfinder.tsv<br>
-/home/ubuntu/Reference/ARIBA/resfinder.prepareref</p>
+<section id="analyses" class="level2">
+<h2 class="anchored" data-anchor-id="analyses">Analyses</h2>
+<p>We will conduct a comprehensive analysis starting with querying the resistome of against a resistance gene database. Additionally, we will perform genome assembly and comparative analysis against the chromosomes of two other ST1 isolates: MSSA476, isolated in the UK (Holden <em>et al</em>., 2004, PNAS. 101:9786-91), and MW2, isolated in the USA (Baba <em>et al</em>., 2002, Lancet 359:1819-27). Both MSSA476 and MW2 have been fully sequenced, annotated, and deposited in EMBL, providing valuable reference genomes for our comparative genomic study.</p>
 </section>
-<section id="download-card-database" class="level3">
-<h3 class="anchored" data-anchor-id="download-card-database">Download CARD database</h3>
-<p>ariba getref card /home/ubuntu/Reference/ARIBA/card</p>
+<section id="the-research-questions" class="level2">
+<h2 class="anchored" data-anchor-id="the-research-questions">The research questions</h2>
+<p>The three ST1 isolates are closely related but exhibit different antibiotic resistance profiles:</p>
+<p>- <strong>16B</strong> is resistant to penicillin, fusidic acid, methicillin and erythromycin</p>
+<p>- <strong>MSSA476</strong> is resistant to penicillin and fusidic acid</p>
+<p>- <strong>MW2</strong> is resistant to penicillin and methicillin.</p>
+<p><strong>Using a comparative genomic approach we will identify regions of difference, the genetic basis of the antibiotic resistance in , and the genetic mechanisms that drive the evolution of resistance.</strong></p>
 </section>
-<section id="prepare-card-database" class="level3">
-<h3 class="anchored" data-anchor-id="prepare-card-database">Prepare CARD database</h3>
-<p>ariba prepareref<br>
--f /home/ubuntu/Reference/ARIBA/card.fa<br>
--m /home/ubuntu/Reference/ARIBA/card.tsv<br>
-/home/ubuntu/Reference/ARIBA/card.prepareref</p>
-</section>
-</section>
-<section id="run-ariba-on-single-sample" class="level1">
-<h1>2. Run ARIBA on Single Sample</h1>
-<section id="run-ariba-with-resfinder" class="level3">
-<h3 class="anchored" data-anchor-id="run-ariba-with-resfinder">Run ARIBA with ResFinder</h3>
-<p>ariba run<br>
-/home/ubuntu/Reference/ARIBA/resfinder.prepareref<br>
-sample1_1.clean.fastq.gz<br>
-sample1_2.clean.fastq.gz<br>
-/home/ubuntu/analysis/amr/sample1_resfinder<br>
-–threads 4</p>
-</section>
-<section id="view-results" class="level3">
-<h3 class="anchored" data-anchor-id="view-results">View results</h3>
-<p>cat /home/ubuntu/analysis/amr/sample1_resfinder/report.tsv | column -t | less -S</p>
-<p>Understanding ARIBA report columns: ref_name: Gene name flag: Quality flags (see below) pc_ident: Percent identity to reference ref_len: Reference gene length ref_base_assembled: Bases of reference assembled known_var: Known variant detected ARIBA flags: 19: Match without issues (good!) 27: Partial match 147: Assembly problems 403: Low coverage</p>
-</section>
-</section>
-<section id="run-ariba-on-multiple-samples" class="level1">
-<h1>3. Run ARIBA on Multiple Samples</h1>
-<section id="create-list-of-samples" class="level3">
-<h3 class="anchored" data-anchor-id="create-list-of-samples">Create list of samples</h3>
-<p>ls /home/ubuntu/Data/samples/*_1.clean.fastq.gz | sed ‘s/_1.clean.fastq.gz//’ &gt; sample_list.txt</p>
-</section>
-<section id="loop-through-samples" class="level3">
-<h3 class="anchored" data-anchor-id="loop-through-samples">Loop through samples</h3>
-<p>while read sample; do sample_name=$(basename $sample) ariba run<br>
-/home/ubuntu/Reference/ARIBA/resfinder.prepareref<br>
-${sample}_1.clean.fastq.gz<br>
-<span class="math inline">\({sample}_2.clean.fastq.gz \
-    /home/ubuntu/analysis/amr/\)</span>{sample_name}_resfinder<br>
-–threads 4 done &lt; sample_list.txt</p>
+<section id="finding-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="finding-the-data">Finding the data</h2>
+<p>The directory contains:</p>
+<ul>
+<li>Three pairs of sequencing reads :
+<ul>
+<li><code>16B_1.fastq</code>, <code>16B_2.fastq</code></li>
+<li><code>MSSA476_1.fastq</code>, <code>MSSA476_2.fastq</code></li>
+<li><code>MW2_1.fastq</code>, <code>MW2_2.fastq</code></li>
+</ul></li>
+<li>fasta format files for the chromosomes of MW2 and MSSA476 (<code>MW2.dna</code> and <code>MSSA476.dna</code>)</li>
+<li>EMBL format files of the annotation of the chromosomes of MW2 and MSSA476 (<code>MW2.embl</code> and <code>MSSA476.embl</code>)</li>
+<li>EMBL format files of mobile genetic elements of the chromosomes of MW2 and MSSA476 (<code>MW2_MGEs.tab</code> and <code>MSSA476_MGEs.tab</code>)</li>
+<li>A directory <code>bakta_database</code>, containing an annotation database</li>
+</ul>
 </section>
 </section>
-<section id="summarize-ariba-results" class="level1">
-<h1>4. Summarize ARIBA Results</h1>
-<section id="create-summary-across-all-samples" class="level3">
-<h3 class="anchored" data-anchor-id="create-summary-across-all-samples">Create summary across all samples</h3>
-<p>ariba summary<br>
-/home/ubuntu/analysis/amr/summary_resfinder<br>
-/home/ubuntu/analysis/amr/*/report.tsv</p>
+<section id="examining-the-resistome" class="level1">
+<h1>Examining the resistome</h1>
+<section id="using-the-genome-to-predict-antibiotic-resistance-phenotype" class="level2">
+<h2 class="anchored" data-anchor-id="using-the-genome-to-predict-antibiotic-resistance-phenotype">Using the genome to predict antibiotic resistance phenotype</h2>
+<p>One of the benefits of whole genome sequencing bacterial pathogens is that you capture the genomic inventory of the organism. This has been capitalized on in clinical microbiology for the <em>in silico</em> prediction of antibiotic resistance directly from whole genome sequencing data. This is being developed as an alternative to phenotypic sensitivity testing of microorganisms in the laboratory, where microorganisms are routinely sequenced.</p>
+<p>For many microorganisms the genetic basis of antibiotic resistance has been extensively studied. This means that the genes responsible for resistance have been identified and sequenced, and can be used to compile a database of resistance determinants and used to query an organism’s genome and define its resistome. Based on the presence or absence of genes or mutations it is possible to make a prediction of the antibiotic sensitives of an organism. For some species of bacteria this works better than others. For example, <em>S. aureus</em> the correlation between the genotype and phenotype for most commonly used antibiotics is above 99%. However, for other organisms, such as members of the <em>Enterobacteriaceae</em>, the concordance is a lot lower, as these organisms have a more extensive array of resistance mechanisms and determinants.</p>
+<p>A recent review from a EUCAST subcommittee summarized the current development status of whole genome sequencing for bacterial antimicrobial susceptibility testing (AST) for a range or organisms: Ellington MJ, <em>et al</em>., (2017) The role of whole genome sequencing in antimicrobial susceptibility testing of bacteria: report from the EUCAST Subcommittee. Clin Microbiol Infect. 23:2-22. PubMed PMID: 27890457.</p>
 </section>
-<section id="view-summary" class="level3">
-<h3 class="anchored" data-anchor-id="view-summary">View summary</h3>
-<p>cat /home/ubuntu/analysis/amr/summary_resfinder.csv | column -t -s’,’ | less -S</p>
-<p>Output files: summary_resfinder.csv: Presence/absence matrix summary_resfinder.phandango.csv: Formatted for Phandango summary_resfinder.phandango.tre: Simple tree for Phandango # 5. Visualize in Phandango ### Open Phandango in browser firefox https://phandango.net/</p>
+<section id="resistance-phenotype-of-16b-mw2-and-mssa476" class="level2">
+<h2 class="anchored" data-anchor-id="resistance-phenotype-of-16b-mw2-and-mssa476">Resistance phenotype of 16B, MW2 and MSSA476</h2>
+<p>From the phenotypic data you have been given you know that 16B exhibits resistance to penicillin, fusidic acid, methicillin and erythromycin, however you do not know what genes are responsible for this in this isolate. In the first part of this exercise you are going to use a piece of software, <code>ariba</code>, and a publicly available curated antibiotic resistance gene database from ResFinder, to rapidly predict the resistome of 16B from the Illumina sequence reads. You will also do this for this other ST1 <em>S. aureus</em> isolates MW2 and MSSA476, and correlate the phenotypic metadata with the genetic information.</p>
 </section>
-<section id="drag-and-drop-these-files" class="level3">
-<h3 class="anchored" data-anchor-id="drag-and-drop-these-files">Drag and drop these files:</h3>
-<ol type="1">
-<li>summary_resfinder.phandango.tre</li>
-<li>summary_resfinder.phandango.csv</li>
-</ol>
-<p>Phandango interpretation: Tree shows relationships between samples Colored cells show AMR gene presence Darker colors = higher confidence matches White = gene absent</p>
+<section id="determining-the-antibiotic-resistance-genotype" class="level2">
+<h2 class="anchored" data-anchor-id="determining-the-antibiotic-resistance-genotype">Determining the antibiotic resistance genotype</h2>
+<p><code>ariba</code> (Antimicrobial Resistance Identifier by Assembly) is a freely available tool <a href="https://github.com/sanger-pathogens/ariba">on GitHub</a>. This tool requires a FASTA input of reference sequences, which can be either a multi-FASTA file or a database of antibiotic resistance genes or non-coding sequences. The database serves as one of your inputs, while the other input is paired sequence reads. <code>ariba</code> reports which of the reference sequences were found and provides detailed information on the quality of the assemblies and any variants between the sequencing reads and the reference sequences.</p>
+<p><code>ResFinder</code> is a web resource for the prediction of antibiotic resistance (available at <a href="https://www.genomicepidemiology.org">www.genomicepidemiology.org</a>). It utilises a curated database of over 2100 acquired antibiotic resistance determinants (Zankari E, et al., 2012. “Identification of acquired antimicrobial resistance genes.” J Antimicrob Chemother. 67:2640-4).</p>
+<p><code>ariba</code> is installed on the virtual machine. You will use it to download the <code>ResFinder</code> database locally and then use <code>ariba</code> to examine the resistome of your isolates. Further information about <code>ariba</code> can be found in the <a href="https://github.com/sanger-pathogens/ariba/wiki">ariba wiki</a> (Hunt M, et al., 2017. “ariba: rapid antimicrobial resistance genotyping directly from sequencing reads.” Microb Genom. 3:e000131).</p>
+<p>The results can then be visualised using <a href="http://jameshadfield.github.io/phandango/">Phandango</a>, an interactive web tool for viewing your outputs.</p>
 </section>
+<section id="download-the-resfinder-database" class="level2">
+<h2 class="anchored" data-anchor-id="download-the-resfinder-database">Download the <code>ResFinder</code> database</h2>
+<p>To download the database you use the <code>ariba</code> <code>getref</code> command.</p>
+<p>In the command below we:</p>
+<ul>
+<li>Specify the database to download
+<ul>
+<li><code>resfinder</code></li>
+</ul></li>
+<li>Specify the output name prefix
+<ul>
+<li><code>out.resfinder</code></li>
+</ul></li>
+</ul>
+<p><code>ariba</code> has been installed using <code>conda</code>. We must activate the relavent conda environment before running any commands using <code>ariba</code>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate ariba-env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now we can run <code>ariba</code></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ariba</span> getref resfinder out.resfinder</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Alternative database options that can be used are: <em>card, plasmidfinder, resfinder, vfdb_core, vfdb_full.</em></p>
+<p>Next you need to format the reference database using the <code>ariba</code> <code>prepareref</code> command.</p>
+<p>In the command below we:</p>
+<ul>
+<li>Specify the file of resistance genes in fasta format
+<ul>
+<li><code>–f out.resfinder.fa</code></li>
+</ul></li>
+<li>Specify the metadata file for the resistance genes
+<ul>
+<li><code>–m out.resfinder.tsv</code></li>
+</ul></li>
+<li>Specify directory that will contained the prepared database files for running <code>ariba</code>
+<ul>
+<li><code>out.resfinder.prepareref</code></li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ariba</span> prepareref <span class="at">-f</span> out.resfinder.fa <span class="at">-m</span> out.resfinder.tsv out.resfinder.prepareref </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This command may generate warnings indicating sequences or variants were removed from the database upon formatting. Despite the warnings, the command has ran successfully and you may proceed on to the next step.</p>
 </section>
-<section id="alternative-amrfinderplus" class="level1">
-<h1>6. Alternative: AMRFinderPlus</h1>
-<section id="run-amrfinderplus-on-protein-sequences" class="level3">
-<h3 class="anchored" data-anchor-id="run-amrfinderplus-on-protein-sequences">Run AMRFinderPlus on protein sequences</h3>
-<p>amrfinder<br>
-–protein /home/ubuntu/analysis/annotation/sample1_prokka/sample1.faa<br>
-–organism Staphylococcus_aureus<br>
-–plus<br>
-–output /home/ubuntu/analysis/amr/sample1_amrfinder.txt<br>
-–threads 4</p>
+<section id="run-ariba-on-16b" class="level2">
+<h2 class="anchored" data-anchor-id="run-ariba-on-16b">Run <code>ariba</code> on 16B</h2>
+<p>Next using the 16B fastq files run local assemblies and call variants using the <code>ariba</code> <code>run</code> command. As the command is running, identified variants will be printed to screen.</p>
+<ul>
+<li>Specify the directory containing the ResFinder database files
+<ul>
+<li><code>out.resfinder.prepareref</code></li>
+</ul></li>
+<li>Specify the 16B forward and reverse fastq files
+<ul>
+<li><code>16B_1.fastq 16B_2.fastq</code></li>
+</ul></li>
+<li>Specify the the directory containing the results
+<ul>
+<li><code>16B_out.run</code></li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ariba</span> run out.resfinder.prepareref 16B_1.fastq 16B_2.fastq 16B_out.run</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="view-results-1" class="level3">
-<h3 class="anchored" data-anchor-id="view-results-1">View results</h3>
-<p>cat /home/ubuntu/analysis/amr/sample1_amrfinder.txt | column -t | less -S</p>
+<section id="run-ariba-on-mw2" class="level2">
+<h2 class="anchored" data-anchor-id="run-ariba-on-mw2">Run <code>ariba</code> on MW2</h2>
+<p>Repeat the <code>ariba</code> run on the MW2 fastq files.</p>
+<ul>
+<li>Specify the directory containing the ResFinder database files
+<ul>
+<li><code>out.resfinder.prepareref</code></li>
+</ul></li>
+<li>Specify the MW2 forward and reverse fastq files
+<ul>
+<li><code>MW2_1.fastq MW2_2.fastq</code></li>
+</ul></li>
+<li>Specify the the directory containing the results
+<ul>
+<li><code>MW2_out.run</code></li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ariba</span> run out.resfinder.prepareref MW2_1.fastq MW2_2.fastq MW2_out.run</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="clinical-interpretation-exercise" class="level3">
-<h3 class="anchored" data-anchor-id="clinical-interpretation-exercise">Clinical Interpretation Exercise</h3>
+<section id="run-ariba-on-mssa476" class="level2">
+<h2 class="anchored" data-anchor-id="run-ariba-on-mssa476">Run <code>ariba</code> on MSSA476</h2>
+<p>Repeat the <code>ariba</code> run on the MSSA476 fastq files.</p>
+<ul>
+<li>Specify the directory containing the ResFinder database files
+<ul>
+<li><code>out.resfinder.prepareref</code></li>
+</ul></li>
+<li>Specify the MSSA476 forward and reverse fastq files
+<ul>
+<li><code>MSSA476_1.fastq MSSA476_2.fastq</code></li>
+</ul></li>
+<li>Specify the the directory containing the results
+<ul>
+<li><code>MSSA476_out.run</code></li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ariba</span> run out.resfinder.prepareref MSSA476_1.fastq MSSA476_2.fastq MSSA476_out.run</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="create-simple-amr-profile-summary" class="level3">
-<h3 class="anchored" data-anchor-id="create-simple-amr-profile-summary">Create simple AMR profile summary</h3>
-<p>echo “Sample,Beta-lactam,Aminoglycoside,Fluoroquinolone,MRSA” &gt; amr_profile.csv</p>
-<p>for dir in /home/ubuntu/analysis/amr/*_resfinder; do sample=$(basename $dir | sed ‘s/_resfinder//’)</p>
-<p># Check for specific resistance genes beta=$(grep -c “bla” <span class="math inline">\(dir/report.tsv || echo 0)
-  amino=\)</span>(grep -c “aac|aph|ant” <span class="math inline">\(dir/report.tsv || echo 0)
-  fluoro=\)</span>(grep -c “gyr|par” <span class="math inline">\(dir/report.tsv || echo 0)
-  mrsa=\)</span>(grep -c “mecA” $dir/report.tsv || echo 0)</p>
-<p>echo “<span class="math inline">\(sample,\)</span>beta,<span class="math inline">\(amino,\)</span>fluoro,$mrsa” &gt;&gt; amr_profile.csv done</p>
-<p>column -t -s’,’ amr_profile.csv</p>
+<section id="compile-the-ariba-results" class="level2">
+<h2 class="anchored" data-anchor-id="compile-the-ariba-results">Compile the <code>ariba</code> results</h2>
+<p>Next you need to compile the <code>ariba</code> results from the three isolates using the the <code>ariba</code> <code>summary</code> command.</p>
+<ul>
+<li>Specify the prefix for the output files
+<ul>
+<li><code>out.summary</code></li>
+</ul></li>
+<li>Specify the report files made by the separate runs of <code>ariba</code> for each isolate
+<ul>
+<li><code>16B_out.run/report.tsv MW2_out.run/report.tsv MSSA476_out.run/report.tsv</code></li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ariba</span> summary out.summary 16B_out.run/report.tsv MW2_out.run/report.tsv MSSA476_out.run/report.tsv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We must now deactivate the <code>ariba</code> <code>conda</code> environment. Failure to deactivate the environment will prevent usage of downstream tools.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> deactivate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="visualize-in-phandango" class="level2">
+<h2 class="anchored" data-anchor-id="visualize-in-phandango">Visualize in Phandango</h2>
+<p>The <code>ariba</code> summary command generates three files. You can see these in your directory with the <code>ls -l</code> command:</p>
+<ul>
+<li><code>out.summary.csv</code> - summary of identifying genes and matches in the isolates</li>
+<li><code>out.summary.phandango.csv</code> - a version of summary file for viewing in Phandango</li>
+<li><code>out.summary.phandango.tre</code> - tree based on matches in the out.summary.csv file</li>
+</ul>
+<p>To visualize the results open up the Firefox web browser, and type in the URL: <a href="https://jameshadfield.github.io/phandango/" class="uri">https://jameshadfield.github.io/phandango/</a></p>
+<p>From a file view window drag and drop the two <code>phandango</code> files, <code>out.summary.phandango.tre</code> and <code>out.summary.phandango.csv</code>, into the browser window.</p>
+<p><img src="images/Phandango_input.png" class="img-fluid"></p>
+<p><img src="images/Phandango_output.png" class="img-fluid"></p>
+<p>In the browser window the tree is displayed on the left and represents relationships of the isolates based on the shared resistance determinants displayed in the right-hand panel, where the column indicate genes, and the green blocks indicate matches. The pink blocks indicate that the isolates are negative for those genes.</p>
+<p><strong>What are the genes identified, and which antibiotics do they encode resistance for?</strong> To help you understand what what genes ResFinder is using for different antibiotics you can explore here: <a href="https://cge.food.dtu.dk/services/ResFinder/gene_overview.php" class="uri">https://cge.food.dtu.dk/services/ResFinder/gene_overview.php</a></p>
+<p><strong>How do the resistomes predicted for each isolate compare with the phenotypic data?</strong> You can find the resistance phenotypes here: <a href="#the-research-questions">Resistance phenotype of 16B, MW2 and MSSA476</a></p>
+<p>Phandango interpretation:</p>
+<ul>
+<li><p>Tree shows relationships between samples</p></li>
+<li><p>Colored cells show AMR gene presence</p></li>
+<li><p>Darker colors = higher confidence matches</p></li>
+<li><p>White = gene absent</p></li>
+<li><p>Alternative: AMRFinderPlus</p></li>
+</ul>
 
 
 </section>

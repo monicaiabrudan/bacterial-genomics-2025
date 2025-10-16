@@ -24,7 +24,7 @@ Aims of this exercise:
 
 ## An outbreak sample
 
-In this module, we will assemble the genome of a strain of *Staphylococcus aureus*, , which was sequenced as part of an MRSA outbreak investigation (Köser *et al*., 2012, N Engl J Med. 366:2267-75). Through multi locus sequence typing (MLST), the isolate was identified as belonging to sequence type 1 (ST1), a lineage of *S. aureus* more frequently associated with community infections rather than hospital-acquired infections. ST1 strains typically exhibit lower antibiotic resistance compared to those commonly found in hospitals.
+In this module, we will assemble the genome of a strain of *Staphylococcus aureus*, , which was sequenced as part of an MRSA outbreak investigation (Köser *et al*., 2012, N Engl J Med. 366:2267-75). Through multilocus sequence typing (MLST), the isolate was identified as belonging to sequence type 1 (ST1), a lineage of *S. aureus* more frequently associated with community infections rather than hospital-acquired infections. ST1 strains typically exhibit lower antibiotic resistance compared to those commonly found in hospitals.
 
 ## Analyses
 
@@ -32,7 +32,13 @@ We will conduct a comprehensive analysis starting with querying the resistome of
 
 ## The research questions {#the-research-questions}
 
-The three ST1 isolates are closely related but exhibit different antibiotic resistance profiles: - is resistant to penicillin, fusidic acid, methicillin and erythromycin - MSSA476 is resistant to penicillin and fusidic acid - MW2 is resistant to penicillin and methicillin.
+The three ST1 isolates are closely related but exhibit different antibiotic resistance profiles:
+
+\- **16B** is resistant to penicillin, fusidic acid, methicillin and erythromycin
+
+\- **MSSA476** is resistant to penicillin and fusidic acid
+
+\- **MW2** is resistant to penicillin and methicillin.
 
 **Using a comparative genomic approach we will identify regions of difference, the genetic basis of the antibiotic resistance in , and the genetic mechanisms that drive the evolution of resistance.**
 
@@ -47,12 +53,11 @@ The directory contains:
 -   fasta format files for the chromosomes of MW2 and MSSA476 (`MW2.dna` and `MSSA476.dna`)
 -   EMBL format files of the annotation of the chromosomes of MW2 and MSSA476 (`MW2.embl` and `MSSA476.embl`)
 -   EMBL format files of mobile genetic elements of the chromosomes of MW2 and MSSA476 (`MW2_MGEs.tab` and `MSSA476_MGEs.tab`)
--   A directory `Extra_files`, containing the pdf files of the Köser *et al*., Holden *et al*., and Baba *et al*. manuscripts if you want to find out a bit more about the genomes and origins of the isolates
 -   A directory `bakta_database`, containing an annotation database
 
 # Examining the resistome
 
-## Using the genome to predict antibiotic resistance phenotype 
+## Using the genome to predict antibiotic resistance phenotype
 
 One of the benefits of whole genome sequencing bacterial pathogens is that you capture the genomic inventory of the organism. This has been capitalized on in clinical microbiology for the *in silico* prediction of antibiotic resistance directly from whole genome sequencing data. This is being developed as an alternative to phenotypic sensitivity testing of microorganisms in the laboratory, where microorganisms are routinely sequenced.
 
@@ -70,7 +75,7 @@ From the phenotypic data you have been given you know that 16B exhibits resistan
 
 `ResFinder` is a web resource for the prediction of antibiotic resistance (available at [www.genomicepidemiology.org](https://www.genomicepidemiology.org)). It utilises a curated database of over 2100 acquired antibiotic resistance determinants (Zankari E, et al., 2012. "Identification of acquired antimicrobial resistance genes." J Antimicrob Chemother. 67:2640-4).
 
-We have installed `ariba` on the virtual machine. You will use it to download the `ResFinder` database locally and then use `ariba` to examine the resistome of your isolates. Further information about `ariba` can be found in the [ariba wiki](https://github.com/sanger-pathogens/ariba/wiki) (Hunt M, et al., 2017. "ariba: rapid antimicrobial resistance genotyping directly from sequencing reads." Microb Genom. 3:e000131).
+`ariba` is installed on the virtual machine. You will use it to download the `ResFinder` database locally and then use `ariba` to examine the resistome of your isolates. Further information about `ariba` can be found in the [ariba wiki](https://github.com/sanger-pathogens/ariba/wiki) (Hunt M, et al., 2017. "ariba: rapid antimicrobial resistance genotyping directly from sequencing reads." Microb Genom. 3:e000131).
 
 The results can then be visualised using [Phandango](http://jameshadfield.github.io/phandango/), an interactive web tool for viewing your outputs.
 
@@ -192,6 +197,10 @@ To visualize the results open up the Firefox web browser, and type in the URL: <
 
 From a file view window drag and drop the two `phandango` files, `out.summary.phandango.tre` and `out.summary.phandango.csv`, into the browser window.
 
+![](images/Phandango_input.png)
+
+![](images/Phandango_output.png)
+
 In the browser window the tree is displayed on the left and represents relationships of the isolates based on the shared resistance determinants displayed in the right-hand panel, where the column indicate genes, and the green blocks indicate matches. The pink blocks indicate that the isolates are negative for those genes.
 
 **What are the genes identified, and which antibiotics do they encode resistance for?** To help you understand what what genes ResFinder is using for different antibiotics you can explore here: <https://cge.food.dtu.dk/services/ResFinder/gene_overview.php>
@@ -209,11 +218,3 @@ Phandango interpretation:
 -   White = gene absent
 
 -   Alternative: AMRFinderPlus
-
-### Run AMRFinderPlus on nucleotide sequences
-
-`amrfinder--protein /home/ubuntu/analysis/annotation/sample1_prokka/sample1.faa--organism Staphylococcus_aureus--plus--output /home/ubuntu/analysis/amr/sample1_amrfinder.txt--threads 4`
-
-### View results
-
-`cat /home/ubuntu/analysis/amr/sample1_amrfinder.txt | column -t | less -S`
