@@ -7,7 +7,17 @@ format: html
 
 # Module Overview and Aims
 
-When we sequence a genome, we aim to capture information about: \* Single Nucleotide Polymorphisms (SNPs) \* Insertions and Deletions (INDELs) \* Copy Number Variations (CNVs) \* Structural rearrangements \* Gene gain and loss (i.e. the pangenome)
+When we sequence a genome, we aim to capture information about:
+
+\* Single Nucleotide Polymorphisms (SNPs)
+
+\* Insertions and Deletions (INDELs)
+
+\* Copy Number Variations (CNVs)
+
+\* Structural rearrangements
+
+\* Gene gain and loss (i.e. the pangenome)
 
 There are two main approaches used for reconstructing bacterial genomes for population analyses.
 
@@ -176,8 +186,7 @@ You can examine the log file to see exactly what `snippy` has done
 less new-sample-1/snps.log
 ```
 
-
-### Examine `snippy` logs 
+### Examine `snippy` logs
 
 We’ll use `grep` to retrieve the relevant lines for each command from the log file.
 
@@ -221,8 +230,11 @@ grep "bcftools consensus" new-sample-1/snps.log
 
 ![snippy.run1.grep5](images/snippy-bcftools-consensus__2024.png)
 
-`Snippy` creates two versions of the pseudosequence consensus: - `snps.consensus.fa` contains all high quality variants - `snps.consensus.subs.fa` contains only high quality SNPs (no INDELS)
+`Snippy` creates two versions of the pseudosequence consensus:
 
+\- `snps.consensus.fa` contains all high quality variants
+
+\- `snps.consensus.subs.fa` contains only high quality SNPs (no INDELS)
 
 ### Examine `snippy` outputs
 
@@ -268,7 +280,6 @@ head new-sample-1/snps.consensus.fa
 
 ![snippy.run1.consensus.fa](images/snippy-consensus.fasta.1__2024.png)
 
-
 ## Map a second genome to reference
 
 We now need to map the second genome (`new-sample-2`) to our reference
@@ -276,7 +287,6 @@ We now need to map the second genome (`new-sample-2`) to our reference
 Adapt the code examples provided above to run `snippy` on the second set of `fastq` files
 
 Examine the results of snippy for `new-sample-2` using `grep`, `ls` and `less`
-
 
 ## Use an existing assembly as input to snippy {#use-an-existing-assembly-as-input-to-snippy}
 
@@ -289,26 +299,6 @@ We are going to integrate assemblies from a genome called "CTMA_1441" into our m
 -   Hybrid assembly from long reads (Dragonflye), followed by short read polishing
 
 Note that we will explore the differences between these assembly methods more in a later module.
-
-
-### Locate existing assemblies
-
-The reads are hosted in the course GitHub repository. If that has been updated on your local VM, the files should be available to access. Let's check:
-
-```         
-ls -lh ~/github_repository/course_data_2025/mapping_and_phylo/
-```
-
-![github.repo.ls](images/github.repo.ls__2024.png)
-
-If the files are missing, check with the instructors.
-
-
-Assuming they are available, we can copy the assemblies to our current working directory to make things easier:
-
-```         
-cp ~/github_repository/course_data_2025/mapping_and_phylo/CTMA_1441.* .
-```
 
 ### Map an existing short-read assembly {#map-an-existing-short-read-assembly}
 
@@ -330,29 +320,11 @@ Examine the results of snippy for each assembly using `grep`, `ls` and `less`.
 
 What do you notice about the number of variable sites (reported at the end of the snippy run) identified with the different assemblies?
 
-<br>
-
 ## Contextualise new genomes with a collection {#contextualise-new-genomes-with-a-collection}
 
 Now lets look at this new genome in context with a collection.
 
 We can add this genome to a collection of genomes mapped using `snippy-core`.
-
-For this exercise, we will again retrieve our data from the github folder:
-
-```         
-cp ~/github_repository/course_data_2025/mapping_and_phylo/old.snippy.runs_2025.tar.gz .
-```
-
-Check the files are there:
-
-```         
-ls -lh
-```
-
-![snippy-context.copy-git.ls](images/snippy-context.copy-git.ls__2024.png)
-
-(Note that there is an existing file in our directory called \`old.snippy.runs.2023.tar.gz - we will not be using this).
 
 First, let’s extract the old `snippy` runs from our archive file
 
@@ -373,7 +345,6 @@ ls -lh old.snippy.runs_2024
 ```
 
 ![snippy-context.tar.ls2](images/untar.old-snippy-files.ls2__2024.png)
-
 
 Now lets use `snippy-core` to summarise all these genomes along with the new ones and create a multiple sequence alignment
 
@@ -415,11 +386,9 @@ snippy-clean_full_aln core.full.aln > clean.full.aln
 
 ![snippy-core.run5](images/snippy-core_clean.aln__2024.png)
 
-
 ## Phylogenetics
 
 Now that we have a clean multiple sequence alignment, we are now going to use `IQ-TREE` to build a maximum likelihood phylogeny.
-
 
 ### Make a SNP-only alignment using `snp-sites`
 
@@ -448,20 +417,26 @@ We can also use snp-sites to find out how many invariant sites were removed (and
 We can look at the options for `IQ-TREE` below
 
 ```         
-iqtree -h
+iqtree2 -h
 ```
 
 ![iqtree.1](images/iqtree-help__2024.png)
 
+In the command below, we:
 
-In the command below, we: - specify the multiple sequence alignment using `-s clean.full.SNPs.aln` - ask `IQ-TREE` to take account of missing invariant sites using `-fconst $(snp-sites -C clean.full.aln)` - specify an evolutionary model we want `IQ-TREE` to use `-m GTR+F+I` - tell `IQ-TREE` to use a maximum of 2 CPUs (threads) and 2GB memory `-T 2 -mem 2G` - perform 1000 ultrafast bootstraps `-B 1000` - use sample `M66` as an outgroup `-o M66`
+\- specify the multiple sequence alignment using `-s clean.full.SNPs.aln`
+
+\- ask `IQ-TREE` to take account of missing invariant sites using `-fconst $(snp-sites -C clean.full.aln)` - specify an evolutionary model we want `IQ-TREE` to use `-m GTR+F+I`
+
+\- tell `IQ-TREE` to use a maximum of 2 CPUs (threads) and 2GB memory `-T 2 -mem 2G` - perform 1000 ultrafast bootstraps `-B 1000`
+
+\- use sample `M66` as an outgroup `-o M66`
 
 ```         
-iqtree -s clean.full.SNPs.aln -fconst $( snp-sites -C clean.full.aln ) -m GTR+F+I -T 2 -mem 2G -B 1000 -o M66
+iqtree2 -s clean.full.SNPs.aln -fconst $( snp-sites -C clean.full.aln ) -m GTR+F+I -T 2 -mem 2G -B 1000 -o M66
 ```
 
 ![iqtree.2](images/iqtree-run.1__2024.png)
-
 
 Look at folder
 
@@ -471,13 +446,11 @@ ls -lh clean.full.*
 
 ![iqtree.3](images/iqtree_-ls-after__2024.png)
 
-
 Our maximum likelihood tree is labelled `clean.full.SNPs.aln.treefile`. The `treefile` suffix is not always correctly identified by many tools, so we'll relabel this as something else:
 
 ```         
 cp clean.full.SNPs.aln.treefile clean.full.SNPs.aln.tre
 ```
-
 
 ### Visualise a phylogenetic tree
 
@@ -499,8 +472,6 @@ figtree clean.full.SNPs.aln.tre &
 
 (Note: Remember to include the `&` symbol at the end - this allows figtree to run in the background, and allows you to still use the command prompt)
 
-<br>
-
 ![figtree.1](images/figtree_launch__2024.png)
 
 Ignore the java error messages. The popup box is asking you how to describe the 'bootstrap values'. You can click 'OK' here.
@@ -510,10 +481,12 @@ You should now have a visualisation of the tree we just generated
 ![figtree.2](images/figtree_initial.tree__2024.png)
 
 Examine the tree:
-- How are `new-sample-1` and `new-sample-2` related to each other? 
-- What do you notice about the different versions of the assembled genomes `CTMA_1441`?
-- What does this tell you about the different assembly methods?
 
+\- How are `new-sample-1` and `new-sample-2` related to each other?
+
+\- What do you notice about the different versions of the assembled genomes `CTMA_1441`?
+
+\- What does this tell you about the different assembly methods?
 
 ## Adjusting a dataset to remove a poor quality genome
 
@@ -535,9 +508,7 @@ And now build a new phylogeny:
 
 -   Rename the final treefile to `clean2.full.SNPs.aln.tre`
 
-
 You can recheck the tree using `figtree`.
-
 
 ## Tree Visualisation using Microreact
 
@@ -545,148 +516,14 @@ We can also visualise our tree using a webtool called `Microreact`
 
 -   Open Firefox and navigate to https://microreact.org/
 -   Click 'upload'
-
-![microreact.1]images/(Microreact-front-page.png)
-
-
-
 -   Select the file upload, or drag the tree file `clean2.full.SNPs.aln.tre` onto the upload screen
 
 ![microreact.2](images/Microreact-upload.png)
-
 
 Microreact may not recognise the file, so let's tell micoreact this this is a tree in `newick` format. Note that we can also use this screen to add metadata in `csv` format.
 
 ![microreact.3](images/microreact-specify-file-type.png)
 
-
 Click `continue` to view the tree
 
 ![microreact.4](images/microreact-my-first-tree__2025.png)
-
-
-## Accounting for recombination with `gubbins` {#accounting-for-recombination-with-gubbins}
-
-We can use `gubbins` to infer recombining sites by looking for increased SNP density that occurs in specific ancestral nodes
-
-`gubbins` has been installed using `conda`. We must activate the relavent conda environment before running any commands using `gubbins`.
-
-
-``` bash
-conda activate gubbins-env
-```
-
-Now we can run `gubbins`
-
-```         
-run_gubbins.py -h
-```
-
-![gubbins.1](images/gubbins-help__2024.png)
-
-
-The following command runs `gubbins` on standard settings, with 4 CPUs.
-
-Note: the `-c` option tells the program to use 4 CPUs. Note: the `-p` option tells the program to name all files with the prefix `gubbins` This command can take a few minutes to run.
-
-```         
-run_gubbins.py -c 4 -p gubbins clean2.full.aln
-```
-
-![run_gubbins_hanging](images/gubbins-run-hanging-screen__2024.png)
-
-![run_gubbins_hanging](images/gubbins-run-finished-screen__2024.png)
-
-Note: `gubbins` can take a long time to run on some computers. If `gubbins` takes more than 10 mins to complete, we have already run it for you - the files are available in the GitHub folder at `~/github_repository/Modules/Mapping_and_Phylo/gubbins_backup_2024.tar.gz`.
-
-```         
-ls -lh ~/github_repository/course_data_2025/mapping_and_phylo/
-```
-
-```         
-cp ~/github_repository/course_data_2025/mapping_and_phylo/gubbins_backup_2024.tar.gz .
-```
-
-```         
-tar -zxf gubbins_backup_2024.tar.gz
-```
-
-Note: You may notice there is a directory called `gubbins_backups` - this is from a previous year, and will not be used today.
-
-
-Lets look at what gubbins has done
-
-```         
-ls -l gubbins.*
-```
-
-![gubbins.backup.files](images/gubbins_backup_files__2024.png)
-
-
-You can explore these files For example `gubbins.recombination_predictions.gff` is a `gff` file that contains a record of each recombination block identified, how many SNPs it contains, and what samples are affected.
-
-```         
-head gubbins.recombination_predictions.gff
-```
-
-![gubbins.3](images/gubbins_view-gff__2024.png)
-
-
-`gubbins.filtered_polymorphic_sites.fasta` is a `fasta` file containing only SNPs, where recombining sites have been ‘masked to N’.
-
-```         
-head gubbins.filtered_polymorphic_sites.fasta
-```
-
-![gubbins.4](images/gubbins_polymorphic-sites__2024.png)
-
-`gubbins.final_tree.tre` is a phylogeny in which recombination has already been accounted for.
-
-You can visualise this in `figtree` or `microreact` as above.\
-
-### Root a phylogeny {#root-a-phylogeny}
-
-The trees outputted by iqtree and gubbins are unrooted, but we may want to apply some evolutionary direction to them. One approach that is commonly used for bacterial datasets is midpoint rooting. Midpoint rooting involves locating the midpoint of the longest path between any two tips and putting the root in that location. Note that this does not necessarily infer the *true* root, and this should be used with caution.
-
-To midpoint root our tree, we will use a simple script written in `python` that uses the `ete` package. You can examine the code:
-
-```         
-less midpoint.root.py
-```
-
-To make the code work in the VM, we need to load another conda environment:
-
-```         
-conda activate ete3-env
-```
-
-![midpoint.script](midpoint.root.image.png)
-
-
-We can use this script to midpoint root our tree
-
-```         
-python midpoint.root.py gubbins.final_tree.tre > gubbins.final_tree.midpoint.tre
-```
-
-You can visualise this in `figtree` or `microreact` as above. How does it compare to the unrooted version?
-
-
-### Visualising recombination blocks using phandango
-
-We can also visualise the tree together with the recombination blocks inferred by `gubbins` using a webtool called `phandango`
-
-
-Using your browser, navigate to (https://jameshadfield.github.io/phandango/#/)
-
-![phandango.1](images/phandango.landing.page.png)
-
-On your VM desktop, go to the file manager, and navigate to `/home/manager/Module_4_Mapping_Phylogeny`
-
-Drag and drop the tree file `gubbins.final_tree.midpoint.tre` into the phandango browser window
-
-Drag and drop the recombination gff file `gubbins.recombination_predictions.gff` into the phandango browser window
-
-Phandango should automatically display blocks of recombination in [*red*]{style="color:red"} (ancestral) and [*blue*]{style="color:blue"}(specific to a sample)
-
-![phandango.1](images/gubbins-phandango-plot__2024.png
