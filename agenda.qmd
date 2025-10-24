@@ -14,4 +14,4 @@ title: "Agenda"
 
 2.  Please make sure you have received from your course instructor the Public IPv4 of your Amazon EC2 instance, the name of the machine you are going to work on and also a public key to access the machine via ssh.
 
-#### ![](images/course%20overview.png)
+#### ![](images/course overview.png)

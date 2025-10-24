@@ -19,7 +19,6 @@ website:
           - Day3/Phylogenetics.qmd
           - Day3/Genomic_epidemiology.qmd
           - Day3/GenEpi_Surveillance.qmd
-          - Assessment/assessment.qmd
           - resources.qmd
 
   page-footer: 

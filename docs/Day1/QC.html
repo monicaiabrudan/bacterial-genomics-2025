@@ -131,10 +131,6 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Genomic Epidemiology for Pathogen Surveillance</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../Assessment/assessment.html">
- <span class="dropdown-text">Assessment</span></a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="../resources.html">
  <span class="dropdown-text">Resources</span></a>
   </li>  
@@ -196,27 +192,275 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="setup-navigation" class="level1">
-<h1>Setup &amp; Navigation</h1>
-<section id="check-your-working-directory" class="level3">
-<h3 class="anchored" data-anchor-id="check-your-working-directory">Check your working directory</h3>
-<p><code>pwd</code></p>
+<section id="learning-outcomes" class="level1">
+<h1>Learning outcomes:</h1>
+<p>By the end of this module, you will be able to 1. Perform quality control (QC) assessments on FASTQ-formatted sequence data obtained from both short and long reads sequencing technologies. 2. Critically evaluate and interpret QC outputs to determine data reliability.</p>
 </section>
-<section id="navigate-to-data-directory" class="level3">
-<h3 class="anchored" data-anchor-id="navigate-to-data-directory">Navigate to data directory</h3>
-<p><code>cd /home/ubuntu/Data</code></p>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<section id="brief-recap" class="level2">
+<h2 class="anchored" data-anchor-id="brief-recap">Brief recap</h2>
+<p>Below you can find a list of frequently used commands for you to remember them:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ls</td>
+<td>Lists the contents of the current directory</td>
+</tr>
+<tr class="even">
+<td>mkdir</td>
+<td>Makes a new directory</td>
+</tr>
+<tr class="odd">
+<td>mv</td>
+<td>Moves or renames a file</td>
+</tr>
+<tr class="even">
+<td>cp</td>
+<td>Copies a file</td>
+</tr>
+<tr class="odd">
+<td>rm</td>
+<td>Removes a file</td>
+</tr>
+<tr class="even">
+<td>mkdir</td>
+<td>Makes a new directory</td>
+</tr>
+<tr class="odd">
+<td>cat</td>
+<td>Concatenates files</td>
+</tr>
+<tr class="even">
+<td>more</td>
+<td>Displays the contents of a file one page at a time</td>
+</tr>
+<tr class="odd">
+<td>head</td>
+<td>Displays the first ten lines of a file</td>
+</tr>
+<tr class="even">
+<td>tail</td>
+<td>Displays the last ten lines of a file</td>
+</tr>
+<tr class="odd">
+<td>cd</td>
+<td>Changes current working directory</td>
+</tr>
+<tr class="even">
+<td>pwd</td>
+<td>Prints working directory</td>
+</tr>
+<tr class="odd">
+<td>find</td>
+<td>Finds files matching an expression</td>
+</tr>
+<tr class="even">
+<td>grep</td>
+<td>Searches a file for patterns</td>
+</tr>
+<tr class="odd">
+<td>wc</td>
+<td>Counts the lines, words, characters, and bytes in a file</td>
+</tr>
+<tr class="even">
+<td>kill</td>
+<td>Stops a process</td>
+</tr>
+</tbody>
+</table>
 </section>
-<section id="list-files" class="level3">
-<h3 class="anchored" data-anchor-id="list-files">List files</h3>
-<p><code>ls -lh</code></p>
+<section id="commonly-used-file-formats-for-ngs-data" class="level2">
+<h2 class="anchored" data-anchor-id="commonly-used-file-formats-for-ngs-data">Commonly used file formats for NGS data</h2>
+<section id="fasta" class="level3">
+<h3 class="anchored" data-anchor-id="fasta">FASTA</h3>
+<p>Among the most common and simplest file formats for representing nucleotide sequences is FASTA. Essentially, each sequence is represented by a ‘header’ line that begins with a ‘&gt;’, followed by lines containing the actual nucleotide sequence. By convention, the first ‘word’ in the header line is a unique identifier, which is usually the accession number. Consider this portion of the whole genome of <em>Staphylococcus aureus</em> MRSA252 as an example of a FASTA-formatted nucleotide sequence:</p>
+<pre><code>  &gt;NC_002952.2 Staphylococcus aureus subsp. aureus MRSA252, complete sequence
+  CGATTAAAGATAGAAATACACGATGCGAGCAATCAAATTTCATAACATCACCATGAGTTTGATCCAAAGCATGAGTGTTT
+  ACAATGTTTGAATACCTTATACAGTTCTTATACATACTTTATAAATTATTTCCCAAGCTGTTTTGATACACACACTAACA
+  GATACTCTATAGAAGGAAAAGTTATCCACTTATGCACACTTATACTTTTTAGAATTGTGGATAATTAGAAATTACACACA
+  AAGTTATACTATTTTTAGCAACATATTCACAGGTATTTGACATATAGAGAACTGAAAAAGTATAATTGTGTGGATAAGTC
+  GTCCAACTCATGATTTTATAAGGATTTATTTATTGATATTTACATAAAAATACTGTGCATAACTAATAAGCAGGATAAAG
+  TTATCCACCGATTGTTATTAACTTGTGGATAATTATTAACATGGTGTGTTTAGAAGTTATCCACGGTTGTTATTTTTGTG
+  TATAACTTAAAAATTTAAGAAAGATGGAGTAAATTTATGTCGGAAAAAGAAATTTGGGAAAAAGTGCTTGAAATTGCTCA
+  AGAAAAATTATCAGCTGTAAGTTACTCAACTTTCCTAAAAGATACTGAGCTTTACACGATCAAAGATGGTGAAGCTATCG
+  TATTATCGAGTATTCCTTTTAATGCAAATTGGTTAAATCAACAATATGCTGAAATTATCCAAGCAATCTTATTTGATGTT
+  GTAGGCTATGAAGTAAAACCTCACTTTATTACTACTGAAGAATTAGCAAATTATAGTAATAATGAAACTGCTACTCCAAA
+  AGAAGCAACAAAACCTTCTACTGAAACAACTGAGGATAATCATGTGCTTGGTAGAGAGCAATTCAATGCCCATAACACAT
+  TTGACACTTTTGTAATCGGACCTGGTAACCGCTTCCCACATGCAGCGAGTTTAGCTGTGGCCGAAGCACCAGCCAAAGCG
+  TACAATCCATTATTTATCTATGGAGGTGTTGGTTTAGGAAAAACCCATTTAATGCATGCCATTGGTCATCATGTTTTAGA
+  TAATAATCCAGATGCCAAAGTGATTTACACATCAAGTGAAAAATTCACAAATGAATTTATTAAATCAATTCGTGATAACG</code></pre>
+<ul>
+<li>The first line begins with ‘&gt;’ indicating that it is the header line.</li>
+<li>This is immediately followed by ‘NC_002952.2’, which is the accession number for <a href="https://www.ncbi.nlm.nih.gov/assembly/GCF_000011505.1">this sequence in the NCBI Assembly database</a>.</li>
+<li>Then follows the actual nucleotide sequence, split over several lines.</li>
+</ul>
+<p>It is very common to combine multiple sequences into a single multi-FASTA file like this:</p>
+<pre><code>&gt;ctxB1
+ATGATTAAATTAAAATTTGGTGTTTTTTTTACAGTTTTACTATCTTCAGCATATGCACAT
+GGAACACCTCAAAATATTACTGATTTGTGTGCAGAATACCACAACACACAAATACATACG
+CTAAATGATAAGATATTTTCGTATACAGAATCTCTAGCTGGAAAAAGAGAGATGGCTATC
+ATTACTTTTAAGAATGGTGCAACTTTTCAAGTAGAAGTACCAGGTAGTCAACATATAGAT
+TCACAAAAAAAAGCGATTGAAAGGATGAAGGATACCCTGAGGATTGCATATCTTACTGAA
+GCTAAAGTCGAAAAGTTATGTGTATGGAATAATAAAACGCCTCATGCGATTGCCGCAATT
+AGTATGGCAAATTAA
+&gt;ctxB10
+ATGATTAAATTAAAATTTGGTGTTTTTTTTACAGTTTTACTATCTTCAGCATATGCACAT
+GGAACACCTCAAAATATTACTGATTTGTGTGCAGAATACCCCAACACACAAATATATACG
+CTAAATGATAAGATATTTTCGTATACAGAATCTCTAGCTGGAAAAAGAGAGATGGCTATC
+ATTACTTTTAAGAATGGTGCAATTTTTCAAGTAGAAGTACCAGGTAGTCAACATATAGAT
+TCACAAAAAAAAGCGATTGAAAGGATGAAGGATACCCTGAGGATTGCATATCTTACTGAA
+GCTAAAGTCGAAAAGTTATGTGTATGGAATAATAAAACGCCTCATGCGATTGCCGCAATT
+AGTATGGCAAATTAA
+&gt;ctxB11
+ATGATTAAATTAAAATTTGGTGTTTTTTTTACAGTTTTACTATCTTCAGCATATGCACAT
+GGAACACCTCAAAATATTACTGATTTGTGTGCAGAATACCCCAACACACAAATACATACG
+CTAAATGATAAGATATTTTCGTATACAGAATCTCTAGCTGGAAAAAGAGAGATGGCTATC
+ATTACTTTTAAGAATGGTGCAACTTTTCAAGTAGAAGTACCAGGTAGTCAACATATAGAT
+TCACAAAAAAAAGCGATTGAAAGGATGAAGGATACCCTGAGGATTGCATATCTTACTGAA
+GCTAAAGTCGAAAAGTTATGTGTATGGAATAATAAAACGCCTCATGCGATTGCCGCAATT
+AGTATGGCAAATTAA
+&gt;ctxB12
+ATGATTAAATTAAAATTTGGTGTTTTTTTTACAGTTTTACTATCTTCAGCATATGCACAT
+GGAACACCTCAAAATATTACTGATTTGTGTGCAGAATACCACAACGCACAAATATATACG
+CTAAATGATAAGATATTGTCGTATACAGAATCTCTAGCTGGAAACAGAGAGATGGCTATC
+ATTACTTTTAAGAATGGTGCAACTTTTCAAGTAGAAGTACCAGGTAGTCAACATATAGAT
+TCACAAAAAAAAGCGATTGAAAGGATGAAGGATACCCTGAGGATTGCATATCTTACTGAA
+GCTAAAGTCGAAAAGTTATGTGTATGGAATAATAAAACGCCTCATGCGATTGCCGCAATT
+AGTATGGCAAATTAA
+&gt;ctxB2
+ATGATTAAATTAAAATTTGGTGTTTTTTTTACAGTTTTACTATCTTCAGCATATGCACAT
+GGAACACCTCAAAATATTACTGATTTGTGTGCAGAATACCACAACACACAAATACATACG
+CTAAATGATAAGATATTGTCGTATACAGAATCTCTAGCTGGAAAAAGAGAGATGGCTATC
+ATTACTTTTAAGAATGGTGCAACTTTTCAAGTAGAAGTACCAGGTAGTCAACATATAGAT
+TCACAAAAAAAAGCGATTGAAAGGATGAAGGATACCCTGAGGATTGCATATCTTACTGAA
+GCTAAAGTCGAAAAGTTATGTGTATGGAATAATAAAACGCCTCATGCGATTGCCGCAATT
+AGTATGGCAAATTAA</code></pre>
+<p>If you want a more detailed history of the FASTA file format, then you could take a look at the Wikipedia page here: <a href="https://en.wikipedia.org/wiki/FASTA_format" class="uri">https://en.wikipedia.org/wiki/FASTA_format</a>.</p>
 </section>
-<section id="create-directories" class="level3">
-<h3 class="anchored" data-anchor-id="create-directories">Create directories</h3>
-<p><code>mkdir -p analysis/qc analysis/assembly</code></p>
+<section id="fastq" class="level3">
+<h3 class="anchored" data-anchor-id="fastq">FASTQ</h3>
+<p>The widely used FASTA file format has the great advantage of simplicity. However, this simplicity can be restrictive if we want to include additional data/metadata in addition to the sequence.</p>
+<p>Given the non-negligible error rates of NGS technologies, often we need to accompany our sequence data with quality scores that estimate our confidence in the accuracy of the sequence data. As we will see later, this allows us to perform quality control checks and filter-out poor-quality data before performing analyses.</p>
+<p><strong>FASTQ</strong> is a simple text-based format that allows us to include quality scores. A single sequence is represented by four lines of text:</p>
+<pre><code>@ERR8261968.1 1 length=97
+ACTTTCGATCTCTTGTAGATCTGTTCTCTAAACGAACTTTAAAATCTGTGTGGCTGTCACTCGGCTGCATGCTTAGTGCACTCACGCAGTATAATTA
++ERR8261968.1 1 length=97
+CCCCCFDDFFFFGGGGGGGGGGHHHHHHHHHHHGGGGHHHHHHHHHHHHHHHGHHGHHIIHHGGGGGGHHHHHHHHHHHHHHHHHHHGGGHHHHHHH</code></pre>
+<ul>
+<li>The first line is a ‘header’ containing a unique identifier for the sequence and, optionally, further description.</li>
+<li>The second line contains the actual nucleotide sequence.</li>
+<li>The third line is redundant and can be safely ignored. Sometimes it simply repeats the first line. Sometimes it is blank or just contains a ‘+’ character.</li>
+<li>The fourth line contains a string of characters that encode quality scores for each nucleotide in the sequence on <a href="https://en.wikipedia.org/wiki/ASCII">ASCII code</a>.</li>
+</ul>
+<p>Each single character encodes a score, typically a number between 0 and 40; this score is encoded by a single character.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Character</th>
+<th>ASCII</th>
+<th>FASTQ quality score (ASCII – 33)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>!</td>
+<td>33</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>“</td>
+<td>34</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>#</td>
+<td>35</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>$</td>
+<td>36</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>%</td>
+<td>37</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td>67</td>
+<td>34</td>
+</tr>
+<tr class="even">
+<td>D</td>
+<td>68</td>
+<td>35</td>
+</tr>
+<tr class="odd">
+<td>E</td>
+<td>69</td>
+<td>36</td>
+</tr>
+<tr class="even">
+<td>F</td>
+<td>70</td>
+<td>37</td>
+</tr>
+<tr class="odd">
+<td>G</td>
+<td>71</td>
+<td>38</td>
+</tr>
+<tr class="even">
+<td>H</td>
+<td>72</td>
+<td>39</td>
+</tr>
+<tr class="odd">
+<td>40</td>
+<td>73</td>
+<td>40</td>
+</tr>
+</tbody>
+</table>
+<p>So, in the example above, we can see that most of the positions within the 97-nucleotide sequence have scores in the high 30s, which indicates a high degree of confidence in their accuracy. - A score of 30 denotes a 1 in 1000 chance of an error, i.e.&nbsp;99.9% accuracy. - A score of 40 denotes a 1 in 10,000 chance of an error, i.e.&nbsp;99.99% accuracy.</p>
+<p>You can read more about the FastQ file format and quality scores here:</p>
+<p>Cock, P. J., Fields, C. J., Goto, N., Heuer, M. L., &amp; Rice, P. M. (2010). The Sanger FASTQ file format for sequences with quality scores, and the Solexa/Illumina FASTQ variants. <em>Nucleic Acids Research</em>, <strong>38</strong>, 1767–1771. <a href="https://doi.org/10.1093/nar/gkp1137" class="uri">https://doi.org/10.1093/nar/gkp1137</a>.</p>
 </section>
-<section id="check-available-disk-space" class="level3">
-<h3 class="anchored" data-anchor-id="check-available-disk-space">Check available disk space</h3>
-<p><code>df -h</code></p>
+<section id="sam-and-bam" class="level3">
+<h3 class="anchored" data-anchor-id="sam-and-bam">SAM and BAM</h3>
+<p>A <strong>SAM file</strong> (usually named *.sam) is used to represent aligned sequences. It is particularly useful for storing the results of genomic or transcriptomic sequence reads aligned against a reference genome sequence. The <strong>BAM file</strong> format is a compressed form of SAM. This has the disadvantage that it is not readable by a human but has the advantage of being smaller than the corresponding SAM file and thus easier to share and copy between locations.</p>
+<p>You can read about SAM and BAM formats here: - Li, H., Handsaker, B., Wysoker, A., Fennell, T., Ruan, J., Homer, N., Marth, G., Abecasis, G., Durbin, R., &amp; 1000 Genome Project Data Processing Subgroup (2009). The Sequence Alignment/Map format and SAMtools. <em>Bioinformatics</em>, <strong>25</strong>, 2078–2079. <a href="https://doi.org/10.1093/bioinformatics/btp352" class="uri">https://doi.org/10.1093/bioinformatics/btp352</a> - <a href="https://samtools.github.io/hts-specs/SAMv1.pdf" class="uri">https://samtools.github.io/hts-specs/SAMv1.pdf</a>.</p>
+<p>We can view BAM files graphically using specialised genome browsers software such as (we will be working with one of them in the Genome Visualisation Tools module): - <a href="https://igv.org/">IGV</a> - <a href="https://ics.hutton.ac.uk/tablet/">Tablet</a> - <a href="http://sanger-pathogens.github.io/Artemis/Artemis/">Artemis / BAMview</a></p>
+<p>An example <strong>SAM file</strong> is shown in the image below, along with the 11 mandatory fields of this standard:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://user-images.githubusercontent.com/65819144/230166077-264a6161-ec8c-47d7-87b7-8e073080a548.jpg" class="img-fluid figure-img"></p>
+<figcaption>SAMformat</figcaption>
+</figure>
+</div>
+<p>(<em>Image from <a href="https://datacarpentry.org/wrangling-genomics">Data Wrangling and Processing for Genomics</a></em>)</p>
+<p>The meaning of each of these mandatory fields are detailed below:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://user-images.githubusercontent.com/65819144/230166180-fb086380-413a-4eef-8781-d0ba2b7e215b.jpg" class="img-fluid figure-img"></p>
+<figcaption>SAMformat_fields</figcaption>
+</figure>
+</div>
+</section>
 </section>
 </section>
 <section id="quality-control" class="level1">

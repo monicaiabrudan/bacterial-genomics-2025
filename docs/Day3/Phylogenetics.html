@@ -20,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -165,10 +131,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Genomic Epidemiology for Pathogen Surveillance</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../Assessment/assessment.html">
- <span class="dropdown-text">Assessment</span></a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="../resources.html">
  <span class="dropdown-text">Resources</span></a>
   </li>  
@@ -235,7 +197,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="module-overview-and-aims" class="level1">
 <h1>Module Overview and Aims</h1>
-<p>When we sequence a genome, we aim to capture information about: * Single Nucleotide Polymorphisms (SNPs) * Insertions and Deletions (INDELs) * Copy Number Variations (CNVs) * Structural rearrangements * Gene gain and loss (i.e.&nbsp;the pangenome)</p>
+<p>When we sequence a genome, we aim to capture information about:</p>
+<p>* Single Nucleotide Polymorphisms (SNPs)</p>
+<p>* Insertions and Deletions (INDELs)</p>
+<p>* Copy Number Variations (CNVs)</p>
+<p>* Structural rearrangements</p>
+<p>* Gene gain and loss (i.e.&nbsp;the pangenome)</p>
 <p>There are two main approaches used for reconstructing bacterial genomes for population analyses.</p>
 <ul>
 <li><em>De novo</em> assembly</li>
@@ -472,7 +439,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>snippy.run1.grep5</figcaption>
 </figure>
 </div>
-<p><code>Snippy</code> creates two versions of the pseudosequence consensus: - <code>snps.consensus.fa</code> contains all high quality variants - <code>snps.consensus.subs.fa</code> contains only high quality SNPs (no INDELS)</p>
+<p><code>Snippy</code> creates two versions of the pseudosequence consensus:</p>
+<p>- <code>snps.consensus.fa</code> contains all high quality variants</p>
+<p>- <code>snps.consensus.subs.fa</code> contains only high quality SNPs (no INDELS)</p>
 </section>
 <section id="examine-snippy-outputs" class="level3">
 <h3 class="anchored" data-anchor-id="examine-snippy-outputs">Examine <code>snippy</code> outputs</h3>
@@ -530,20 +499,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Hybrid assembly from long reads (Dragonflye), followed by short read polishing</li>
 </ul>
 <p>Note that we will explore the differences between these assembly methods more in a later module.</p>
-<section id="locate-existing-assemblies" class="level3">
-<h3 class="anchored" data-anchor-id="locate-existing-assemblies">Locate existing assemblies</h3>
-<p>The reads are hosted in the course GitHub repository. If that has been updated on your local VM, the files should be available to access. Let’s check:</p>
-<pre><code>ls -lh ~/github_repository/course_data_2025/mapping_and_phylo/</code></pre>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/github.repo.ls__2024.png" class="img-fluid figure-img"></p>
-<figcaption>github.repo.ls</figcaption>
-</figure>
-</div>
-<p>If the files are missing, check with the instructors.</p>
-<p>Assuming they are available, we can copy the assemblies to our current working directory to make things easier:</p>
-<pre><code>cp ~/github_repository/course_data_2025/mapping_and_phylo/CTMA_1441.* .</code></pre>
-</section>
 <section id="map-an-existing-short-read-assembly" class="level3">
 <h3 class="anchored" data-anchor-id="map-an-existing-short-read-assembly">Map an existing short-read assembly</h3>
 <p>The short read assembly is called <code>CTMA_1441.unicycler-short.fasta</code>. We can add the short-read assembly to snippy like this:</p>
@@ -561,24 +516,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Adapt the code examples provided above to run <code>snippy</code> on the long-read assemblies using the output directories <code>CTMA_1441.long_polish</code> and <code>CTMA_1441.long_nopolish</code>.</p>
 <p>Examine the results of snippy for each assembly using <code>grep</code>, <code>ls</code> and <code>less</code>.</p>
 <p>What do you notice about the number of variable sites (reported at the end of the snippy run) identified with the different assemblies?</p>
-<p><br></p>
 </section>
 </section>
 <section id="contextualise-new-genomes-with-a-collection" class="level2">
 <h2 class="anchored" data-anchor-id="contextualise-new-genomes-with-a-collection">Contextualise new genomes with a collection</h2>
 <p>Now lets look at this new genome in context with a collection.</p>
 <p>We can add this genome to a collection of genomes mapped using <code>snippy-core</code>.</p>
-<p>For this exercise, we will again retrieve our data from the github folder:</p>
-<pre><code>cp ~/github_repository/course_data_2025/mapping_and_phylo/old.snippy.runs_2025.tar.gz .</code></pre>
-<p>Check the files are there:</p>
-<pre><code>ls -lh</code></pre>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/snippy-context.copy-git.ls__2024.png" class="img-fluid figure-img"></p>
-<figcaption>snippy-context.copy-git.ls</figcaption>
-</figure>
-</div>
-<p>(Note that there is an existing file in our directory called `old.snippy.runs.2023.tar.gz - we will not be using this).</p>
 <p>First, let’s extract the old <code>snippy</code> runs from our archive file</p>
 <pre><code>tar -zxf old.snippy.runs_2025.tar.gz</code></pre>
 <p>We can see that we now have a new directory <code>old.snippy.runs_2024</code></p>
@@ -664,15 +607,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="calculate-a-phylogenetic-tree-from-the-snps-using-iq-tree2" class="level3">
 <h3 class="anchored" data-anchor-id="calculate-a-phylogenetic-tree-from-the-snps-using-iq-tree2">Calculate a phylogenetic tree from the SNPs using <code>IQ-TREE2</code></h3>
 <p>We can look at the options for <code>IQ-TREE</code> below</p>
-<pre><code>iqtree -h</code></pre>
+<pre><code>iqtree2 -h</code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/iqtree-help__2024.png" class="img-fluid figure-img"></p>
 <figcaption>iqtree.1</figcaption>
 </figure>
 </div>
-<p>In the command below, we: - specify the multiple sequence alignment using <code>-s clean.full.SNPs.aln</code> - ask <code>IQ-TREE</code> to take account of missing invariant sites using <code>-fconst $(snp-sites -C clean.full.aln)</code> - specify an evolutionary model we want <code>IQ-TREE</code> to use <code>-m GTR+F+I</code> - tell <code>IQ-TREE</code> to use a maximum of 2 CPUs (threads) and 2GB memory <code>-T 2 -mem 2G</code> - perform 1000 ultrafast bootstraps <code>-B 1000</code> - use sample <code>M66</code> as an outgroup <code>-o M66</code></p>
-<pre><code>iqtree -s clean.full.SNPs.aln -fconst $( snp-sites -C clean.full.aln ) -m GTR+F+I -T 2 -mem 2G -B 1000 -o M66</code></pre>
+<p>In the command below, we:</p>
+<p>- specify the multiple sequence alignment using <code>-s clean.full.SNPs.aln</code></p>
+<p>- ask <code>IQ-TREE</code> to take account of missing invariant sites using <code>-fconst $(snp-sites -C clean.full.aln)</code> - specify an evolutionary model we want <code>IQ-TREE</code> to use <code>-m GTR+F+I</code></p>
+<p>- tell <code>IQ-TREE</code> to use a maximum of 2 CPUs (threads) and 2GB memory <code>-T 2 -mem 2G</code> - perform 1000 ultrafast bootstraps <code>-B 1000</code></p>
+<p>- use sample <code>M66</code> as an outgroup <code>-o M66</code></p>
+<pre><code>iqtree2 -s clean.full.SNPs.aln -fconst $( snp-sites -C clean.full.aln ) -m GTR+F+I -T 2 -mem 2G -B 1000 -o M66</code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/iqtree-run.1__2024.png" class="img-fluid figure-img"></p>
@@ -704,7 +651,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Instead, we can visualise this using <code>figtree</code></p>
 <pre><code>figtree clean.full.SNPs.aln.tre &amp;</code></pre>
 <p>(Note: Remember to include the <code>&amp;</code> symbol at the end - this allows figtree to run in the background, and allows you to still use the command prompt)</p>
-<p><br></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/figtree_launch__2024.png" class="img-fluid figure-img"></p>
@@ -719,7 +665,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>figtree.2</figcaption>
 </figure>
 </div>
-<p>Examine the tree: - How are <code>new-sample-1</code> and <code>new-sample-2</code> related to each other? - What do you notice about the different versions of the assembled genomes <code>CTMA_1441</code>? - What does this tell you about the different assembly methods?</p>
+<p>Examine the tree:</p>
+<p>- How are <code>new-sample-1</code> and <code>new-sample-2</code> related to each other?</p>
+<p>- What do you notice about the different versions of the assembled genomes <code>CTMA_1441</code>?</p>
+<p>- What does this tell you about the different assembly methods?</p>
 </section>
 </section>
 <section id="adjusting-a-dataset-to-remove-a-poor-quality-genome" class="level2">
@@ -741,9 +690,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>Open Firefox and navigate to https://microreact.org/</li>
 <li>Click ‘upload’</li>
-</ul>
-<p>![microreact.1]images/(Microreact-front-page.png)</p>
-<ul>
 <li>Select the file upload, or drag the tree file <code>clean2.full.SNPs.aln.tre</code> onto the upload screen</li>
 </ul>
 <div class="quarto-figure quarto-figure-center">
@@ -766,102 +712,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>microreact.4</figcaption>
 </figure>
 </div>
-</section>
-<section id="accounting-for-recombination-with-gubbins" class="level2">
-<h2 class="anchored" data-anchor-id="accounting-for-recombination-with-gubbins">Accounting for recombination with <code>gubbins</code></h2>
-<p>We can use <code>gubbins</code> to infer recombining sites by looking for increased SNP density that occurs in specific ancestral nodes</p>
-<p><code>gubbins</code> has been installed using <code>conda</code>. We must activate the relavent conda environment before running any commands using <code>gubbins</code>.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate gubbins-env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Now we can run <code>gubbins</code></p>
-<pre><code>run_gubbins.py -h</code></pre>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/gubbins-help__2024.png" class="img-fluid figure-img"></p>
-<figcaption>gubbins.1</figcaption>
-</figure>
-</div>
-<p>The following command runs <code>gubbins</code> on standard settings, with 4 CPUs.</p>
-<p>Note: the <code>-c</code> option tells the program to use 4 CPUs. Note: the <code>-p</code> option tells the program to name all files with the prefix <code>gubbins</code> This command can take a few minutes to run.</p>
-<pre><code>run_gubbins.py -c 4 -p gubbins clean2.full.aln</code></pre>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/gubbins-run-hanging-screen__2024.png" class="img-fluid figure-img"></p>
-<figcaption>run_gubbins_hanging</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/gubbins-run-finished-screen__2024.png" class="img-fluid figure-img"></p>
-<figcaption>run_gubbins_hanging</figcaption>
-</figure>
-</div>
-<p>Note: <code>gubbins</code> can take a long time to run on some computers. If <code>gubbins</code> takes more than 10 mins to complete, we have already run it for you - the files are available in the GitHub folder at <code>~/github_repository/Modules/Mapping_and_Phylo/gubbins_backup_2024.tar.gz</code>.</p>
-<pre><code>ls -lh ~/github_repository/course_data_2025/mapping_and_phylo/</code></pre>
-<pre><code>cp ~/github_repository/course_data_2025/mapping_and_phylo/gubbins_backup_2024.tar.gz .</code></pre>
-<pre><code>tar -zxf gubbins_backup_2024.tar.gz</code></pre>
-<p>Note: You may notice there is a directory called <code>gubbins_backups</code> - this is from a previous year, and will not be used today.</p>
-<p>Lets look at what gubbins has done</p>
-<pre><code>ls -l gubbins.*</code></pre>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/gubbins_backup_files__2024.png" class="img-fluid figure-img"></p>
-<figcaption>gubbins.backup.files</figcaption>
-</figure>
-</div>
-<p>You can explore these files For example <code>gubbins.recombination_predictions.gff</code> is a <code>gff</code> file that contains a record of each recombination block identified, how many SNPs it contains, and what samples are affected.</p>
-<pre><code>head gubbins.recombination_predictions.gff</code></pre>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/gubbins_view-gff__2024.png" class="img-fluid figure-img"></p>
-<figcaption>gubbins.3</figcaption>
-</figure>
-</div>
-<p><code>gubbins.filtered_polymorphic_sites.fasta</code> is a <code>fasta</code> file containing only SNPs, where recombining sites have been ‘masked to N’.</p>
-<pre><code>head gubbins.filtered_polymorphic_sites.fasta</code></pre>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/gubbins_polymorphic-sites__2024.png" class="img-fluid figure-img"></p>
-<figcaption>gubbins.4</figcaption>
-</figure>
-</div>
-<p><code>gubbins.final_tree.tre</code> is a phylogeny in which recombination has already been accounted for.</p>
-<p>You can visualise this in <code>figtree</code> or <code>microreact</code> as above.<br>
-</p>
-<section id="root-a-phylogeny" class="level3">
-<h3 class="anchored" data-anchor-id="root-a-phylogeny">Root a phylogeny</h3>
-<p>The trees outputted by iqtree and gubbins are unrooted, but we may want to apply some evolutionary direction to them. One approach that is commonly used for bacterial datasets is midpoint rooting. Midpoint rooting involves locating the midpoint of the longest path between any two tips and putting the root in that location. Note that this does not necessarily infer the <em>true</em> root, and this should be used with caution.</p>
-<p>To midpoint root our tree, we will use a simple script written in <code>python</code> that uses the <code>ete</code> package. You can examine the code:</p>
-<pre><code>less midpoint.root.py</code></pre>
-<p>To make the code work in the VM, we need to load another conda environment:</p>
-<pre><code>conda activate ete3-env</code></pre>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="midpoint.root.image.png" class="img-fluid figure-img"></p>
-<figcaption>midpoint.script</figcaption>
-</figure>
-</div>
-<p>We can use this script to midpoint root our tree</p>
-<pre><code>python midpoint.root.py gubbins.final_tree.tre &gt; gubbins.final_tree.midpoint.tre</code></pre>
-<p>You can visualise this in <code>figtree</code> or <code>microreact</code> as above. How does it compare to the unrooted version?</p>
-</section>
-<section id="visualising-recombination-blocks-using-phandango" class="level3">
-<h3 class="anchored" data-anchor-id="visualising-recombination-blocks-using-phandango">Visualising recombination blocks using phandango</h3>
-<p>We can also visualise the tree together with the recombination blocks inferred by <code>gubbins</code> using a webtool called <code>phandango</code></p>
-<p>Using your browser, navigate to (https://jameshadfield.github.io/phandango/#/)</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/phandango.landing.page.png" class="img-fluid figure-img"></p>
-<figcaption>phandango.1</figcaption>
-</figure>
-</div>
-<p>On your VM desktop, go to the file manager, and navigate to <code>/home/manager/Module_4_Mapping_Phylogeny</code></p>
-<p>Drag and drop the tree file <code>gubbins.final_tree.midpoint.tre</code> into the phandango browser window</p>
-<p>Drag and drop the recombination gff file <code>gubbins.recombination_predictions.gff</code> into the phandango browser window</p>
-<p>Phandango should automatically display blocks of recombination in <span style="color:red"><em>red</em></span> (ancestral) and <span style="color:blue"><em>blue</em></span>(specific to a sample)</p>
-<p>![phandango.1](images/gubbins-phandango-plot__2024.png</p>
 
 
-</section>
 </section>
 </section>
 
