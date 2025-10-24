@@ -5,6 +5,8 @@ format: html
 
 # Mapping and Phylogenetics
 
+*Adapted from training materials by Mat Beale, Genome Assembly and Analysis - Costa Rica 2025 course*
+
 # Module Overview and Aims
 
 When we sequence a genome, we aim to capture information about:

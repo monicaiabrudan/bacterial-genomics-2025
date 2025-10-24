@@ -95,17 +95,17 @@ A maximum likelihood phylogenetic tree ([`tree.nwk`](https://github.com/monicaia
 
 The disease detectives now have the information needed for the investigation in the following formats:
 
--   [`epi_data.csv`](https://drive.google.com/drive/folders/1LH2beqwn5IeB7veScPLrlI6qmbgAaM2J?usp=sharing) Epi data from 34 clinical cases and 6 cases from previous outbreak
+-   [`epi_data.csv`](https://github.com/monicaiabrudan/bacterial-genomics-2025/blob/main/Day3/web_tools_data/epi_data.csv) Epi data from 34 clinical cases and 6 cases from previous outbreak
 -   [`epi_data_new.csv`](https://github.com/monicaiabrudan/bacterial-genomics-2025/blob/main/Day3/web_tools_data/epi_data_new.csv) Metadata of 2 positive water sources from the CIC campus
--   [`lab_results.xlsx`](https://drive.google.com/drive/folders/1LH2beqwn5IeB7veScPLrlI6qmbgAaM2J?usp=sharing) Culture and serotyping results for all the samples from the CIC campus
--   [`mlst-Pasteur.csv`](https://drive.google.com/drive/folders/1LH2beqwn5IeB7veScPLrlI6qmbgAaM2J?usp=sharing) MLST results from PathogenWatch
--   [`tree.nwk`](https://drive.google.com/drive/folders/1LH2beqwn5IeB7veScPLrlI6qmbgAaM2J?usp=sharing) Phylogenetic tree of 34 clinical cases, 2 culture-positive water samples, and 6 cases from previous outbreak
+-   [`lab_results.xlsx`](https://github.com/monicaiabrudan/bacterial-genomics-2025/blob/main/Day3/web_tools_data/lab_results.xlsx) Culture and serotyping results for all the samples from the CIC campus
+-   [`mlst-Pasteur.csv`](https://github.com/monicaiabrudan/bacterial-genomics-2025/blob/main/Day3/web_tools_data/mlst-Pasteur.csv) MLST results from PathogenWatch
+-   [`tree.nwk`](https://github.com/monicaiabrudan/bacterial-genomics-2025/blob/main/Day3/web_tools_data/tree.nwk) Phylogenetic tree of 34 clinical cases, 2 culture-positive water samples, and 6 cases from previous outbreak
 
 The files are located in [**this link**](https://github.com/monicaiabrudan/bacterial-genomics-2025/tree/main/Day3/web_tools_data).
 
 We will combine data from these different sources with a data-flo workflow that takes the files above as input, and creates as an output a Microreact project where the data can be visualised.
 
-Open the data-flo workflow (<https://www.data-flo.io/editor/ai9jZdWD5KBoVDzuAaYCub>)
+Open the data-flo workflow (<https://www.data-flo.io/run/ai9jZdWD5KBoVDzuAaYCub>)
 
 Copy the workflow to your own dataflo account.
 

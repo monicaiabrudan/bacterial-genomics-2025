@@ -14,7 +14,7 @@ For Microreact documentation, go to <https://docs.microreact.org/>
 
 **In this series of exercises, you will use Microreact to gain knowledge regarding a large collection of *Klebsiella pneumoniae* isolates, sampled from Colombia, between 2013 and 2019. At the end of this series of exercises, you will be able to identify a high risk clone circulating in the country.**
 
-### Go to *www.microreact.org/project/kpncolombia* and explore the collection of isolates.
+### Go to [*www.microreact.org/project/kpncolombia*](www.microreact.org/project/kpncolombia) and explore the collection of isolates.
 
 Task 1: Create an editable project.
 
