@@ -1,6 +1,0 @@
----
-title: "Data-flo documentation"
-date: "2023-07-10"
----
-
-<https://docs.data-flo.io/introduction/readme>
