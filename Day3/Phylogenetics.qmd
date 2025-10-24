@@ -304,7 +304,11 @@ Note that we will explore the differences between these assembly methods more in
 
 ### Map an existing short-read assembly {#map-an-existing-short-read-assembly}
 
-The short read assembly is called `CTMA_1441.unicycler-short.fasta`. We can add the short-read assembly to snippy like this:
+The short read assembly is called `CTMA_1441.unicycler-short.fasta`.
+
+Download it from Github using wget from <https://github.com/monicaiabrudan/bacterial-genomics-2025/blob/main/Day3/CTMA_1441.unicycler-short.fasta>
+
+We can add the short-read assembly to snippy like this:
 
 ```         
 snippy --outdir CTMA_1441.short --ctgs CTMA_1441.unicycler-short.fasta --ref references/Vibrio_cholerae_O1_biovar_eltor_str_N16961_v2.fa --cpus 4 --ram 4 --force --quiet
@@ -315,6 +319,12 @@ snippy --outdir CTMA_1441.short --ctgs CTMA_1441.unicycler-short.fasta --ref ref
 ### Map a long-read assembly to reference {#map-a-long-read-assembly-to-reference}
 
 We now need to map the two long read assemblies to our analysis: - `CTMA_1441.filtreads.dragonflye.long_4.1_polish.contigs.fa` - `CTMA_1441.filtreads.dragonflye.long_4.1_nopolish.contigs.fa`
+
+Download these two assemblies from Github using wget:
+
+<https://github.com/WCSCourses/GenEpiLAC2025/blob/main/course_data_2025/mapping_and_phylo/CTMA_1441.filtreads.dragonflye.long_4.1_nopolish.contigs.fa>
+
+<https://github.com/WCSCourses/GenEpiLAC2025/blob/main/course_data_2025/mapping_and_phylo/CTMA_1441.filtreads.dragonflye.long_4.1_polish.contigs.fa>
 
 Adapt the code examples provided above to run `snippy` on the long-read assemblies using the output directories `CTMA_1441.long_polish` and `CTMA_1441.long_nopolish`.
 
