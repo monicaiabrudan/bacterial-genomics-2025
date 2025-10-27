@@ -18,7 +18,7 @@ spades.py -1 sample1_1.clean.fastq.gz -2 sample1_2.clean.fastq.gz -o /home/ubunt
 # SPAdes Assembly (Specific K-mer)
 
 | Common Flags | Meaning | Example | Description |
-|----|----|----|----|
+|------------------|------------------|------------------|------------------|
 | `-t` | **Number of CPU threads** | `-t 4` | Tells SPAdes to use 4 CPU cores for parallel processing. Use more threads if your machine has more cores (e.g., `-t 8` or `-t 16`). |
 | `-m` | **Maximum memory (in GB)** | `-m 8` | Limits SPAdes to use at most 8 GB of RAM. This prevents it from using too much system memory. |
 
@@ -45,6 +45,26 @@ Eg (this will take around 20 minutes to run!)
 -   Larger k-mers (55-99): better for high coverage, more contiguous
 
 -   Multiple k-mers: SPAdes uses all and picks best
+
+# SPAdes assembly with many kmers
+
+`spades.py -1 reads_1.fastq.gz -2 reads_2.fastq.gz-k 21,33,55,77,99,127--careful-o spades_denovo/`
+
+# SPAdes Assembly with a reference genome
+
+Find your reference genome.
+
+Which was the reference genome you found using Bactinspector for the sample G18252308?
+
+Download the fasta file:
+
+Eg: Try this in your browser: <https://www.ebi.ac.uk/ena/browser/api/fasta/GCA_002895385.1?download=true&gzip=true>
+
+Move the downloaded file to the Data/Reference folder
+
+Then run SPAdes again with the reference:
+
+`spades.py -1 reads_1.fastq -2 reads_2.fastq--trusted-contigs reference.fasta --careful -o spades_ref_assembly/`
 
 # Unicycler Hybrid Assembly
 

@@ -91,7 +91,7 @@ In the command below we:
 `ariba` has been installed using `conda`. We must activate the relavent conda environment before running any commands using `ariba`.
 
 ``` bash
-conda activate ariba-env
+conda activate ariba_env
 ```
 
 Now we can run `ariba`
