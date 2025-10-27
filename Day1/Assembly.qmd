@@ -7,7 +7,9 @@ format: html
 
 ### Basic assembly with automatic k-mer selection
 
-`spades.py-1 sample1_1.clean.fastq.gz-2 sample1_2.clean.fastq.gz-o /home/ubuntu/analysis/assembly/sample1_spades_auto--careful-t 4-m 8`
+```         
+spades.py -1 sample1_1.clean.fastq.gz -2 sample1_2.clean.fastq.gz -o /home/ubuntu/analysis/assembly/sample1_spades_auto --careful -t 4 -m 8
+```
 
 ### View assembly statistics
 
@@ -28,7 +30,7 @@ Replace K-MER in the command below with one of the values **21,33,55 or 77**
 
 General command:
 
-`spades.py-1 sample1_1.clean.fastq.gz-2 sample1_2.clean.fastq.gz-k K-MER-o /home/ubuntu/output--careful-t 4-m 8`
+`spades.py -1 sample1_1.clean.fastq.gz -2 sample1_2.clean.fastq.gz -k K-MER -o /home/ubuntu/output --careful -t 4 -m 8`
 
 Eg (this will take around 20 minutes to run!)
 
@@ -50,17 +52,19 @@ Eg (this will take around 20 minutes to run!)
 
 ### Hybrid assembly (short + long reads)
 
-`unicycler-1 sample1_1.clean.fastq.gz-2 sample1_2.clean.fastq.gz-l sample1_nanopore.fastq.gz-o /home/ubuntu/analysis/assembly/sample1_unicycler-t 4`
+`unicycler -1 sample1_1.clean.fastq.gz -2 sample1_2.clean.fastq.gz -l sample1_nanopore.fastq.gz -o /home/ubuntu/analysis/assembly/sample1_unicycler -t 4`
 
 ### Short-read only mode (for comparison)
 
-`unicycler-1 sample1_1.clean.fastq.gz-2 sample1_2.clean.fastq.gz-o /home/ubuntu/analysis/assembly/sample1_unicycler_short-t 4`
+`unicycler -1 sample1_1.clean.fastq.gz -2 sample1_2.clean.fastq.gz -o /home/ubuntu/analysis/assembly/sample1_unicycler_short -t 4`
 
 # Assembly Quality Assessment
 
 ### QUAST - comprehensive quality metrics
 
-`quast.py/home/ubuntu/analysis/assembly/sample1_spades_auto/scaffolds.fasta/home/ubuntu/analysis/assembly/sample1_spades_k77/scaffolds.fasta/home/ubuntu/analysis/assembly/sample1_unicycler/assembly.fasta-o /home/ubuntu/analysis/assembly/quast_comparison-r /home/ubuntu/Reference/Saureus_reference.fasta-g /home/ubuntu/Reference/Saureus_reference.gff--threads 4`
+```         
+quast.py /home/ubuntu/analysis/assembly/sample1_spades_auto/scaffolds.fasta /home/ubuntu/analysis/assembly/sample1_spades_k77/scaffolds.fasta /home/ubuntu/analysis/assembly/sample1_unicycler/assembly.fasta -o /home/ubuntu/analysis/assembly/quast_comparison -r /home/ubuntu/Reference/Saureus_reference.fasta -g /home/ubuntu/Reference/Saureus_reference.gff --threads 4
+```
 
 ### View report
 

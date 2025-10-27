@@ -194,7 +194,9 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="learning-outcomes" class="level1">
 <h1>Learning outcomes:</h1>
-<p>By the end of this module, you will be able to 1. Perform quality control (QC) assessments on FASTQ-formatted sequence data obtained from both short and long reads sequencing technologies. 2. Critically evaluate and interpret QC outputs to determine data reliability.</p>
+<p>By the end of this module, you will be able to</p>
+<p>1. Perform quality control (QC) assessments on FASTQ-formatted sequence data obtained from both short and long reads sequencing technologies.</p>
+<p>2. Critically evaluate and interpret QC outputs to determine data reliability.</p>
 </section>
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
@@ -351,7 +353,8 @@ AGTATGGCAAATTAA</code></pre>
 <p><strong>FASTQ</strong> is a simple text-based format that allows us to include quality scores. A single sequence is represented by four lines of text:</p>
 <pre><code>@ERR8261968.1 1 length=97
 ACTTTCGATCTCTTGTAGATCTGTTCTCTAAACGAACTTTAAAATCTGTGTGGCTGTCACTCGGCTGCATGCTTAGTGCACTCACGCAGTATAATTA
-+ERR8261968.1 1 length=97
++
+ERR8261968.1 1 length=97
 CCCCCFDDFFFFGGGGGGGGGGHHHHHHHHHHHGGGGHHHHHHHHHHHHHHHGHHGHHIIHHGGGGGGHHHHHHHHHHHHHHHHHHHGGGHHHHHHH</code></pre>
 <ul>
 <li>The first line is a ‘header’ containing a unique identifier for the sequence and, optionally, further description.</li>
@@ -436,15 +439,20 @@ CCCCCFDDFFFFGGGGGGGGGGHHHHHHHHHHHGGGGHHHHHHHHHHHHHHHGHHGHHIIHHGGGGGGHHHHHHHHHHHH
 </tr>
 </tbody>
 </table>
-<p>So, in the example above, we can see that most of the positions within the 97-nucleotide sequence have scores in the high 30s, which indicates a high degree of confidence in their accuracy. - A score of 30 denotes a 1 in 1000 chance of an error, i.e.&nbsp;99.9% accuracy. - A score of 40 denotes a 1 in 10,000 chance of an error, i.e.&nbsp;99.99% accuracy.</p>
+<p>So, in the example above, we can see that most of the positions within the 97-nucleotide sequence have scores in the high 30s, which indicates a high degree of confidence in their accuracy.</p>
+<p>- A score of 30 denotes a 1 in 1000 chance of an error, i.e.&nbsp;99.9% accuracy.</p>
+<p>- A score of 40 denotes a 1 in 10,000 chance of an error, i.e.&nbsp;99.99% accuracy.</p>
 <p>You can read more about the FastQ file format and quality scores here:</p>
 <p>Cock, P. J., Fields, C. J., Goto, N., Heuer, M. L., &amp; Rice, P. M. (2010). The Sanger FASTQ file format for sequences with quality scores, and the Solexa/Illumina FASTQ variants. <em>Nucleic Acids Research</em>, <strong>38</strong>, 1767–1771. <a href="https://doi.org/10.1093/nar/gkp1137" class="uri">https://doi.org/10.1093/nar/gkp1137</a>.</p>
 </section>
 <section id="sam-and-bam" class="level3">
 <h3 class="anchored" data-anchor-id="sam-and-bam">SAM and BAM</h3>
 <p>A <strong>SAM file</strong> (usually named *.sam) is used to represent aligned sequences. It is particularly useful for storing the results of genomic or transcriptomic sequence reads aligned against a reference genome sequence. The <strong>BAM file</strong> format is a compressed form of SAM. This has the disadvantage that it is not readable by a human but has the advantage of being smaller than the corresponding SAM file and thus easier to share and copy between locations.</p>
-<p>You can read about SAM and BAM formats here: - Li, H., Handsaker, B., Wysoker, A., Fennell, T., Ruan, J., Homer, N., Marth, G., Abecasis, G., Durbin, R., &amp; 1000 Genome Project Data Processing Subgroup (2009). The Sequence Alignment/Map format and SAMtools. <em>Bioinformatics</em>, <strong>25</strong>, 2078–2079. <a href="https://doi.org/10.1093/bioinformatics/btp352" class="uri">https://doi.org/10.1093/bioinformatics/btp352</a> - <a href="https://samtools.github.io/hts-specs/SAMv1.pdf" class="uri">https://samtools.github.io/hts-specs/SAMv1.pdf</a>.</p>
-<p>We can view BAM files graphically using specialised genome browsers software such as (we will be working with one of them in the Genome Visualisation Tools module): - <a href="https://igv.org/">IGV</a> - <a href="https://ics.hutton.ac.uk/tablet/">Tablet</a> - <a href="http://sanger-pathogens.github.io/Artemis/Artemis/">Artemis / BAMview</a></p>
+<p>You can read about SAM and BAM formats here:</p>
+<p>- Li, H., Handsaker, B., Wysoker, A., Fennell, T., Ruan, J., Homer, N., Marth, G., Abecasis, G., Durbin, R., &amp; 1000 Genome Project Data Processing Subgroup (2009). The Sequence Alignment/Map format and SAMtools. <em>Bioinformatics</em>, <strong>25</strong>, 2078–2079. <a href="https://doi.org/10.1093/bioinformatics/btp352" class="uri">https://doi.org/10.1093/bioinformatics/btp352</a> - <a href="https://samtools.github.io/hts-specs/SAMv1.pdf" class="uri">https://samtools.github.io/hts-specs/SAMv1.pdf</a>.</p>
+<p>We can view BAM files graphically using specialised genome browsers software such as (we will be working with one of them in the Genome Visualisation Tools module):</p>
+<p>- <a href="https://igv.org/">IGV</a></p>
+<p>- <a href="http://sanger-pathogens.github.io/Artemis/Artemis/">Artemis</a></p>
 <p>An example <strong>SAM file</strong> is shown in the image below, along with the 11 mandatory fields of this standard:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -473,9 +481,13 @@ CCCCCFDDFFFFGGGGGGGGGGHHHHHHHHHHHGGGGHHHHHHHHHHHHHHHGHHGHHIIHHGGGGGGHHHHHHHHHHHH
 <section id="download-the-data-programatically" class="level3">
 <h3 class="anchored" data-anchor-id="download-the-data-programatically">Download the Data programatically</h3>
 <ol type="1">
-<li><p>Connect to your Amazon EC2 Ubuntu instance via ssh.</p>
-<p>How to retrieve Data for the samples G18255819 and G18252308 from ENA</p></li>
-<li><p>Create a directory called Data in /home/ubuntu/</p></li>
+<li>Connect to your Amazon EC2 Ubuntu instance via ssh or via the web interface.</li>
+</ol>
+</section>
+<section id="how-to-retrieve-data-for-the-samples-g18255819-and-g18252308-from-ena" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-retrieve-data-for-the-samples-g18255819-and-g18252308-from-ena">How to retrieve Data for the samples G18255819 and G18252308 from ENA</h3>
+<ol start="3" type="1">
+<li>Create a directory called Data in /home/ubuntu/</li>
 </ol>
 <p><code>mkdir /home/ubuntu/Data</code></p>
 <ol start="3" type="1">
@@ -484,7 +496,7 @@ CCCCCFDDFFFFGGGGGGGGGGHHHHHHHHHHHGGGGHHHHHHHHHHHHHHHGHHGHHIIHHGGGGGGHHHHHHHHHHHH
 <p><code>mkdir /home/ubuntu/Data/G18255819/nanopore</code></p>
 <p><code>mkdir /home/ubuntu/Data/G18252308/illumina</code></p>
 <p><code>mkdir /home/ubuntu/Data/G18252308/nanopore</code></p></li>
-<li><p>&nbsp;Download the reads for each sample</p></li>
+<li><p>Download the reads for each sample</p></li>
 </ol>
 <p><code>cd /home/ubuntu/Data/G18255819/nanopore</code></p>
 <p><code>wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR818/004/ERR8187234/ERR8187234.fastq.gz</code></p>
@@ -538,8 +550,8 @@ CCCCCFDDFFFFGGGGGGGGGGHHHHHHHHHHHGGGGHHHHHHHHHHHHHHHGHHGHHIIHHGGGGGGHHHHHHHHHHHH
 </section>
 <section id="qc-your-fastq-reads-through-the-visual-interface" class="level3">
 <h3 class="anchored" data-anchor-id="qc-your-fastq-reads-through-the-visual-interface">QC your fastq reads through the visual interface</h3>
-<p>Navigate to <em>/home/ubuntu/Software/FastQC</em> and double click on the FastQC icon.</p>
-<p>In the visual interface, open all files produced by FastQC and assess the results, eg ERR4635696_1_fastqc.html</p>
+<p>Navigate to <em><code>/home/ubuntu/Software/FastQC</code></em> and double click on the <strong>FastQC</strong> icon.</p>
+<p>In the visual interface, open all files produced by FastQC and assess the results, eg <em>ERR4635696_1_fastqc.html</em></p>
 <p>Visualize and interpret the FastQC results. Compare the QC results for Nanopore and Illumina sequence reads</p>
 <p><strong>Optional</strong>: Unzip the files <em>/home/ubuntu/Data/*/*/*_*_fastqc.zip</em> and produce a script that extracts the information on reads lengths, GC contents etc; plot the results from all samples.</p>
 <div class="quarto-figure quarto-figure-center">

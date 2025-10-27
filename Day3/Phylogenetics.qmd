@@ -32,19 +32,19 @@ For reference mapping, whether we are dealing with different bacterial isolates,
 
 In this exercise, we will use sequence data from *Vibrio cholerae* genomes to learn about mapping and phylogenetics. Importantly, although the genome data is real, the collection has been assembled for the purpose of this practical exercise, and has also been edited to make it run more efficiently in the Virtual Machine training environment.
 
-# [Introduction](#introduction) {#introduction}
+# Introduction
 
-## [Mapping to reference genome](#mapping-to-reference-genome) {#mapping-to-reference-genome}
+## Mapping to reference genome
 
-![This is an image](images/Mapping_Overview_diag_2.png)
+![](images/Mapping_Overview_diag_2.png)
 
-## [Sequencing data formats](#Sequencing-data-formats) {#sequencing-data-formats}
+## Sequencing data formats
 
 Raw data directly from the sequencer may be in sequencer-specific formats, but will always be converted to `fastq` format for downstream analysis. `fastq` is a plain text format that is standard within bioinformatics.
 
 ## Fastq format
 
-![fastq multiline](images/fastq-expanded2.png)
+![](images/fastq-expanded2.png)
 
 In a fastq file, each sequencing read is represented by 4 different rows
 
@@ -58,7 +58,7 @@ In a fastq file, each sequencing read is represented by 4 different rows
 -   Quality scores
     -   Score for each base position in read – in ASCII code.
 
-![fastq explainer](images/fastq-explainer1.png)
+![](images/fastq-explainer1.png)
 
 ## Map to reference - SAM format
 
@@ -75,13 +75,17 @@ Mapping produces a `SAM` file (or the compressed binary version `BAM` file)
 
 We often use a tool called `samtools` to manage and view these large and complex files
 
-![Samtool Image](images/SAM-explainer1.png)
+![](images/SAM-explainer1.png)
 
 ## Variant Calling {#variant-calling}
 
-When reads are aligned to a reference genome, point mutations (SNPs) between the sequencing reads and the reference can be identified. In the plot below: \* Reads are in[*blue*]{style="color:blue"}/[*green*]{style="color:green"}. \* Changes from the reference are highlighted for each read in [*red*]{style="color:red"}.
+When reads are aligned to a reference genome, point mutations (SNPs) between the sequencing reads and the reference can be identified. In the plot below:
 
-![BAM-pileup](images/bam-ART-pileup.png)
+\* Reads are in[*blue*]{style="color:blue"}/[*green*]{style="color:green"}. \*
+
+Changes from the reference are highlighted for each read in [*red*]{style="color:red"}.
+
+![](images/bam-ART-pileup.png)
 
 -   Some variants can be very easy to determine However, sequencing error can lead to changes that are technical artefacts
 
@@ -97,7 +101,7 @@ When reads are aligned to a reference genome, point mutations (SNPs) between the
 
 -   Variant callers output their analysis in a ‘variant call format’ – `VCF` file
 
-![vcf](images/VCF.png)
+![](images/VCF.png)
 
 ## Consensus calling {#consensus-calling}
 
@@ -105,7 +109,7 @@ When reads are aligned to a reference genome, point mutations (SNPs) between the
 -   Once we have a filtered variant set, variants can be applied to the reference genome.
 -   This generates a consensus ‘pseudosequence’ in FASTA format.
 
-![consensus.fa](images/consensus-fasta-Nhighlight.png)
+![](images/consensus-fasta-Nhighlight.png)
 
 -   Note, that one important step that can be overlooked is false negative variant calls
     -   VCF format only highlights changes from the reference (i.e. positive calls)
@@ -300,8 +304,6 @@ We are going to integrate assemblies from a genome called "CTMA_1441" into our m
 -   Long read assembly (Dragonflye) from Oxford Nanopore reads
 -   Hybrid assembly from long reads (Dragonflye), followed by short read polishing
 
-Note that we will explore the differences between these assembly methods more in a later module.
-
 ### Map an existing short-read assembly {#map-an-existing-short-read-assembly}
 
 The short read assembly is called `CTMA_1441.unicycler-short.fasta`.
@@ -341,7 +343,7 @@ We can add this genome to a collection of genomes mapped using `snippy-core`.
 First, let’s extract the old `snippy` runs from our archive file
 
 ```         
-tar -zxf old.snippy.runs_2025.tar.gz
+tar -zxf old.snippy.runs_2024.tar.gz
 ```
 
 We can see that we now have a new directory `old.snippy.runs_2024`

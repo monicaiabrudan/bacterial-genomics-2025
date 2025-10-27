@@ -23,7 +23,7 @@ Aim: To use web and mobile tools for the collection of epi data in the field, in
 
 *Note: This exercise is a work of fiction. Any resemblance to a real life situation is purely coincidental.*
 
-During August and September 2025, *Klebsiella pneumoniae* was isolated from clinical samples of 34 patients at several hospitals and clinics in and around Cluj-Napoca. Approximately half of the patients had presented with urinary tract infections (UTIs) although a variety of other infection types were seen including three sepsis cases. One colony from each confirmed case was sequenced on an Illumina MiSeq. An epidemiological investigation revealed that some of the culture-confirmed cases ***were students at Cluj-Napoca Institute of Coffee (CIC)***. This suggested that the campus may be the central point of transmission in this outbreak. The epidemiological and demographic data is summarised in the file [epi_data.csv](#0).
+During 2025, *Klebsiella pneumoniae* was isolated from clinical samples of 34 patients at several hospitals and clinics in and around Cluj-Napoca. Approximately half of the patients had presented with urinary tract infections (UTIs) although a variety of other infection types were seen including three sepsis cases. One colony from each confirmed case was sequenced on an Illumina MiSeq. An epidemiological investigation revealed that some of the culture-confirmed cases ***were students at Cluj-Napoca Institute of Coffee (CIC)***. This suggested that the campus may be the central point of transmission in this outbreak. The epidemiological and demographic data is summarised in the file [epi_data.csv](https://github.com/monicaiabrudan/bacterial-genomics-2025/blob/main/Day3/web_tools_data/epi_data.csv).
 
 **Following the confirmation of the 34 positive cases of *K. pneumoniae* ST258 infections, the management of CIC denied that the *Klebsiella pneumoniae* could have spread within the campus and declared that deep cleaning of the was taking place regularly.**
 
@@ -112,8 +112,6 @@ Copy the workflow to your own dataflo account.
 ![](images/dataflo_copy.png)
 
 This will open a copy of this workflow in your dataflo account.
-
-![](images/dataflo_workflow.png)
 
 **On a different browser tab**, get your microreact `API access token` at [**https://microreact.org/my-account/settings**](https://microreact.org/my-account/settings) (you must already have created your microreact account).
 

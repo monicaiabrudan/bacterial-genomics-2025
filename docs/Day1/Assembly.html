@@ -196,7 +196,7 @@ ul.task-list li input[type="checkbox"] {
 <h1>SPAdes Assembly (Single K-mer)</h1>
 <section id="basic-assembly-with-automatic-k-mer-selection" class="level3">
 <h3 class="anchored" data-anchor-id="basic-assembly-with-automatic-k-mer-selection">Basic assembly with automatic k-mer selection</h3>
-<p><code>spades.py-1 sample1_1.clean.fastq.gz-2 sample1_2.clean.fastq.gz-o /home/ubuntu/analysis/assembly/sample1_spades_auto--careful-t 4-m 8</code></p>
+<pre><code>spades.py -1 sample1_1.clean.fastq.gz -2 sample1_2.clean.fastq.gz -o /home/ubuntu/analysis/assembly/sample1_spades_auto --careful -t 4 -m 8</code></pre>
 </section>
 <section id="view-assembly-statistics" class="level3">
 <h3 class="anchored" data-anchor-id="view-assembly-statistics">View assembly statistics</h3>
@@ -240,7 +240,7 @@ ul.task-list li input[type="checkbox"] {
 <p>~ Divide in groups and run SPAdes on one sample, with different k-mer sizes (<code>21,33,55 or 77)</code></p>
 <p>Replace K-MER in the command below with one of the values <strong>21,33,55 or 77</strong></p>
 <p>General command:</p>
-<p><code>spades.py-1 sample1_1.clean.fastq.gz-2 sample1_2.clean.fastq.gz-k K-MER-o /home/ubuntu/output--careful-t 4-m 8</code></p>
+<p><code>spades.py -1 sample1_1.clean.fastq.gz -2 sample1_2.clean.fastq.gz -k K-MER -o /home/ubuntu/output --careful -t 4 -m 8</code></p>
 <p>Eg (this will take around 20 minutes to run!)</p>
 <p><code>cd /home/ubuntu/Data/G18252308/illumina</code></p>
 <p><code>spades -1 ERR4635696_1.fastq.gz -2 ERR4635696_2.fastq.gz -k 21 -o ../../Assembly --careful -t 4 -m 8</code></p>
@@ -257,18 +257,18 @@ ul.task-list li input[type="checkbox"] {
 <p>(We will not run this in the classroom)</p>
 <section id="hybrid-assembly-short-long-reads" class="level3">
 <h3 class="anchored" data-anchor-id="hybrid-assembly-short-long-reads">Hybrid assembly (short + long reads)</h3>
-<p><code>unicycler-1 sample1_1.clean.fastq.gz-2 sample1_2.clean.fastq.gz-l sample1_nanopore.fastq.gz-o /home/ubuntu/analysis/assembly/sample1_unicycler-t 4</code></p>
+<p><code>unicycler -1 sample1_1.clean.fastq.gz -2 sample1_2.clean.fastq.gz -l sample1_nanopore.fastq.gz -o /home/ubuntu/analysis/assembly/sample1_unicycler -t 4</code></p>
 </section>
 <section id="short-read-only-mode-for-comparison" class="level3">
 <h3 class="anchored" data-anchor-id="short-read-only-mode-for-comparison">Short-read only mode (for comparison)</h3>
-<p><code>unicycler-1 sample1_1.clean.fastq.gz-2 sample1_2.clean.fastq.gz-o /home/ubuntu/analysis/assembly/sample1_unicycler_short-t 4</code></p>
+<p><code>unicycler -1 sample1_1.clean.fastq.gz -2 sample1_2.clean.fastq.gz -o /home/ubuntu/analysis/assembly/sample1_unicycler_short -t 4</code></p>
 </section>
 </section>
 <section id="assembly-quality-assessment" class="level1">
 <h1>Assembly Quality Assessment</h1>
 <section id="quast---comprehensive-quality-metrics" class="level3">
 <h3 class="anchored" data-anchor-id="quast---comprehensive-quality-metrics">QUAST - comprehensive quality metrics</h3>
-<p><code>quast.py/home/ubuntu/analysis/assembly/sample1_spades_auto/scaffolds.fasta/home/ubuntu/analysis/assembly/sample1_spades_k77/scaffolds.fasta/home/ubuntu/analysis/assembly/sample1_unicycler/assembly.fasta-o /home/ubuntu/analysis/assembly/quast_comparison-r /home/ubuntu/Reference/Saureus_reference.fasta-g /home/ubuntu/Reference/Saureus_reference.gff--threads 4</code></p>
+<pre><code>quast.py /home/ubuntu/analysis/assembly/sample1_spades_auto/scaffolds.fasta /home/ubuntu/analysis/assembly/sample1_spades_k77/scaffolds.fasta /home/ubuntu/analysis/assembly/sample1_unicycler/assembly.fasta -o /home/ubuntu/analysis/assembly/quast_comparison -r /home/ubuntu/Reference/Saureus_reference.fasta -g /home/ubuntu/Reference/Saureus_reference.gff --threads 4</code></pre>
 </section>
 <section id="view-report" class="level3">
 <h3 class="anchored" data-anchor-id="view-report">View report</h3>

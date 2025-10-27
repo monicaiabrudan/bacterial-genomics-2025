@@ -214,28 +214,18 @@ ul.task-list li input[type="checkbox"] {
 <p>In this exercise, we will use sequence data from <em>Vibrio cholerae</em> genomes to learn about mapping and phylogenetics. Importantly, although the genome data is real, the collection has been assembled for the purpose of this practical exercise, and has also been edited to make it run more efficiently in the Virtual Machine training environment.</p>
 </section>
 <section id="introduction" class="level1">
-<h1><a href="#introduction">Introduction</a></h1>
+<h1>Introduction</h1>
 <section id="mapping-to-reference-genome" class="level2">
-<h2 class="anchored" data-anchor-id="mapping-to-reference-genome"><a href="#mapping-to-reference-genome">Mapping to reference genome</a></h2>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/Mapping_Overview_diag_2.png" class="img-fluid figure-img"></p>
-<figcaption>This is an image</figcaption>
-</figure>
-</div>
+<h2 class="anchored" data-anchor-id="mapping-to-reference-genome">Mapping to reference genome</h2>
+<p><img src="images/Mapping_Overview_diag_2.png" class="img-fluid"></p>
 </section>
 <section id="sequencing-data-formats" class="level2">
-<h2 class="anchored" data-anchor-id="sequencing-data-formats"><a href="#Sequencing-data-formats">Sequencing data formats</a></h2>
+<h2 class="anchored" data-anchor-id="sequencing-data-formats">Sequencing data formats</h2>
 <p>Raw data directly from the sequencer may be in sequencer-specific formats, but will always be converted to <code>fastq</code> format for downstream analysis. <code>fastq</code> is a plain text format that is standard within bioinformatics.</p>
 </section>
 <section id="fastq-format" class="level2">
 <h2 class="anchored" data-anchor-id="fastq-format">Fastq format</h2>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/fastq-expanded2.png" class="img-fluid figure-img"></p>
-<figcaption>fastq multiline</figcaption>
-</figure>
-</div>
+<p><img src="images/fastq-expanded2.png" class="img-fluid"></p>
 <p>In a fastq file, each sequencing read is represented by 4 different rows</p>
 <ul>
 <li>Read ID
@@ -256,12 +246,7 @@ ul.task-list li input[type="checkbox"] {
 <li>Score for each base position in read – in ASCII code.</li>
 </ul></li>
 </ul>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/fastq-explainer1.png" class="img-fluid figure-img"></p>
-<figcaption>fastq explainer</figcaption>
-</figure>
-</div>
+<p><img src="images/fastq-explainer1.png" class="img-fluid"></p>
 </section>
 <section id="map-to-reference---sam-format" class="level2">
 <h2 class="anchored" data-anchor-id="map-to-reference---sam-format">Map to reference - SAM format</h2>
@@ -274,22 +259,14 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 <p>Mapping produces a <code>SAM</code> file (or the compressed binary version <code>BAM</code> file)</p>
 <p>We often use a tool called <code>samtools</code> to manage and view these large and complex files</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/SAM-explainer1.png" class="img-fluid figure-img"></p>
-<figcaption>Samtool Image</figcaption>
-</figure>
-</div>
+<p><img src="images/SAM-explainer1.png" class="img-fluid"></p>
 </section>
 <section id="variant-calling" class="level2">
 <h2 class="anchored" data-anchor-id="variant-calling">Variant Calling</h2>
-<p>When reads are aligned to a reference genome, point mutations (SNPs) between the sequencing reads and the reference can be identified. In the plot below: * Reads are in<span style="color:blue"><em>blue</em></span>/<span style="color:green"><em>green</em></span>. * Changes from the reference are highlighted for each read in <span style="color:red"><em>red</em></span>.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/bam-ART-pileup.png" class="img-fluid figure-img"></p>
-<figcaption>BAM-pileup</figcaption>
-</figure>
-</div>
+<p>When reads are aligned to a reference genome, point mutations (SNPs) between the sequencing reads and the reference can be identified. In the plot below:</p>
+<p>* Reads are in<span style="color:blue"><em>blue</em></span>/<span style="color:green"><em>green</em></span>. *</p>
+<p>Changes from the reference are highlighted for each read in <span style="color:red"><em>red</em></span>.</p>
+<p><img src="images/bam-ART-pileup.png" class="img-fluid"></p>
 <ul>
 <li><p>Some variants can be very easy to determine However, sequencing error can lead to changes that are technical artefacts</p></li>
 <li><p>Some variants are therefore more difficult to determine (e.g.&nbsp;a low coverage region with very few reads)</p></li>
@@ -299,12 +276,7 @@ ul.task-list li input[type="checkbox"] {
 <li><p>Quality scores for base, reads, mapping, position in the read a variant occurs</p></li>
 <li><p>Variant callers output their analysis in a ‘variant call format’ – <code>VCF</code> file</p></li>
 </ul>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/VCF.png" class="img-fluid figure-img"></p>
-<figcaption>vcf</figcaption>
-</figure>
-</div>
+<p><img src="images/VCF.png" class="img-fluid"></p>
 </section>
 <section id="consensus-calling" class="level2">
 <h2 class="anchored" data-anchor-id="consensus-calling">Consensus calling</h2>
@@ -313,12 +285,7 @@ ul.task-list li input[type="checkbox"] {
 <li>Once we have a filtered variant set, variants can be applied to the reference genome.</li>
 <li>This generates a consensus ‘pseudosequence’ in FASTA format.</li>
 </ul>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/consensus-fasta-Nhighlight.png" class="img-fluid figure-img"></p>
-<figcaption>consensus.fa</figcaption>
-</figure>
-</div>
+<p><img src="images/consensus-fasta-Nhighlight.png" class="img-fluid"></p>
 <ul>
 <li>Note, that one important step that can be overlooked is false negative variant calls
 <ul>
@@ -499,10 +466,11 @@ ul.task-list li input[type="checkbox"] {
 <li>Long read assembly (Dragonflye) from Oxford Nanopore reads</li>
 <li>Hybrid assembly from long reads (Dragonflye), followed by short read polishing</li>
 </ul>
-<p>Note that we will explore the differences between these assembly methods more in a later module.</p>
 <section id="map-an-existing-short-read-assembly" class="level3">
 <h3 class="anchored" data-anchor-id="map-an-existing-short-read-assembly">Map an existing short-read assembly</h3>
-<p>The short read assembly is called <code>CTMA_1441.unicycler-short.fasta</code>. We can add the short-read assembly to snippy like this:</p>
+<p>The short read assembly is called <code>CTMA_1441.unicycler-short.fasta</code>.</p>
+<p>Download it from Github using wget from <a href="https://github.com/monicaiabrudan/bacterial-genomics-2025/blob/main/Day3/CTMA_1441.unicycler-short.fasta" class="uri">https://github.com/monicaiabrudan/bacterial-genomics-2025/blob/main/Day3/CTMA_1441.unicycler-short.fasta</a></p>
+<p>We can add the short-read assembly to snippy like this:</p>
 <pre><code>snippy --outdir CTMA_1441.short --ctgs CTMA_1441.unicycler-short.fasta --ref references/Vibrio_cholerae_O1_biovar_eltor_str_N16961_v2.fa --cpus 4 --ram 4 --force --quiet</code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -514,6 +482,9 @@ ul.task-list li input[type="checkbox"] {
 <section id="map-a-long-read-assembly-to-reference" class="level3">
 <h3 class="anchored" data-anchor-id="map-a-long-read-assembly-to-reference">Map a long-read assembly to reference</h3>
 <p>We now need to map the two long read assemblies to our analysis: - <code>CTMA_1441.filtreads.dragonflye.long_4.1_polish.contigs.fa</code> - <code>CTMA_1441.filtreads.dragonflye.long_4.1_nopolish.contigs.fa</code></p>
+<p>Download these two assemblies from Github using wget:</p>
+<p><a href="https://github.com/WCSCourses/GenEpiLAC2025/blob/main/course_data_2025/mapping_and_phylo/CTMA_1441.filtreads.dragonflye.long_4.1_nopolish.contigs.fa" class="uri">https://github.com/WCSCourses/GenEpiLAC2025/blob/main/course_data_2025/mapping_and_phylo/CTMA_1441.filtreads.dragonflye.long_4.1_nopolish.contigs.fa</a></p>
+<p><a href="https://github.com/WCSCourses/GenEpiLAC2025/blob/main/course_data_2025/mapping_and_phylo/CTMA_1441.filtreads.dragonflye.long_4.1_polish.contigs.fa" class="uri">https://github.com/WCSCourses/GenEpiLAC2025/blob/main/course_data_2025/mapping_and_phylo/CTMA_1441.filtreads.dragonflye.long_4.1_polish.contigs.fa</a></p>
 <p>Adapt the code examples provided above to run <code>snippy</code> on the long-read assemblies using the output directories <code>CTMA_1441.long_polish</code> and <code>CTMA_1441.long_nopolish</code>.</p>
 <p>Examine the results of snippy for each assembly using <code>grep</code>, <code>ls</code> and <code>less</code>.</p>
 <p>What do you notice about the number of variable sites (reported at the end of the snippy run) identified with the different assemblies?</p>
@@ -524,7 +495,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Now lets look at this new genome in context with a collection.</p>
 <p>We can add this genome to a collection of genomes mapped using <code>snippy-core</code>.</p>
 <p>First, let’s extract the old <code>snippy</code> runs from our archive file</p>
-<pre><code>tar -zxf old.snippy.runs_2025.tar.gz</code></pre>
+<pre><code>tar -zxf old.snippy.runs_2024.tar.gz</code></pre>
 <p>We can see that we now have a new directory <code>old.snippy.runs_2024</code></p>
 <pre><code>ls -lh</code></pre>
 <div class="quarto-figure quarto-figure-center">

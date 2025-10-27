@@ -194,14 +194,15 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="genome-annotation" class="level1">
 <h1>Genome Annotation</h1>
-<p>There are a number of ways you can generate annotation for a novel sequence. You can manually annotate a sequence by curating the results of bioinformatic analyses of the sequence, but this is time consuming and prone to human bias. If there is a closely related reference sequence and annotation, you can transfer annotation by similarity matching, but this relies on there being a suitable reference. The fastest and most consistant way to generate annotation for novel sequence is to use an automatic annotation software such as <code>prokka</code> (Seemann T. (2014) Prokka: rapid prokaryotic genome annotation. Bioinformatics. 30:2068-9. doi: 10.1093/bioinformatics/btu153) or <code>bakta</code> (Schwengers O et al., (2021). Bakta: rapid and standardized annotation of bacterial genomes via alignment-free sequence identification. Microbial Genomics, 7(11). <a href="https://doi.org/10.1099/mgen.0.000685" class="uri">https://doi.org/10.1099/mgen.0.000685</a>)</p>
-<p>In this example, we are going to use <code>bakta</code> as this is a new tool that generates standardized, taxonomy-independent, high-throughput annotation.</p>
+<p>There are a number of ways you can generate annotation for a novel sequence. You can manually annotate a sequence by curating the results of bioinformatic analyses of the sequence, but this is time consuming and prone to human bias. If there is a closely related reference sequence and annotation, you can transfer annotation by similarity matching, but this relies on there being a suitable reference. The fastest and most consistant way to generate annotation for novel sequence is to use an automatic annotation software such as</p>
+<p><code>* prokka</code> (Seemann T. (2014) Prokka: rapid prokaryotic genome annotation. Bioinformatics. 30:2068-9. doi: 10.1093/bioinformatics/btu153) or</p>
+<p><code>* bakta</code> (Schwengers O et al., (2021). Bakta: rapid and standardized annotation of bacterial genomes via alignment-free sequence identification. Microbial Genomics, 7(11). <a href="https://doi.org/10.1099/mgen.0.000685" class="uri">https://doi.org/10.1099/mgen.0.000685</a>)</p>
 </section>
 <section id="prokka-annotation" class="level1">
 <h1>Prokka Annotation</h1>
 <section id="basic-prokka-run" class="level3">
 <h3 class="anchored" data-anchor-id="basic-prokka-run">Basic Prokka run</h3>
-<p><code>prokka--outdir /home/ubuntu/analysis/annotation/sample1_prokka--prefix sample1--genus Staphylococcus--species aureus--strain sample1--cpus 4/home/ubuntu/analysis/assembly/sample1_unicycler/assembly.fasta</code></p>
+<pre><code>prokka --outdir /home/ubuntu/analysis/annotation/sample1_prokka--prefix sample1--genus Staphylococcus--species aureus--strain sample1--cpus 4/home/ubuntu/analysis/assembly/sample1_unicycler/assembly.fasta</code></pre>
 </section>
 <section id="view-summary" class="level3">
 <h3 class="anchored" data-anchor-id="view-summary">View summary</h3>
@@ -232,7 +233,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="run-prokka-for-one-sample" class="level4">
 <h4 class="anchored" data-anchor-id="run-prokka-for-one-sample">Run Prokka for one sample</h4>
 <p><code>cd /home/ubuntu/Data/</code></p>
-<p><code>docker run -v $(pwd):$(pwd) -w $(pwd) staphb/prokka:latest prokka --outdir /home/ubuntu/Data/annotations/G18252308 --prefix G18252308 /home/ubuntu/Data/G18252308/illumina/G18252308_kmer51/contigs.fa</code></p>
+<pre><code>docker run -v $(pwd):$(pwd) -w $(pwd) staphb/prokka:latest prokka --outdir /home/ubuntu/Data/annotations/G18252308 --prefix G18252308 /home/ubuntu/Data/G18252308/illumina/G18252308_kmer51/contigs.fa</code></pre>
 <p>Check if the <em>mecA</em> gene was found in the annotated genome.</p>
 <p><img src="images/grep mecA.png" class="img-fluid"></p>
 </section>
