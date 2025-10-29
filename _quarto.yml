@@ -10,6 +10,7 @@ website:
         text: Home
       - href: agenda.qmd
         text: Agenda
+      - href: Join.qmd
       - text: Training materials
         menu:
           - Day1/QC.qmd
